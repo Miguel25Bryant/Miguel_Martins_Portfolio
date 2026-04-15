@@ -67,7 +67,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.12em;
   color: var(--fg);
   opacity: 0.6;
-  transition: opacity 0.2s ease;
+  transition: color 0.35s ease, opacity 0.2s ease;
 }
 .nav-logo:hover { opacity: 1; }
 
@@ -82,9 +82,13 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.1em;
   color: var(--fg);
   opacity: 0.38;
-  transition: opacity 0.18s ease;
+  transition: color 0.35s ease, opacity 0.18s ease;
 }
 .nav-links a:hover { opacity: 1; }
+
+/* Nav over dark sections */
+.nav.nav-light .nav-logo { color: var(--light); }
+.nav.nav-light .nav-links a { color: var(--light); }
 
 /* ═══════════════════════════════════════════
    HERO
@@ -1287,6 +1291,25 @@ if (navigator.webdriver) {
     el.style.transform = 'translateY(0)';
   });
 }
+/* ── NAV COLOR ADAPT ── */
+(function () {
+  const nav = document.querySelector('.nav');
+  const darkSections = document.querySelectorAll('.works, .marquee-wrap, .contact');
+
+  function update() {
+    const navBottom = nav.getBoundingClientRect().bottom;
+    let overDark = false;
+    darkSections.forEach(sec => {
+      const r = sec.getBoundingClientRect();
+      if (r.top < navBottom && r.bottom > 0) overDark = true;
+    });
+    nav.classList.toggle('nav-light', overDark);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
 /* ── LIGHTBOX ── */
 const PROJECTS = [
   { name: 'Distortion', type: 'Print & Editorial', images: [

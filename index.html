@@ -694,7 +694,17 @@ img { display: block; max-width: 100%; }
 .contact-mobile { display: none; }
 
 @media (max-width: 900px) {
-  .hero-title-block { display: none; }
+  /* Nav stays at top and scrolls away with the page */
+  .nav { position: absolute; }
+
+  /* Show Graphic / Designer on mobile — smaller but visible */
+  .hero-title-block {
+    display: flex;
+    padding-top: 0.35em;
+    align-items: flex-start;
+  }
+  .hero-title-line { font-size: clamp(16px, 3.8vw, 22px); }
+
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
   .about-left { grid-template-columns: 1fr; }
@@ -717,6 +727,18 @@ img { display: block; max-width: 100%; }
     transition: opacity 0.2s ease;
   }
   .contact-mobile a:hover { opacity: 1; }
+  .contact-mobile .contact-socials {
+    display: flex;
+    gap: 1.8rem;
+    margin-top: 0.25rem;
+  }
+  .contact-mobile .contact-social {
+    font-size: clamp(10px, 2.8vw, 13px);
+    border-bottom: none;
+    padding-bottom: 0;
+    opacity: 0.4;
+    width: auto;
+  }
 }
 @media (max-width: 600px) {
   .works-grid { grid-template-columns: 1fr; }
@@ -1317,6 +1339,10 @@ img { display: block; max-width: 100%; }
     <div class="contact-mobile">
       <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry">miguelmartins210@gmail.com</a>
       <a href="tel:+351934477683">+351 934 477 683</a>
+      <div class="contact-socials">
+        <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
+        <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
+      </div>
     </div>
     <div class="contact-foot">
       <span class="contact-foot-txt" id="foot-1">© 2026 Miguel Martins. All rights reserved.</span>

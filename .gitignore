@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Dev tools & screenshots
+temporary screenshots/
+screenshot.mjs
+screenshot-section.mjs
+screenshot-works.mjs
+screenshot-works2.mjs
+screenshot-works-grid.mjs
+serve.mjs
+CLAUDE.md
+
+# Reference files
+screencapture-leonidkostetskyi*.png
+*.cache

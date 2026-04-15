@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
 <style>
 /* ═══════════════════════════════════════════
@@ -238,20 +238,6 @@ img { display: block; max-width: 100%; }
   padding: 5.5vw 2.5vw 7vw;
 }
 
-.works-eyebrow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.8vw;
-}
-.works-eyebrow-text {
-  font-size: clamp(9px, 0.6vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  color: var(--light);
-  opacity: 0.2;
-}
-
 .works-heading-area { margin-bottom: 3.5vw; }
 
 .works-h {
@@ -269,17 +255,6 @@ img { display: block; max-width: 100%; }
   gap: 1vw;
   margin-top: -0.08em;
 }
-.works-of-my-stack {
-  font-family: 'Barlow', sans-serif;
-  font-weight: 400;
-  font-size: clamp(10px, 0.9vw, 14px);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--light);
-  opacity: 0.3;
-  flex-shrink: 0;
-}
-
 /* Project grid */
 .works-grid {
   display: grid;
@@ -526,39 +501,6 @@ img { display: block; max-width: 100%; }
   opacity: 0.45;
 }
 
-.about-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5vw;
-  font-size: clamp(9px, 0.7vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--fg);
-  border-bottom: 1px solid rgba(71,36,37,0.18);
-  padding-bottom: 0.3vw;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.about-link:hover { color: var(--red); border-color: var(--red); }
-
-.about-photo-wrap {
-  position: relative;
-  overflow: hidden;
-}
-.about-photo-wrap img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: center top;
-  filter: grayscale(100%) contrast(1.05);
-  display: block;
-}
-.about-photo-wrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(231,55,55,0.28) 0%, transparent 52%);
-  pointer-events: none;
-}
 
 /* ═══════════════════════════════════════════
    STATEMENT
@@ -748,12 +690,33 @@ img { display: block; max-width: 100%; }
 /* ═══════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════ */
+/* ── Mobile contact (shown when contact-aside is hidden) ── */
+.contact-mobile { display: none; }
+
 @media (max-width: 900px) {
   .hero-title-block { display: none; }
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
-  .about-photo-wrap { display: none; }
+  .about-left { grid-template-columns: 1fr; }
+  .about-left .about-heading { grid-row: auto; }
   .contact-aside { display: none; }
+  .contact-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .contact-mobile a {
+    color: var(--light);
+    opacity: 0.65;
+    font-size: clamp(11px, 3vw, 15px);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+    padding-bottom: 4px;
+    width: fit-content;
+    transition: opacity 0.2s ease;
+  }
+  .contact-mobile a:hover { opacity: 1; }
 }
 @media (max-width: 600px) {
   .works-grid { grid-template-columns: 1fr; }
@@ -761,6 +724,11 @@ img { display: block; max-width: 100%; }
   .work-thumb { aspect-ratio: 16/9; }
   .work-item.span2 .work-thumb { aspect-ratio: 16/9; }
   .statement-bottom { flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .lightbox { padding: 12px; }
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-close { top: 12px; right: 12px; }
+  .lightbox-img { max-height: 70vh; }
 }
 
 /* ═══════════════════════════════════════════
@@ -889,7 +857,7 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── NAV ─── -->
 <nav class="nav">
-  <a href="/" class="nav-logo">Miguel Martins</a>
+  <a href="/" class="nav-logo">Home</a>
   <ul class="nav-links">
     <li><a href="#works">Work</a></li>
     <li><a href="#about">About</a></li>
@@ -923,15 +891,9 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── WORKS ─── -->
 <section id="works" class="works">
-  <div class="works-eyebrow">
-    <span class="works-eyebrow-text">Selected Work</span>
-    <span class="works-eyebrow-text">Graphic Design</span>
-  </div>
-
   <div class="works-heading-area">
-    <div class="works-h" data-reveal>Some</div>
+    <div class="works-h" data-reveal>Selected</div>
     <div class="works-bottom-row" data-reveal style="transition-delay:0.06s">
-      <div class="works-of-my-stack">Of My</div>
       <div class="works-h">Work</div>
     </div>
   </div>
@@ -1171,9 +1133,6 @@ img { display: block; max-width: 100%; }
       </div>
     </div>
 
-    <a href="mailto:miguelmartins210@gmail.com" class="about-link" data-reveal style="transition-delay:0.18s">
-      Get in Touch →
-    </a>
   </div>
 
   <div class="about-photo-wrap" data-reveal style="transition-delay:0.1s">
@@ -1206,7 +1165,7 @@ img { display: block; max-width: 100%; }
         Get in<br><span class="accent">Touch</span>
       </div>
       <div class="contact-aside" data-reveal style="transition-delay:0.1s">
-        <a href="mailto:miguelmartins210@gmail.com" class="contact-email">
+        <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry" class="contact-email">
           miguelmartins210@gmail.com
         </a>
         <a href="tel:+351934477683" class="contact-email">
@@ -1217,6 +1176,10 @@ img { display: block; max-width: 100%; }
           <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
         </div>
       </div>
+    </div>
+    <div class="contact-mobile">
+      <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry">miguelmartins210@gmail.com</a>
+      <a href="tel:+351934477683">+351 934 477 683</a>
     </div>
     <div class="contact-foot">
       <span class="contact-foot-txt">© 2026 Miguel Martins. All rights reserved.</span>
@@ -1256,19 +1219,20 @@ const ro = new IntersectionObserver((entries) => {
 document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
 /* ── WORK ITEMS — staggered by column ── */
+const workItems = [...document.querySelectorAll('.work-item')];
+workItems.forEach((el, i) => el.dataset.col = i % 2);
+
 const wo = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const items = [...document.querySelectorAll('.work-item')];
-      const col = items.indexOf(entry.target) % 2;
-      entry.target.style.transitionDelay = `${col * 0.07}s`;
+      entry.target.style.transitionDelay = `${entry.target.dataset.col * 0.07}s`;
       entry.target.classList.add('in-view');
       wo.unobserve(entry.target);
     }
   });
 }, { threshold: 0.04, rootMargin: '0px 0px -16px 0px' });
 
-document.querySelectorAll('.work-item').forEach(el => wo.observe(el));
+workItems.forEach(el => wo.observe(el));
 
 
 /* ── HERO BOTTOM — reveal after load animation ── */
@@ -1294,7 +1258,8 @@ if (navigator.webdriver) {
 /* ── NAV COLOR ADAPT ── */
 (function () {
   const nav = document.querySelector('.nav');
-  const darkSections = document.querySelectorAll('.works, .marquee-wrap, .contact');
+  const darkSections = document.querySelectorAll('.works, .contact');
+  let ticking = false;
 
   function update() {
     const navBottom = nav.getBoundingClientRect().bottom;
@@ -1304,9 +1269,12 @@ if (navigator.webdriver) {
       if (r.top < navBottom && r.bottom > 0) overDark = true;
     });
     nav.classList.toggle('nav-light', overDark);
+    ticking = false;
   }
 
-  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
   update();
 })();
 
@@ -1457,7 +1425,7 @@ const PROJECTS = [
   function close() {
     lb.classList.remove('open');
     document.body.style.overflow = '';
-    setTimeout(() => { lbImg.src = ''; }, 400);
+    setTimeout(() => { lbImg.src = ''; }, 380);
   }
 
   document.querySelectorAll('.work-item[data-idx]').forEach(item => {

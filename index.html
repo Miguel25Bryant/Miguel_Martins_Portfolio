@@ -732,6 +732,49 @@ img { display: block; max-width: 100%; }
 }
 
 /* ═══════════════════════════════════════════
+   INTRO
+═══════════════════════════════════════════ */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5vw;
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.intro.fade-out { opacity: 0; pointer-events: none; }
+
+.intro-text {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  font-size: clamp(13px, 1.6vw, 26px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--light);
+  max-width: 680px;
+  text-align: center;
+  line-height: 1.9em;
+}
+.intro-accent { color: var(--fg); }
+
+.intro-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 0.9em;
+  background: var(--light);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 0.65s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
    LIGHTBOX
 ═══════════════════════════════════════════ */
 .lightbox {
@@ -854,6 +897,11 @@ img { display: block; max-width: 100%; }
 </style>
 </head>
 <body>
+
+<!-- ─────────────────────────────── INTRO ─── -->
+<div class="intro" id="intro">
+  <p class="intro-text" id="intro-text"><span class="intro-cursor" id="intro-cursor"></span></p>
+</div>
 
 <!-- ─────────────────────────────── NAV ─── -->
 <nav class="nav">
@@ -1200,6 +1248,53 @@ function splitChars(el, baseDelay) {
     return s.outerHTML;
   }).join('');
 }
+
+/* ── INTRO TYPEWRITER ── */
+(function () {
+  const segments = [
+    { text: 'I built this website on my own from scratch, ', accent: false },
+    { text: 'watch out,',                                    accent: true  },
+    { text: ' it might explode',                             accent: false },
+  ];
+
+  const container = document.getElementById('intro-text');
+  const cursor    = document.getElementById('intro-cursor');
+  const totalChars = segments.reduce((n, s) => n + s.text.length, 0);
+  const charDelay  = 5500 / totalChars; // finish typing in ~5.5s
+
+  let si = 0, ci = 0, span = null;
+
+  document.body.style.overflow = 'hidden';
+
+  function type() {
+    if (si >= segments.length) {
+      // Typing done — hide cursor, pause, then fade out
+      cursor.style.display = 'none';
+      setTimeout(() => {
+        const intro = document.getElementById('intro');
+        intro.classList.add('fade-out');
+        document.body.style.overflow = '';
+        setTimeout(() => intro.remove(), 950);
+      }, 1800);
+      return;
+    }
+
+    if (ci === 0) {
+      span = document.createElement('span');
+      if (segments[si].accent) span.className = 'intro-accent';
+      container.insertBefore(span, cursor);
+    }
+
+    span.textContent += segments[si].text[ci];
+    ci++;
+
+    if (ci >= segments[si].text.length) { si++; ci = 0; }
+
+    setTimeout(type, charDelay + (Math.random() * charDelay * 0.4 - charDelay * 0.2));
+  }
+
+  setTimeout(type, 900); // brief pause before typing starts
+})();
 
 splitChars(document.getElementById('h-first'),  0.08);
 splitChars(document.getElementById('h-last'),   0.42);

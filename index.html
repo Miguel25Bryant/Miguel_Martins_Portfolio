@@ -894,6 +894,83 @@ img { display: block; max-width: 100%; }
 .lightbox-prev { left: clamp(12px, 1.8vw, 32px); }
 .lightbox-next { right: clamp(12px, 1.8vw, 32px); }
 .lightbox-nav svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+/* ═══════════════════════════════════════════
+   LANGUAGE SWITCHER
+═══════════════════════════════════════════ */
+.nav-lang-li { position: relative; list-style: none; }
+
+/* Transparent bridge that fills the gap between button and dropdown,
+   keeping :hover alive as the mouse moves downward */
+.nav-lang-li::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  height: 12px;
+}
+
+.nav-lang-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  font-size: clamp(9px, 0.66vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  opacity: 0.38;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  transition: color 0.35s ease, opacity 0.18s ease;
+}
+.nav-lang-btn:hover { opacity: 1; }
+.nav.nav-light .nav-lang-btn { color: var(--light); }
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: var(--dark);
+  border: 1px solid rgba(255,255,255,0.08);
+  list-style: none;
+  min-width: 130px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 300;
+}
+.nav-lang-li:hover .lang-dropdown,
+.nav-lang-li.open .lang-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.lang-opt {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Barlow', sans-serif;
+  font-size: clamp(9px, 0.6vw, 10px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding: 0.9vw 1.4vw;
+  text-align: left;
+  transition: color 0.15s ease;
+  line-height: 1;
+}
+.lang-opt:hover { color: rgba(255,255,255,0.9); }
+.lang-opt.active { color: var(--red); }
 </style>
 </head>
 <body>
@@ -905,11 +982,23 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── NAV ─── -->
 <nav class="nav">
-  <a href="/" class="nav-logo">Home</a>
+  <a href="/" class="nav-logo" id="nav-home">Home</a>
   <ul class="nav-links">
-    <li><a href="#works">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#works" id="nav-work">Work</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+    <li class="nav-lang-li" id="nav-lang-li">
+      <button class="nav-lang-btn" id="nav-lang-btn" aria-haspopup="true" aria-expanded="false">
+        <span id="lang-label">EN</span>
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l3 3 3-3"/></svg>
+      </button>
+      <ul class="lang-dropdown" id="lang-dropdown" role="listbox">
+        <li><button class="lang-opt active" data-lang="en">English</button></li>
+        <li><button class="lang-opt" data-lang="pt">Português</button></li>
+        <li><button class="lang-opt" data-lang="es">Español</button></li>
+        <li><button class="lang-opt" data-lang="fr">Français</button></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -927,10 +1016,10 @@ img { display: block; max-width: 100%; }
 
     <div class="hero-bottom">
       <div class="hero-tags" data-reveal style="transition-delay:0.05s">
-        <a href="#contact" class="hero-tag hero-tag-link">Available for Projects</a>
+        <a href="#contact" class="hero-tag hero-tag-link" id="hero-available">Available for Projects</a>
       </div>
       <div class="hero-scroll" data-reveal style="transition-delay:0.1s">
-        <span class="hero-scroll-label">Scroll</span>
+        <span class="hero-scroll-label" id="hero-scroll">Scroll</span>
         <div class="scroll-line"></div>
       </div>
     </div>
@@ -940,9 +1029,9 @@ img { display: block; max-width: 100%; }
 <!-- ─────────────────────────────── WORKS ─── -->
 <section id="works" class="works">
   <div class="works-heading-area">
-    <div class="works-h" data-reveal>Selected</div>
+    <div class="works-h" data-reveal id="works-h1">Selected</div>
     <div class="works-bottom-row" data-reveal style="transition-delay:0.06s">
-      <div class="works-h">Work</div>
+      <div class="works-h" id="works-h2">Work</div>
     </div>
   </div>
 
@@ -1143,7 +1232,7 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── SKILLS ─── -->
 <section class="skills">
-  <div class="skills-heading" data-reveal>Favorite<br>Stack</div>
+  <div class="skills-heading" data-reveal id="skills-heading">Favorite<br>Stack</div>
 
   <div class="skills-list" data-reveal>
     <div class="skill-row"><span class="skill-name">Adobe Illustrator</span></div>
@@ -1159,9 +1248,9 @@ img { display: block; max-width: 100%; }
 <!-- ─────────────────────────────── ABOUT ─── -->
 <section id="about" class="about">
   <div class="about-left">
-    <h2 class="about-heading" data-reveal>About<br>Myself</h2>
+    <h2 class="about-heading" data-reveal id="about-heading">About<br>Myself</h2>
 
-    <p class="about-copy" data-reveal style="transition-delay:0.08s">
+    <p class="about-copy" data-reveal style="transition-delay:0.08s" id="about-copy">
       Born June 23rd, 1996, I'm a passionate graphic designer who recently completed
       my studies at the Lisbon School of Design. My professional journey began in
       hospitality — 10 years in the field — before I made the decision to pursue my
@@ -1172,11 +1261,11 @@ img { display: block; max-width: 100%; }
 
     <div class="about-highlights" data-reveal style="transition-delay:0.13s">
       <div class="about-hl-item">
-        <span class="hl-label">Currently working at</span>
+        <span class="hl-label" id="hl-label-1">Currently working at</span>
         <span class="hl-place">Grafpub — Grafismo e Publicidade</span>
       </div>
       <div class="about-hl-item">
-        <span class="hl-label">Studied at</span>
+        <span class="hl-label" id="hl-label-2">Studied at</span>
         <span class="hl-place">Lisbon School of Design<br><span class="hl-sub">Graphic Design</span></span>
       </div>
     </div>
@@ -1190,18 +1279,18 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── STATEMENT ─── -->
 <section class="statement">
-  <div class="statement-heading" data-reveal>
+  <div class="statement-heading" data-reveal id="stmt-heading">
     Shaping<br>Brands<br>That<br>Stand Out
   </div>
   <div class="statement-bottom" data-reveal style="transition-delay:0.1s">
     <div class="statement-services">
-      <span class="svc">Branding &amp; Identity Design</span>
-      <span class="svc">Print &amp; Editorial Design</span>
-      <span class="svc">Digital &amp; Web Design</span>
-      <span class="svc">Marketing &amp; Advertising</span>
-      <span class="svc">Packaging &amp; Product Design</span>
+      <span class="svc" id="svc-1">Branding &amp; Identity Design</span>
+      <span class="svc" id="svc-2">Print &amp; Editorial Design</span>
+      <span class="svc" id="svc-3">Digital &amp; Web Design</span>
+      <span class="svc" id="svc-4">Marketing &amp; Advertising</span>
+      <span class="svc" id="svc-5">Packaging &amp; Product Design</span>
     </div>
-    <a href="#contact" class="statement-cta">Start a Project →</a>
+    <a href="#contact" class="statement-cta" id="stmt-cta">Start a Project →</a>
   </div>
 </section>
 
@@ -1209,7 +1298,7 @@ img { display: block; max-width: 100%; }
 <section id="contact" class="contact">
   <div class="contact-inner">
     <div class="contact-top">
-      <div class="contact-heading" data-reveal>
+      <div class="contact-heading" data-reveal id="contact-heading">
         Get in<br><span class="accent">Touch</span>
       </div>
       <div class="contact-aside" data-reveal style="transition-delay:0.1s">
@@ -1230,8 +1319,8 @@ img { display: block; max-width: 100%; }
       <a href="tel:+351934477683">+351 934 477 683</a>
     </div>
     <div class="contact-foot">
-      <span class="contact-foot-txt">© 2026 Miguel Martins. All rights reserved.</span>
-      <span class="contact-foot-txt">Graphic Designer — Lisbon, Portugal</span>
+      <span class="contact-foot-txt" id="foot-1">© 2026 Miguel Martins. All rights reserved.</span>
+      <span class="contact-foot-txt" id="foot-2">Graphic Designer — Lisbon, Portugal</span>
     </div>
   </div>
 </section>
@@ -1504,7 +1593,7 @@ const PROJECTS = [
     lbImg.src  = encodeURI(images[imgIdx]);
     lbImg.alt  = proj.name;
     lbName.textContent    = proj.name;
-    lbType.textContent    = proj.type;
+    lbType.textContent    = (window.__wt && window.__wt[proj.type]) || proj.type;
     lbCounter.textContent = images.length > 1 ? `${imgIdx + 1} / ${images.length}` : '';
     const multi = images.length > 1;
     lbPrev.style.display = multi ? '' : 'none';
@@ -1541,6 +1630,247 @@ const PROJECTS = [
     if (e.key === 'ArrowLeft')  loadImg(projectIdx, imgIdx - 1);
     if (e.key === 'ArrowRight') loadImg(projectIdx, imgIdx + 1);
   });
+})();
+
+/* ── LANGUAGE SWITCHER ── */
+(function () {
+  const T = {
+    en: {
+      pageTitle:    'Miguel Martins — Graphic Designer',
+      navHome:      'Home',
+      navWork:      'Work',
+      navAbout:     'About',
+      navContact:   'Contact',
+      navLang:      'EN',
+      heroTitle1:   'Graphic',
+      heroTitle2:   'Designer',
+      heroAvailable:'Available for Projects',
+      heroScroll:   'Scroll',
+      worksH1:      'Selected',
+      worksH2:      'Work',
+      skillsHeading:'Favorite<br>Stack',
+      aboutHeading: 'About<br>Myself',
+      aboutCopy:    "Born June 23rd, 1996, I'm a passionate graphic designer who recently completed my studies at the Lisbon School of Design. My professional journey began in hospitality — 10 years in the field — before I made the decision to pursue my true calling in the creative industry. Looking for a new challenge, I now build visual identities, print work, and campaigns that are bold, coherent, and impossible to ignore.",
+      hlLabel1:     'Currently working at',
+      hlLabel2:     'Studied at',
+      stmtHeading:  'Shaping<br>Brands<br>That<br>Stand Out',
+      svcs:         ['Branding &amp; Identity Design','Print &amp; Editorial Design','Digital &amp; Web Design','Marketing &amp; Advertising','Packaging &amp; Product Design'],
+      stmtCta:      'Start a Project \u2192',
+      contactHeading:'Get in<br><span class="accent">Touch</span>',
+      foot1:        '\u00a9 2026 Miguel Martins. All rights reserved.',
+      foot2:        'Graphic Designer \u2014 Lisbon, Portugal',
+      workTypes: {
+        'Print & Editorial':  'Print & Editorial',
+        'Branding & Identity':'Branding & Identity',
+        'Digital & Campaign': 'Digital & Campaign',
+        'Print & Campaign':   'Print & Campaign',
+        'Print & Identity':   'Print & Identity',
+        'Print Design':       'Print Design',
+      },
+      marqueeItems: ['Typography','Branding','Print Design','Editorial','Digital Design','Packaging','Art Direction','Visual Identity','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
+    },
+    pt: {
+      pageTitle:    'Miguel Martins — Designer Gráfico',
+      navHome:      'Início',
+      navWork:      'Trabalho',
+      navAbout:     'Sobre',
+      navContact:   'Contacto',
+      navLang:      'PT',
+      heroTitle1:   'Designer',
+      heroTitle2:   'Gráfico',
+      heroAvailable:'Disponível para Projetos',
+      heroScroll:   'Descer',
+      worksH1:      'Trabalho',
+      worksH2:      'Selecionado',
+      skillsHeading:'Ferramentas<br>Favoritas',
+      aboutHeading: 'Sobre<br>Mim',
+      aboutCopy:    "Nascido a 23 de junho de 1996, sou um designer gráfico apaixonado que concluiu recentemente os estudos na Escola de Design de Lisboa. O meu percurso profissional começou na hotelaria — 10 anos na área — antes de decidir seguir a minha verdadeira vocação na indústria criativa. À procura de novos desafios, crio identidades visuais, trabalhos gráficos e campanhas que são ousados, coerentes e impossíveis de ignorar.",
+      hlLabel1:     'Atualmente em',
+      hlLabel2:     'Estudou em',
+      stmtHeading:  'Marcas<br>Que<br>Se<br>Destacam',
+      svcs:         ['Design de Marca &amp; Identidade','Design Editorial &amp; Impresso','Design Digital &amp; Web','Marketing &amp; Publicidade','Embalagem &amp; Design de Produto'],
+      stmtCta:      'Iniciar um Projeto \u2192',
+      contactHeading:'Entre em<br><span class="accent">Contacto</span>',
+      foot1:        '\u00a9 2026 Miguel Martins. Todos os direitos reservados.',
+      foot2:        'Designer Gráfico \u2014 Lisboa, Portugal',
+      workTypes: {
+        'Print & Editorial':  'Impressão & Editorial',
+        'Branding & Identity':'Marca & Identidade',
+        'Digital & Campaign': 'Digital & Campanha',
+        'Print & Campaign':   'Impressão & Campanha',
+        'Print & Identity':   'Impressão & Identidade',
+        'Print Design':       'Design de Impressão',
+      },
+      marqueeItems: ['Tipografia','Branding','Design de Impressão','Editorial','Design Digital','Embalagem','Direção de Arte','Identidade Visual','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
+    },
+    es: {
+      pageTitle:    'Miguel Martins — Diseñador Gráfico',
+      navHome:      'Inicio',
+      navWork:      'Trabajo',
+      navAbout:     'Sobre Mí',
+      navContact:   'Contacto',
+      navLang:      'ES',
+      heroTitle1:   'Diseñador',
+      heroTitle2:   'Gráfico',
+      heroAvailable:'Disponible para Proyectos',
+      heroScroll:   'Deslizar',
+      worksH1:      'Trabajo',
+      worksH2:      'Selecto',
+      skillsHeading:'Herramientas<br>Favoritas',
+      aboutHeading: 'Sobre<br>Mí',
+      aboutCopy:    "Nacido el 23 de junio de 1996, soy un apasionado diseñador gráfico que recientemente completó sus estudios en la Escuela de Diseño de Lisboa. Mi trayectoria profesional comenzó en la hostelería — 10 años en el sector — antes de tomar la decisión de seguir mi verdadera vocación en la industria creativa. En busca de nuevos retos, creo identidades visuales, trabajos impresos y campañas que son audaces, coherentes e imposibles de ignorar.",
+      hlLabel1:     'Actualmente en',
+      hlLabel2:     'Estudió en',
+      stmtHeading:  'Marcas<br>Que<br>Dejan<br>Huella',
+      svcs:         ['Diseño de Marca &amp; Identidad','Diseño Editorial &amp; Impreso','Diseño Digital &amp; Web','Marketing &amp; Publicidad','Packaging &amp; Diseño de Producto'],
+      stmtCta:      'Iniciar un Proyecto \u2192',
+      contactHeading:'Ponte en<br><span class="accent">Contacto</span>',
+      foot1:        '\u00a9 2026 Miguel Martins. Todos los derechos reservados.',
+      foot2:        'Diseñador Gráfico \u2014 Lisboa, Portugal',
+      workTypes: {
+        'Print & Editorial':  'Impresión & Editorial',
+        'Branding & Identity':'Marca & Identidad',
+        'Digital & Campaign': 'Digital & Campaña',
+        'Print & Campaign':   'Impresión & Campaña',
+        'Print & Identity':   'Impresión & Identidad',
+        'Print Design':       'Diseño de Impresión',
+      },
+      marqueeItems: ['Tipografía','Branding','Diseño de Impresión','Editorial','Diseño Digital','Embalaje','Dirección de Arte','Identidad Visual','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
+    },
+    fr: {
+      pageTitle:    'Miguel Martins — Designer Graphique',
+      navHome:      'Accueil',
+      navWork:      'Travail',
+      navAbout:     'À Propos',
+      navContact:   'Contact',
+      navLang:      'FR',
+      heroTitle1:   'Designer',
+      heroTitle2:   'Graphique',
+      heroAvailable:'Disponible pour Projets',
+      heroScroll:   'Défiler',
+      worksH1:      'Travail',
+      worksH2:      'Sélectionné',
+      skillsHeading:'Outils<br>Favoris',
+      aboutHeading: 'À<br>Propos',
+      aboutCopy:    "Né le 23 juin 1996, je suis un designer graphique passionné qui a récemment terminé ses études à l'École de Design de Lisbonne. Mon parcours professionnel a débuté dans l'hôtellerie — 10 ans dans le secteur — avant de décider de suivre ma véritable vocation dans l'industrie créative. À la recherche de nouveaux défis, je crée des identités visuelles, des créations imprimées et des campagnes qui sont audacieuses, cohérentes et impossibles à ignorer.",
+      hlLabel1:     'Actuellement chez',
+      hlLabel2:     'A étudié à',
+      stmtHeading:  'Des Marques<br>Qui<br>Se<br>Démarquent',
+      svcs:         ['Design de Marque &amp; Identité','Design Éditorial &amp; Imprimé','Design Digital &amp; Web','Marketing &amp; Publicité','Packaging &amp; Design Produit'],
+      stmtCta:      'Démarrer un Projet \u2192',
+      contactHeading:'Prenez<br><span class="accent">Contact</span>',
+      foot1:        '\u00a9 2026 Miguel Martins. Tous droits réservés.',
+      foot2:        'Designer Graphique \u2014 Lisbonne, Portugal',
+      workTypes: {
+        'Print & Editorial':  'Impression & Éditorial',
+        'Branding & Identity':'Marque & Identité',
+        'Digital & Campaign': 'Digital & Campagne',
+        'Print & Campaign':   'Impression & Campagne',
+        'Print & Identity':   'Impression & Identité',
+        'Print Design':       'Design Imprimé',
+      },
+      marqueeItems: ['Typographie','Branding','Design Imprimé','Éditorial','Design Digital','Packaging','Direction Artistique','Identité Visuelle','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
+    },
+  };
+
+  function setSplitCharsInstant(el, text) {
+    el.innerHTML = [...text].map(ch => {
+      const s = document.createElement('span');
+      s.className = 'char';
+      s.style.cssText = 'animation:none;opacity:1;transform:none';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      return s.outerHTML;
+    }).join('');
+  }
+
+  function setLanguage(lang) {
+    const t = T[lang];
+    if (!t) return;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang;
+    document.title = t.pageTitle;
+
+    document.getElementById('nav-home').textContent      = t.navHome;
+    document.getElementById('nav-work').textContent      = t.navWork;
+    document.getElementById('nav-about').textContent     = t.navAbout;
+    document.getElementById('nav-contact').textContent   = t.navContact;
+    document.getElementById('lang-label').textContent    = t.navLang;
+
+    setSplitCharsInstant(document.getElementById('h-title1'), t.heroTitle1);
+    setSplitCharsInstant(document.getElementById('h-title2'), t.heroTitle2);
+    document.getElementById('hero-available').textContent = t.heroAvailable;
+    document.getElementById('hero-scroll').textContent    = t.heroScroll;
+
+    document.getElementById('works-h1').textContent      = t.worksH1;
+    document.getElementById('works-h2').textContent      = t.worksH2;
+    document.getElementById('skills-heading').innerHTML  = t.skillsHeading;
+    document.getElementById('about-heading').innerHTML   = t.aboutHeading;
+    document.getElementById('about-copy').textContent    = t.aboutCopy;
+    document.getElementById('hl-label-1').textContent    = t.hlLabel1;
+    document.getElementById('hl-label-2').textContent    = t.hlLabel2;
+
+    document.getElementById('stmt-heading').innerHTML    = t.stmtHeading;
+    t.svcs.forEach((s, i) => {
+      const el = document.getElementById('svc-' + (i + 1));
+      if (el) el.innerHTML = s;
+    });
+    document.getElementById('stmt-cta').textContent      = t.stmtCta;
+    document.getElementById('contact-heading').innerHTML = t.contactHeading;
+    document.getElementById('foot-1').textContent        = t.foot1;
+    document.getElementById('foot-2').textContent        = t.foot2;
+
+    // Work type labels on grid cards
+    window.__wt = t.workTypes;
+    document.querySelectorAll('.work-type[data-type-key]').forEach(el => {
+      const tr = t.workTypes[el.dataset.typeKey];
+      if (tr) el.textContent = tr;
+    });
+
+    // Marquee ticker
+    const track = document.querySelector('.marquee-track');
+    if (track) {
+      const make = t.marqueeItems.map(txt =>
+        `<span class="m-item"><span class="m-dot"></span>${txt}</span>`
+      ).join('');
+      track.innerHTML = make + make;
+    }
+
+    document.querySelectorAll('.lang-opt').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
+  // Store original English type key on each card so we can translate by lookup
+  document.querySelectorAll('.work-type').forEach(el => {
+    el.dataset.typeKey = el.textContent.trim();
+  });
+
+  const langLi  = document.getElementById('nav-lang-li');
+  const langBtn = document.getElementById('nav-lang-btn');
+
+  langBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = langLi.classList.toggle('open');
+    langBtn.setAttribute('aria-expanded', isOpen);
+  });
+
+  document.addEventListener('click', e => {
+    if (!langLi.contains(e.target)) {
+      langLi.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.querySelectorAll('.lang-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setLanguage(btn.dataset.lang);
+      langLi.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const saved = localStorage.getItem('lang') || 'en';
+  if (saved !== 'en') setLanguage(saved);
 })();
 </script>
 

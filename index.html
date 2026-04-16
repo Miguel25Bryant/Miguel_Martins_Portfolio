@@ -810,6 +810,47 @@ img { display: block; max-width: 100%; }
 }
 
 
+/* ── CUSTOM CURSOR ── */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+.site-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--fg);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(calc(var(--cx, -200px) - 50%), calc(var(--cy, -200px) - 50%));
+  will-change: transform;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.3s ease,
+              opacity 0.3s ease;
+}
+.site-cursor.view {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.9);
+}
+.site-cursor-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.site-cursor.view .site-cursor-label { opacity: 1; }
+
 /* ═══════════════════════════════════════════
    LIGHTBOX
 ═══════════════════════════════════════════ */
@@ -1481,6 +1522,36 @@ if (navigator.webdriver) {
     el.style.transform = 'translateY(0)';
   });
 }
+/* ── CUSTOM CURSOR ── */
+(function () {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const el = document.createElement('div');
+  el.className = 'site-cursor';
+  el.innerHTML = '<span class="site-cursor-label">View</span>';
+  document.body.appendChild(el);
+
+  let tx = -200, ty = -200, cx = -200, cy = -200;
+
+  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { el.style.opacity = ''; });
+
+  document.querySelectorAll('.work-item').forEach(item => {
+    item.addEventListener('mouseenter', () => el.classList.add('view'));
+    item.addEventListener('mouseleave', () => el.classList.remove('view'));
+  });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  (function tick() {
+    cx = lerp(cx, tx, 0.13);
+    cy = lerp(cy, ty, 0.13);
+    el.style.setProperty('--cx', cx + 'px');
+    el.style.setProperty('--cy', cy + 'px');
+    requestAnimationFrame(tick);
+  })();
+})();
+
 /* ── NAV COLOR ADAPT ── */
 (function () {
   const nav = document.querySelector('.nav');

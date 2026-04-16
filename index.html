@@ -46,6 +46,16 @@ body {
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(71, 36, 37, 0.22);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(71, 36, 37, 0.5); }
+* { scrollbar-width: thin; scrollbar-color: rgba(71, 36, 37, 0.22) transparent; }
+
 /* ═══════════════════════════════════════════
    NAV
 ═══════════════════════════════════════════ */
@@ -683,11 +693,9 @@ img { display: block; max-width: 100%; }
 /* Work item reveal */
 .work-item {
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.4s ease;
 }
-.work-item.in-view { opacity: 1; transform: translateY(0); }
+.work-item.in-view { opacity: 1; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
@@ -1443,12 +1451,11 @@ workItems.forEach((el, i) => el.dataset.col = i % 2);
 const wo = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.transitionDelay = `${entry.target.dataset.col * 0.04}s`;
       entry.target.classList.add('in-view');
       wo.unobserve(entry.target);
     }
   });
-}, { threshold: 0, rootMargin: '0px 0px 100px 0px' });
+}, { threshold: 0, rootMargin: '0px 0px 160px 0px' });
 
 workItems.forEach(el => wo.observe(el));
 

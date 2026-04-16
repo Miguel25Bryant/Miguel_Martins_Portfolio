@@ -693,9 +693,10 @@ img { display: block; max-width: 100%; }
 /* Work item reveal */
 .work-item {
   opacity: 0;
-  transition: opacity 0.4s ease;
+  will-change: opacity;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.work-item.in-view { opacity: 1; }
+.work-item.in-view { opacity: 1; will-change: auto; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
@@ -1004,62 +1005,6 @@ img { display: block; max-width: 100%; }
 .lang-opt:hover { color: rgba(255,255,255,0.9); }
 .lang-opt.active { color: var(--red); }
 
-/* ═══════════════════════════════════════════
-   CUSTOM CURSOR
-═══════════════════════════════════════════ */
-@media (pointer: fine) {
-  *, *::before, *::after { cursor: none !important; }
-}
-.site-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--fg);
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(calc(var(--cx, -200px) - 50%), calc(var(--cy, -200px) - 50%));
-  will-change: transform;
-  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-              background 0.3s ease,
-              opacity 0.3s ease;
-}
-.site-cursor.view {
-  width: 76px;
-  height: 76px;
-  background: rgba(255, 255, 255, 0.9);
-}
-.site-cursor-label {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Barlow', sans-serif;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.site-cursor.view .site-cursor-label { opacity: 1; }
-
-/* ═══════════════════════════════════════════
-   WORK GRID — DIM OTHERS ON HOVER
-═══════════════════════════════════════════ */
-@media (pointer: fine) {
-  .works-grid:hover .work-item.in-view {
-    opacity: 0.35;
-    transition: opacity 0.4s ease;
-  }
-  .works-grid:hover .work-item.in-view:hover {
-    opacity: 1;
-    transition: opacity 0.15s ease;
-  }
-}
 </style>
 </head>
 <body>
@@ -1071,7 +1016,7 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── NAV ─── -->
 <nav class="nav">
-  <a href="/" class="nav-logo" id="nav-home">Home</a>
+  <a href="#" class="nav-logo" id="nav-home">Home</a>
   <ul class="nav-links">
     <li><a href="#works" id="nav-work">Work</a></li>
     <li><a href="#about" id="nav-about">About</a></li>
@@ -1501,10 +1446,6 @@ const ro = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
-/* ── WORK ITEMS — staggered by column ── */
-const workItems = [...document.querySelectorAll('.work-item')];
-workItems.forEach((el, i) => el.dataset.col = i % 2);
-
 const wo = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1512,9 +1453,9 @@ const wo = new IntersectionObserver((entries) => {
       wo.unobserve(entry.target);
     }
   });
-}, { threshold: 0, rootMargin: '0px 0px 160px 0px' });
+}, { threshold: 0, rootMargin: '0px 0px 400px 0px' });
 
-workItems.forEach(el => wo.observe(el));
+document.querySelectorAll('.work-item').forEach(el => wo.observe(el));
 
 
 /* ── HERO BOTTOM — reveal after load animation ── */
@@ -1971,64 +1912,6 @@ const PROJECTS = [
   if (saved !== 'en') setLanguage(saved);
 })();
 
-/* ── CUSTOM CURSOR ── */
-(function () {
-  if (!window.matchMedia('(pointer: fine)').matches) return;
-
-  const el = document.createElement('div');
-  el.className = 'site-cursor';
-  el.innerHTML = '<span class="site-cursor-label">View</span>';
-  document.body.appendChild(el);
-
-  let tx = -200, ty = -200, cx = -200, cy = -200;
-
-  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { el.style.opacity = ''; });
-
-  document.querySelectorAll('.work-item').forEach(item => {
-    item.addEventListener('mouseenter', () => el.classList.add('view'));
-    item.addEventListener('mouseleave', () => el.classList.remove('view'));
-  });
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-  (function tick() {
-    cx = lerp(cx, tx, 0.13);
-    cy = lerp(cy, ty, 0.13);
-    el.style.setProperty('--cx', cx + 'px');
-    el.style.setProperty('--cy', cy + 'px');
-    requestAnimationFrame(tick);
-  })();
-})();
-
-/* ── HERO MOUSE PARALLAX ── */
-(function () {
-  if (!window.matchMedia('(pointer: fine)').matches) return;
-  if (window.innerWidth <= 900) return;
-
-  const hero       = document.querySelector('.hero');
-  const hFirst     = document.getElementById('h-first');
-  const hLast      = document.getElementById('h-last');
-  const titleBlock = document.querySelector('.hero-title-block');
-
-  let mx = 0, my = 0, px = 0, py = 0;
-
-  hero.addEventListener('mousemove', e => {
-    mx = (e.clientX / window.innerWidth)  - 0.5;
-    my = (e.clientY / window.innerHeight) - 0.5;
-  });
-  hero.addEventListener('mouseleave', () => { mx = 0; my = 0; });
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-  (function tick() {
-    px = lerp(px, mx, 0.05);
-    py = lerp(py, my, 0.05);
-    hFirst.style.transform     = `translate(${px * 18}px, ${py * 10}px)`;
-    hLast.style.transform      = `translate(${-px * 24}px, ${py * 12}px)`;
-    titleBlock.style.transform = `translate(${-px * 10}px, ${-py * 8}px)`;
-    requestAnimationFrame(tick);
-  })();
-})();
 </script>
 
 </body>

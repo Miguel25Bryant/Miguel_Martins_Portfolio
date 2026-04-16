@@ -245,10 +245,10 @@ img { display: block; max-width: 100%; }
 ═══════════════════════════════════════════ */
 .works {
   background: var(--dark);
-  padding: 5.5vw 2.5vw 7vw;
+  padding: 5.5vw 5.5vw 7vw;
 }
 
-.works-heading-area { margin-bottom: 3.5vw; }
+.works-heading-area { margin-bottom: 5.5vw; }
 
 .works-h {
   font-family: 'Barlow', sans-serif;
@@ -269,7 +269,7 @@ img { display: block; max-width: 100%; }
 .works-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  gap: clamp(14px, 1.8vw, 28px);
 }
 .work-item { position: relative; overflow: hidden; cursor: pointer; background: #0a0a0a; }
 .work-item.span2 { grid-column: span 2; }

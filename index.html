@@ -457,6 +457,8 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
   color: var(--fg);
   margin-bottom: 3vw;
+  position: sticky;
+  top: 4vw;
 }
 
 .about-copy {
@@ -681,9 +683,9 @@ img { display: block; max-width: 100%; }
 /* Work item reveal */
 .work-item {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(10px);
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .work-item.in-view { opacity: 1; transform: translateY(0); }
 
@@ -776,11 +778,11 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--light);
-  max-width: 680px;
+  max-width: min(92vw, 980px);
   text-align: center;
   line-height: 1.9em;
 }
-.intro-accent { color: var(--fg); }
+.intro-accent { color: var(--red); }
 
 .intro-cursor {
   display: inline-block;
@@ -1367,9 +1369,9 @@ function splitChars(el, baseDelay) {
 /* ── INTRO TYPEWRITER ── */
 (function () {
   const segments = [
-    { text: 'I built this website on my own from scratch, ', accent: false },
-    { text: 'watch out,',                                    accent: true  },
-    { text: ' it might explode',                             accent: false },
+    { text: 'I built this website on my own from scratch', accent: false },
+    { text: 'watch out',                                   accent: true  },
+    { text: 'it might explode',                            accent: false },
   ];
 
   const container = document.getElementById('intro-text');
@@ -1390,7 +1392,7 @@ function splitChars(el, baseDelay) {
         intro.classList.add('fade-out');
         document.body.style.overflow = '';
         setTimeout(() => intro.remove(), 950);
-      }, 1800);
+      }, 800);
       return;
     }
 
@@ -1403,7 +1405,13 @@ function splitChars(el, baseDelay) {
     span.textContent += segments[si].text[ci];
     ci++;
 
-    if (ci >= segments[si].text.length) { si++; ci = 0; }
+    if (ci >= segments[si].text.length) {
+      if (si < segments.length - 1) {
+        const br = document.createElement('br');
+        container.insertBefore(br, cursor);
+      }
+      si++; ci = 0;
+    }
 
     setTimeout(type, charDelay + (Math.random() * charDelay * 0.4 - charDelay * 0.2));
   }
@@ -1435,12 +1443,12 @@ workItems.forEach((el, i) => el.dataset.col = i % 2);
 const wo = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.transitionDelay = `${entry.target.dataset.col * 0.07}s`;
+      entry.target.style.transitionDelay = `${entry.target.dataset.col * 0.04}s`;
       entry.target.classList.add('in-view');
       wo.unobserve(entry.target);
     }
   });
-}, { threshold: 0.04, rootMargin: '0px 0px -16px 0px' });
+}, { threshold: 0, rootMargin: '0px 0px 100px 0px' });
 
 workItems.forEach(el => wo.observe(el));
 
@@ -1616,7 +1624,7 @@ const PROJECTS = [
     const images = proj.images;
     projectIdx = pi;
     imgIdx     = (ii + images.length) % images.length;
-    lbImg.src  = encodeURI(images[imgIdx]);
+    lbImg.src  = images[imgIdx].split('/').map(encodeURIComponent).join('/');
     lbImg.alt  = proj.name;
     lbName.textContent    = proj.name;
     lbType.textContent    = (window.__wt && window.__wt[proj.type]) || proj.type;

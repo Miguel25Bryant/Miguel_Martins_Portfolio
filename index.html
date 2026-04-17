@@ -1076,6 +1076,7 @@ img { display: block; max-width: 100%; }
         <li><button class="lang-opt" data-lang="pt">Português</button></li>
         <li><button class="lang-opt" data-lang="es">Español</button></li>
         <li><button class="lang-opt" data-lang="fr">Français</button></li>
+        <li><button class="lang-opt" data-lang="de">Deutsch</button></li>
       </ul>
     </li>
   </ul>
@@ -1863,6 +1864,40 @@ const PROJECTS = [
       },
       marqueeItems: ['Typographie','Branding','Design Imprimé','Éditorial','Design Digital','Packaging','Direction Artistique','Identité Visuelle','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
     },
+    de: {
+      pageTitle:    'Miguel Martins — Grafikdesigner',
+      navHome:      'Start',
+      navWork:      'Arbeiten',
+      navAbout:     'Über mich',
+      navContact:   'Kontakt',
+      navLang:      'DE',
+      heroTitle1:   'Grafik',
+      heroTitle2:   'Designer',
+      heroAvailable:'Verfügbar für Projekte',
+      heroScroll:   'Scrollen',
+      worksH1:      'Ausgewählte',
+      worksH2:      'Arbeiten',
+      skillsHeading:'Lieblings<br>Tools',
+      aboutHeading: 'Über<br>Mich',
+      aboutCopy:    "Geboren am 23. Juni 1996, bin ich ein leidenschaftlicher Grafikdesigner, der kürzlich sein Studium an der Design-Schule Lissabon abgeschlossen hat. Mein beruflicher Werdegang begann im Gastgewerbe — 10 Jahre in diesem Bereich — bevor ich mich entschied, meiner wahren Berufung in der Kreativbranche zu folgen. Auf der Suche nach neuen Herausforderungen gestalte ich visuelle Identitäten, Druckarbeiten und Kampagnen, die mutig, kohärent und unmöglich zu übersehen sind.",
+      hlLabel1:     'Aktuell bei',
+      hlLabel2:     'Studierte an',
+      stmtHeading:  'Marken<br>Die<br>Herausragen',
+      svcs:         ['Marken &amp; Identitätsdesign','Druck &amp; Redaktionsdesign','Digital &amp; Webdesign','Marketing &amp; Werbung','Verpackung &amp; Produktdesign'],
+      stmtCta:      'Projekt starten \u2192',
+      contactHeading:'Nehmen Sie<br><span class="accent">Kontakt auf</span>',
+      foot1:        '\u00a9 2026 Miguel Martins. Alle Rechte vorbehalten.',
+      foot2:        'Grafikdesigner \u2014 Lissabon, Portugal',
+      workTypes: {
+        'Print & Editorial':  'Druck & Editorial',
+        'Branding & Identity':'Marke & Identität',
+        'Digital & Campaign': 'Digital & Kampagne',
+        'Print & Campaign':   'Druck & Kampagne',
+        'Print & Identity':   'Druck & Identität',
+        'Print Design':       'Druckdesign',
+      },
+      marqueeItems: ['Typografie','Branding','Druckdesign','Editorial','Digitales Design','Verpackung','Art Direction','Visuelle Identität','Adobe Illustrator','Figma','Adobe InDesign','Photoshop'],
+    },
   };
 
   function setSplitCharsInstant(el, text) {
@@ -1906,7 +1941,6 @@ const PROJECTS = [
       const el = document.getElementById('svc-' + (i + 1));
       if (el) el.innerHTML = s;
     });
-    document.getElementById('stmt-cta').textContent      = t.stmtCta;
     document.getElementById('contact-heading').innerHTML = t.contactHeading;
     document.getElementById('foot-1').textContent        = t.foot1;
     document.getElementById('foot-2').textContent        = t.foot2;

@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
 <style>
 /* ═══════════════════════════════════════════
@@ -26,7 +27,7 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 
 body {
   background: var(--bg);
@@ -1379,6 +1380,16 @@ img { display: block; max-width: 100%; }
 </section>
 
 <script>
+/* ── LENIS SMOOTH SCROLL ── */
+const lenis = new Lenis({
+  duration: 1.25,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+});
+(function lenisRaf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(lenisRaf);
+})(0);
+
 /* ── CHARACTER SPLIT REVEAL ── */
 function splitChars(el, baseDelay) {
   const text = el.textContent;

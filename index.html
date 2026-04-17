@@ -262,6 +262,7 @@ img { display: block; max-width: 100%; }
   position: absolute;
   top: 0; left: 0;
   height: 100%;
+  width: max-content;
   display: flex;
   align-items: center;
 }
@@ -272,6 +273,7 @@ img { display: block; max-width: 100%; }
   gap: clamp(16px, 2vw, 32px);
   padding: 0 5vw;
   height: 100%;
+  perspective: 1200px;
 }
 
 /* "Selected Work" heading — left anchor of the strip */
@@ -301,7 +303,6 @@ img { display: block; max-width: 100%; }
   overflow: hidden;
   cursor: pointer;
   background: #0a0a0a;
-  transform-style: preserve-3d;
   will-change: transform;
   display: block;
   text-decoration: none;
@@ -1520,7 +1521,7 @@ let worksCharsTriggered = false;
   if (!pinWrap || !trackInner) return;
 
   // Only pin on desktop
-  if (!window.matchMedia('(min-width: 901px)').matches) return;
+  if (!window.matchMedia('(min-width: 900px)').matches) return;
 
   const getScrollAmount = () => -(trackInner.scrollWidth - window.innerWidth);
 

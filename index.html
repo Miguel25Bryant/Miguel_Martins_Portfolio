@@ -250,23 +250,21 @@ img { display: block; max-width: 100%; }
   background: var(--dark);
 }
 
-/* Pin wrapper — ScrollTrigger pins this */
+/* Filmstrip wrapper — fixed height in normal page flow */
 .works-pin-wrap {
   height: 100vh;
   overflow: hidden;
   position: relative;
 }
 
-/* Horizontal track — GSAP translates this */
+/* Horizontal track — full height flex row */
 .works-track {
-  position: absolute;
-  top: 0; left: 0;
   height: 100%;
-  width: max-content;
   display: flex;
   align-items: center;
 }
 
+/* Drag-scrollable strip */
 .works-track-inner {
   display: flex;
   align-items: center;
@@ -274,6 +272,13 @@ img { display: block; max-width: 100%; }
   padding: 0 5vw;
   height: 100%;
   perspective: 1200px;
+  overflow-x: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.works-track-inner.is-dragging {
+  cursor: grabbing;
 }
 
 /* "Selected Work" heading — left anchor of the strip */
@@ -392,6 +397,38 @@ img { display: block; max-width: 100%; }
   z-index: 3;
 }
 .film-card:hover .film-card-gloss { opacity: 1; }
+
+/* Drag hint */
+.drag-hint {
+  position: absolute;
+  bottom: 28px;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+.drag-hint.hidden { opacity: 0; }
+.drag-hint-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+}
+.drag-hint-arrow {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  animation: dragNudge 1.8s ease-in-out infinite;
+}
+.drag-hint-arrow--right { animation-delay: 0.9s; }
+@keyframes dragNudge {
+  0%, 100% { transform: translateX(0); opacity: 0.35; }
+  50%       { transform: translateX(3px); opacity: 0.7; }
+}
 
 /* ═══════════════════════════════════════════
    MARQUEE
@@ -765,23 +802,20 @@ img { display: block; max-width: 100%; }
   /* Nav stays at top and scrolls away with the page */
   .nav { position: absolute; }
 
-  /* Filmstrip mobile fallback — disable pin, use scroll-snap */
+  /* Filmstrip mobile — compact height, touch drag */
   .works-pin-wrap {
     height: auto;
-    overflow: visible;
-  }
-  .works-track {
-    position: static;
-    height: auto;
+    padding: 5vw 0;
   }
   .works-track-inner {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding: 5vw;
+    padding: 0 5vw;
     gap: 12px;
     height: auto;
     align-items: stretch;
+    cursor: default;
   }
   .works-track-inner::-webkit-scrollbar { display: none; }
   .film-heading {
@@ -1304,6 +1338,10 @@ img { display: block; max-width: 100%; }
 
       </div>
     </div>
+    <div class="drag-hint" id="drag-hint">
+      <span class="drag-hint-label">DRAG TO EXPLORE</span>
+      <span class="drag-hint-arrow drag-hint-arrow--right">→</span>
+    </div>
   </div>
 </section>
 
@@ -1419,6 +1457,24 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
+/* ── WORKS SECTION SNAP ── */
+(function () {
+  const works = document.getElementById('works');
+  if (!works) return;
+  let snapTimer = null;
+  lenis.on('scroll', ({ scroll }) => {
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(() => {
+      const top = works.offsetTop;
+      const vh = window.innerHeight;
+      // Snap if scroll has stopped with the section partially in view
+      if (scroll > top - vh * 0.85 && scroll < top + vh * 0.9 && Math.abs(scroll - top) > 4) {
+        lenis.scrollTo(top, { duration: 0.7, easing: t => 1 - Math.pow(1 - t, 4) });
+      }
+    }, 120);
+  });
+})();
+
 /* ── CHARACTER SPLIT REVEAL ── */
 function splitChars(el, baseDelay) {
   const text = el.textContent;
@@ -1514,30 +1570,83 @@ let worksCharsTriggered = false;
   hObs.observe(area);
 })();
 
-/* ── FILMSTRIP HORIZONTAL SCROLL ── */
+/* ── FILMSTRIP DRAG SCROLL ── */
 (function () {
-  const pinWrap    = document.querySelector('.works-pin-wrap');
-  const trackInner = document.querySelector('.works-track-inner');
-  if (!pinWrap || !trackInner) return;
+  const track = document.querySelector('.works-track-inner');
+  if (!track) return;
 
-  // Only pin on desktop
-  if (!window.matchMedia('(min-width: 900px)').matches) return;
+  let isDragging = false, startX = 0, scrollLeft = 0, velX = 0, lastX = 0, lastT = 0, rafId = null;
+  let dragMoved = false;
+  const DRAG_THRESHOLD = 6;
 
-  const getScrollAmount = () => -(trackInner.scrollWidth - window.innerWidth);
+  // Block browser's native image/link drag ghost
+  track.addEventListener('dragstart', e => e.preventDefault());
 
-  gsap.to(trackInner, {
-    x: getScrollAmount,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: pinWrap,
-      start: 'top top',
-      end: () => `+=${Math.abs(getScrollAmount())}`,
-      pin: true,
-      scrub: 1.5,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
+  function momentumScroll() {
+    velX *= 0.93;
+    track.scrollLeft += velX;
+    if (Math.abs(velX) > 0.5) rafId = requestAnimationFrame(momentumScroll);
+  }
+
+  const hint = document.getElementById('drag-hint');
+  function dismissHint() {
+    if (hint && !hint.classList.contains('hidden')) hint.classList.add('hidden');
+  }
+
+  track.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    cancelAnimationFrame(rafId);
+    isDragging = true;
+    dragMoved = false;
+    startX = e.clientX;
+    scrollLeft = track.scrollLeft;
+    velX = 0; lastX = e.clientX; lastT = performance.now();
+    track.classList.add('is-dragging');
+    // Prevent browser from starting a native drag on images/links
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const now = performance.now();
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > DRAG_THRESHOLD) dragMoved = true;
+    track.scrollLeft = scrollLeft - dx;
+    const dt = now - lastT;
+    if (dt > 0) velX = (lastX - e.clientX) / dt * 16;
+    lastX = e.clientX; lastT = now;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('is-dragging');
+    if (dragMoved) {
+      dismissHint();
+      rafId = requestAnimationFrame(momentumScroll);
     }
   });
+
+  // Intercept clicks in capture phase — suppress lightbox if we dragged
+  track.addEventListener('click', e => {
+    if (dragMoved) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      dragMoved = false;
+    }
+  }, true);
+
+  // Touch
+  let touchStartX = 0, touchScrollLeft = 0;
+  track.addEventListener('touchstart', e => {
+    cancelAnimationFrame(rafId);
+    touchStartX = e.touches[0].clientX;
+    touchScrollLeft = track.scrollLeft;
+  }, { passive: true });
+  track.addEventListener('touchmove', e => {
+    track.scrollLeft = touchScrollLeft - (e.touches[0].clientX - touchStartX);
+    dismissHint();
+  }, { passive: true });
 })();
 
 /* ── SECTION HEADINGS — line-by-line reveal ── */

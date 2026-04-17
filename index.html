@@ -244,75 +244,107 @@ img { display: block; max-width: 100%; }
 }
 
 /* ═══════════════════════════════════════════
-   WORKS (DARK)
+   WORKS (DARK) — FILMSTRIP
 ═══════════════════════════════════════════ */
 .works {
   background: var(--dark);
-  padding: 5.5vw 5.5vw 7vw;
 }
 
-.works-heading-area { margin-bottom: 5.5vw; }
+/* Pin wrapper — ScrollTrigger pins this */
+.works-pin-wrap {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Horizontal track — GSAP translates this */
+.works-track {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.works-track-inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+  padding: 0 5vw;
+  height: 100%;
+}
+
+/* "Selected Work" heading — left anchor of the strip */
+.film-heading {
+  flex-shrink: 0;
+  margin-right: 2vw;
+  display: flex;
+  flex-direction: column;
+}
 
 .works-h {
   font-family: 'Barlow', sans-serif;
   font-weight: 400;
-  font-size: clamp(52px, 11.4583vw, 176px);
+  font-size: clamp(52px, 8vw, 128px);
   line-height: 0.86em;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: var(--light);
 }
-.works-bottom-row {
-  display: flex;
-  align-items: center;
-  gap: 1vw;
-  margin-top: -0.08em;
-}
-/* Project grid */
-.works-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(14px, 1.8vw, 28px);
-}
-.work-item { position: relative; overflow: hidden; cursor: pointer; background: #0a0a0a; }
-.work-item.span2 { grid-column: span 2; }
 
-.work-thumb {
-  aspect-ratio: 4 / 3;
+/* Individual project card */
+.film-card {
+  flex-shrink: 0;
+  width: clamp(220px, 22vw, 360px);
+  height: 78vh;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: #0a0a0a;
+  transform-style: preserve-3d;
+  will-change: transform;
+  display: block;
+  text-decoration: none;
+}
+
+/* Card image */
+.film-card .work-thumb {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   position: relative;
 }
-.work-item.span2 .work-thumb { aspect-ratio: 16 / 6; }
-
-.work-thumb img {
+.film-card .work-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.78) saturate(0.65);
+  filter: brightness(0.72) saturate(0.65);
   transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               filter 0.9s ease;
 }
-.work-item:hover .work-thumb img {
+.film-card:hover .work-thumb img {
   transform: scale(1.05);
   filter: brightness(0.92) saturate(1);
 }
-.work-thumb::after {
+
+/* Bottom gradient overlay on image */
+.film-card .work-thumb::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 45%, transparent 70%);
   z-index: 1;
-  transition: opacity 0.4s ease;
 }
 
+/* Info overlay */
 .work-info {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  padding: 1.8vw 1.4vw 1.1vw;
+  padding: 2vw 1.4vw 1.4vw;
   z-index: 2;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 0.4vw;
 }
 .work-name {
   font-family: 'Barlow', sans-serif;
@@ -327,12 +359,9 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.1em;
   color: var(--light);
   opacity: 0.3;
-  text-align: right;
-  flex-shrink: 0;
-  margin-left: 1vw;
 }
 
-/* Hover state: show arrow */
+/* Hover arrow */
 .work-arrow {
   position: absolute;
   top: 1.2vw;
@@ -343,13 +372,25 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
+  z-index: 4;
   opacity: 0;
   transform: scale(0.8) rotate(-45deg);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .work-arrow svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 1.5; }
-.work-item:hover .work-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
+.film-card:hover .work-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
+
+/* 3D tilt gloss overlay */
+.film-card-gloss {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.11) 0%, transparent 55%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+}
+.film-card:hover .film-card-gloss { opacity: 1; }
 
 /* ═══════════════════════════════════════════
    MARQUEE
@@ -700,14 +741,6 @@ img { display: block; max-width: 100%; }
 }
 [data-reveal].in-view { opacity: 1; transform: translateY(0); }
 
-/* Work item reveal — clip-path wipe */
-.work-item {
-  clip-path: inset(0 0 100% 0);
-  will-change: clip-path;
-  transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.work-item.in-view { clip-path: inset(0 0 0% 0); will-change: auto; }
-
 /* Works heading — char animation paused until in-view */
 .works-h .char { animation-play-state: paused; }
 .works-h.chars-go .char { animation-play-state: running; }
@@ -730,6 +763,35 @@ img { display: block; max-width: 100%; }
 @media (max-width: 900px) {
   /* Nav stays at top and scrolls away with the page */
   .nav { position: absolute; }
+
+  /* Filmstrip mobile fallback — disable pin, use scroll-snap */
+  .works-pin-wrap {
+    height: auto;
+    overflow: visible;
+  }
+  .works-track {
+    position: static;
+    height: auto;
+  }
+  .works-track-inner {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 5vw;
+    gap: 12px;
+    height: auto;
+    align-items: stretch;
+  }
+  .works-track-inner::-webkit-scrollbar { display: none; }
+  .film-heading {
+    display: none;
+  }
+  .film-card {
+    width: 85vw;
+    height: 70vw;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
 
   /* Show Graphic / Designer on mobile — smaller but visible */
   .hero-title-block {
@@ -775,10 +837,6 @@ img { display: block; max-width: 100%; }
   }
 }
 @media (max-width: 600px) {
-  .works-grid { grid-template-columns: 1fr; }
-  .work-item.span2 { grid-column: span 1; }
-  .work-thumb { aspect-ratio: 16/9; }
-  .work-item.span2 .work-thumb { aspect-ratio: 16/9; }
   .statement-bottom { flex-direction: column; gap: 2rem; align-items: flex-start; }
   .lightbox { padding: 12px; }
   .lightbox-prev { left: 8px; }
@@ -1444,15 +1502,41 @@ splitChars(document.getElementById('works-h1'), 0.05);
 splitChars(document.getElementById('works-h2'), 0.35);
 let worksCharsTriggered = false;
 (function () {
-  const area = document.querySelector('.works-heading-area');
+  const area = document.querySelector('.works-pin-wrap');
   if (!area) return;
   const hObs = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting) return;
     document.querySelectorAll('.works-h').forEach(h => h.classList.add('chars-go'));
     worksCharsTriggered = true;
     hObs.disconnect();
-  }, { threshold: 0.2 });
+  }, { threshold: 0.05 });
   hObs.observe(area);
+})();
+
+/* ── FILMSTRIP HORIZONTAL SCROLL ── */
+(function () {
+  const pinWrap    = document.querySelector('.works-pin-wrap');
+  const trackInner = document.querySelector('.works-track-inner');
+  if (!pinWrap || !trackInner) return;
+
+  // Only pin on desktop
+  if (!window.matchMedia('(min-width: 901px)').matches) return;
+
+  const getScrollAmount = () => -(trackInner.scrollWidth - window.innerWidth);
+
+  gsap.to(trackInner, {
+    x: getScrollAmount,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: pinWrap,
+      start: 'top top',
+      end: () => `+=${Math.abs(getScrollAmount())}`,
+      pin: true,
+      scrub: 1.5,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    }
+  });
 })();
 
 /* ── SECTION HEADINGS — line-by-line reveal ── */
@@ -1476,6 +1560,33 @@ splitLines(document.getElementById('contact-heading'), 0.04);
     .forEach(el => el && lObs.observe(el));
 })();
 
+/* ── 3D TILT ON FILM CARDS ── */
+(function () {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  document.querySelectorAll('.film-card').forEach(card => {
+    const xTo = gsap.quickTo(card, 'rotateY', { duration: 0.4, ease: 'power3.out' });
+    const yTo = gsap.quickTo(card, 'rotateX', { duration: 0.4, ease: 'power3.out' });
+    const gloss = card.querySelector('.film-card-gloss');
+
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+      const y = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+      xTo(x * 8);
+      yTo(-y * 8);
+      if (gloss) {
+        gloss.style.setProperty('--gx', `${((1 - (x + 1) / 2) * 100).toFixed(1)}%`);
+        gloss.style.setProperty('--gy', `${((1 - (y + 1) / 2) * 100).toFixed(1)}%`);
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
+    });
+  });
+})();
+
 /* ── SCROLL REVEAL (generic) ── */
 const ro = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1488,21 +1599,6 @@ const ro = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
 
-const wo = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      wo.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0, rootMargin: '0px 0px 80px 0px' });
-
-document.querySelectorAll('.work-item').forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 2) * 0.1}s`;
-  wo.observe(el);
-});
-
-
 /* ── HERO BOTTOM — reveal after load animation ── */
 setTimeout(() => {
   document.querySelectorAll('.hero-bottom [data-reveal]').forEach(el => {
@@ -1513,7 +1609,7 @@ setTimeout(() => {
 /* ── INSTANT REVEAL for screenshots / no-scroll contexts ── */
 if (navigator.webdriver) {
   document.querySelectorAll('img[decoding="async"]').forEach(img => { img.decoding = 'sync'; });
-  document.querySelectorAll('[data-reveal], .work-item').forEach(el => {
+  document.querySelectorAll('[data-reveal], .film-card').forEach(el => {
     el.style.transition = 'none';
     el.classList.add('in-view');
   });
@@ -1552,7 +1648,7 @@ if (navigator.webdriver) {
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
   document.addEventListener('mouseenter', () => { el.style.opacity = ''; });
 
-  document.querySelectorAll('.work-item').forEach(item => {
+  document.querySelectorAll('.film-card').forEach(item => {
     item.addEventListener('mouseenter', () => el.classList.add('view'));
     item.addEventListener('mouseleave', () => el.classList.remove('view'));
   });
@@ -1752,7 +1848,7 @@ const PROJECTS = [
     setTimeout(() => { lbImg.src = ''; }, 380);
   }
 
-  document.querySelectorAll('.work-item[data-idx]').forEach(item => {
+  document.querySelectorAll('.film-card[data-idx]').forEach(item => {
     item.addEventListener('click', e => {
       e.preventDefault();
       open(+item.dataset.idx);

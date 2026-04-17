@@ -829,6 +829,7 @@ img { display: block; max-width: 100%; }
               background 0.3s ease,
               opacity 0.3s ease;
 }
+.site-cursor.on-dark { background: #fdfaf3; }
 .site-cursor.view {
   width: 48px;
   height: 48px;
@@ -1532,8 +1533,17 @@ if (navigator.webdriver) {
   document.body.appendChild(el);
 
   let tx = -200, ty = -200, cx = -200, cy = -200;
+  const darkSections = document.querySelectorAll('.works, .contact');
 
-  window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX; ty = e.clientY;
+    let onDark = false;
+    darkSections.forEach(sec => {
+      const r = sec.getBoundingClientRect();
+      if (tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom) onDark = true;
+    });
+    el.classList.toggle('on-dark', onDark);
+  });
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
   document.addEventListener('mouseenter', () => { el.style.opacity = ''; });
 

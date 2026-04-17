@@ -639,6 +639,11 @@ img { display: block; max-width: 100%; }
   padding-bottom: 0.3vw;
   transition: color 0.2s ease, border-color 0.2s ease;
 }
+.contact-email {
+  transition: color 0.2s ease, border-color 0.2s ease,
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  display: inline-block;
+}
 .contact-email:hover { color: var(--red); border-color: var(--red); }
 
 .contact-socials {
@@ -693,13 +698,26 @@ img { display: block; max-width: 100%; }
 }
 [data-reveal].in-view { opacity: 1; transform: translateY(0); }
 
-/* Work item reveal */
+/* Work item reveal — clip-path wipe */
 .work-item {
-  opacity: 0;
-  will-change: opacity;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+  transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.work-item.in-view { opacity: 1; will-change: auto; }
+.work-item.in-view { clip-path: inset(0 0 0% 0); will-change: auto; }
+
+/* Works heading — char animation paused until in-view */
+.works-h .char { animation-play-state: paused; }
+.works-h.chars-go .char { animation-play-state: running; }
+
+/* Line-by-line reveal (stmt + contact headings) */
+.line-reveal { display: block; overflow: hidden; }
+.line-inner {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lines-revealed .line-inner { transform: translateY(0); }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
@@ -1110,7 +1128,7 @@ img { display: block; max-width: 100%; }
 <!-- ─────────────────────────────── WORKS ─── -->
 <section id="works" class="works">
   <div class="works-heading-area">
-    <div class="works-h" data-reveal id="works-h1">Selected</div>
+    <div class="works-h" id="works-h1">Selected</div>
     <div class="works-bottom-row" data-reveal style="transition-delay:0.06s">
       <div class="works-h" id="works-h2">Work</div>
     </div>
@@ -1330,7 +1348,7 @@ img { display: block; max-width: 100%; }
 
 <!-- ─────────────────────────────── STATEMENT ─── -->
 <section class="statement">
-  <div class="statement-heading" data-reveal id="stmt-heading">
+  <div class="statement-heading" id="stmt-heading">
     Shaping<br>Brands<br>That<br>Stand Out
   </div>
   <div class="statement-bottom" data-reveal style="transition-delay:0.1s">
@@ -1348,7 +1366,7 @@ img { display: block; max-width: 100%; }
 <section id="contact" class="contact">
   <div class="contact-inner">
     <div class="contact-top">
-      <div class="contact-heading" data-reveal id="contact-heading">
+      <div class="contact-heading" id="contact-heading">
         Get in<br><span class="accent">Touch</span>
       </div>
       <div class="contact-aside" data-reveal style="transition-delay:0.1s">
@@ -1400,6 +1418,14 @@ function splitChars(el, baseDelay) {
     s.textContent = ch === ' ' ? '\u00A0' : ch;
     return s.outerHTML;
   }).join('');
+}
+
+/* ── LINE-BY-LINE REVEAL (for headings with <br>) ── */
+function splitLines(el, baseDelay) {
+  const parts = el.innerHTML.split(/<br\s*\/?>/i);
+  el.innerHTML = parts.map((line, i) =>
+    `<span class="line-reveal"><span class="line-inner" style="transition-delay:${baseDelay + i * 0.13}s">${line.trim()}</span></span>`
+  ).join('');
 }
 
 /* ── INTRO TYPEWRITER ── */
@@ -1461,6 +1487,43 @@ splitChars(document.getElementById('h-last'),   0.42);
 splitChars(document.getElementById('h-title1'), 0.18);
 splitChars(document.getElementById('h-title2'), 0.28);
 
+/* ── WORKS HEADING — scroll-triggered char reveal ── */
+splitChars(document.getElementById('works-h1'), 0.05);
+splitChars(document.getElementById('works-h2'), 0.35);
+let worksCharsTriggered = false;
+(function () {
+  const area = document.querySelector('.works-heading-area');
+  if (!area) return;
+  const hObs = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    document.querySelectorAll('.works-h').forEach(h => h.classList.add('chars-go'));
+    worksCharsTriggered = true;
+    hObs.disconnect();
+  }, { threshold: 0.2 });
+  hObs.observe(area);
+})();
+
+/* ── SECTION HEADINGS — line-by-line reveal ── */
+let stmtLinesTriggered = false;
+let contactLinesTriggered = false;
+
+splitLines(document.getElementById('stmt-heading'), 0.04);
+splitLines(document.getElementById('contact-heading'), 0.04);
+
+(function () {
+  const lObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('lines-revealed');
+      if (entry.target.id === 'stmt-heading') stmtLinesTriggered = true;
+      if (entry.target.id === 'contact-heading') contactLinesTriggered = true;
+      lObs.unobserve(entry.target);
+    });
+  }, { threshold: 0.15 });
+  [document.getElementById('stmt-heading'), document.getElementById('contact-heading')]
+    .forEach(el => el && lObs.observe(el));
+})();
+
 /* ── SCROLL REVEAL (generic) ── */
 const ro = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1480,9 +1543,12 @@ const wo = new IntersectionObserver((entries) => {
       wo.unobserve(entry.target);
     }
   });
-}, { threshold: 0, rootMargin: '0px 0px 800px 0px' });
+}, { threshold: 0, rootMargin: '0px 0px 80px 0px' });
 
-document.querySelectorAll('.work-item').forEach(el => wo.observe(el));
+document.querySelectorAll('.work-item').forEach((el, i) => {
+  el.style.transitionDelay = `${(i % 2) * 0.1}s`;
+  wo.observe(el);
+});
 
 
 /* ── HERO BOTTOM — reveal after load animation ── */
@@ -1502,6 +1568,11 @@ if (navigator.webdriver) {
   document.querySelectorAll('.char').forEach(el => {
     el.style.animation = 'none';
     el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+  document.querySelectorAll('.works-h').forEach(h => h.classList.add('chars-go'));
+  document.querySelectorAll('.line-inner').forEach(el => {
+    el.style.transition = 'none';
     el.style.transform = 'translateY(0)';
   });
 }
@@ -1542,6 +1613,19 @@ if (navigator.webdriver) {
     el.style.setProperty('--cy', cy + 'px');
     requestAnimationFrame(tick);
   })();
+})();
+
+/* ── MAGNETIC CONTACT LINKS ── */
+(function () {
+  document.querySelectorAll('.contact-email').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      el.style.transform = `translate(${dx * 0.28}px, ${dy * 0.5}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
 })();
 
 /* ── NAV COLOR ADAPT ── */
@@ -1941,6 +2025,11 @@ const PROJECTS = [
 
     document.getElementById('works-h1').textContent      = t.worksH1;
     document.getElementById('works-h2').textContent      = t.worksH2;
+    splitChars(document.getElementById('works-h1'), 0.05);
+    splitChars(document.getElementById('works-h2'), 0.35);
+    if (worksCharsTriggered) {
+      document.querySelectorAll('.works-h').forEach(h => h.classList.add('chars-go'));
+    }
     document.getElementById('skills-heading').innerHTML  = t.skillsHeading;
     document.getElementById('about-heading').innerHTML   = t.aboutHeading;
     document.getElementById('about-copy').textContent    = t.aboutCopy;
@@ -1948,11 +2037,15 @@ const PROJECTS = [
     document.getElementById('hl-label-2').textContent    = t.hlLabel2;
 
     document.getElementById('stmt-heading').innerHTML    = t.stmtHeading;
+    splitLines(document.getElementById('stmt-heading'), 0.04);
+    if (stmtLinesTriggered) document.getElementById('stmt-heading').classList.add('lines-revealed');
     t.svcs.forEach((s, i) => {
       const el = document.getElementById('svc-' + (i + 1));
       if (el) el.innerHTML = s;
     });
     document.getElementById('contact-heading').innerHTML = t.contactHeading;
+    splitLines(document.getElementById('contact-heading'), 0.04);
+    if (contactLinesTriggered) document.getElementById('contact-heading').classList.add('lines-revealed');
     document.getElementById('foot-1').textContent        = t.foot1;
     document.getElementById('foot-2').textContent        = t.foot2;
 

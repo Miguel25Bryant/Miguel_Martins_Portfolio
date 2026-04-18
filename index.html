@@ -404,17 +404,14 @@ img { display: block; max-width: 100%; }
 .work-arrow svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 1.5; }
 .film-card:hover .work-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
 
-/* 3D tilt gloss overlay */
+/* 3D tilt gloss overlay — kept for future use */
 .film-card-gloss {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.11) 0%, transparent 55%);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
   z-index: 3;
 }
-.film-card:hover .film-card-gloss { opacity: 1; }
 
 /* Drag hint */
 .drag-hint {
@@ -1573,6 +1570,7 @@ function splitLines(el, baseDelay) {
 
   setTimeout(type, 900); // brief pause before typing starts
 })();
+
 
 
 splitChars(document.getElementById('h-first'),  0.08);

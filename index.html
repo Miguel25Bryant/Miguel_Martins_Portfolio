@@ -858,10 +858,10 @@ img { display: block; max-width: 100%; }
 
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
-  .about-left { grid-template-columns: 1fr; }
-  .about-left .about-heading { grid-row: auto; }
+  .about-left { display: flex; flex-direction: column; }
+  .about-left .about-heading { order: 0; }
   .about-highlights {
-    justify-self: end;
+    align-self: flex-end;
     width: fit-content;
     align-items: flex-end;
   }

@@ -857,9 +857,13 @@ img { display: block; max-width: 100%; }
   .hero-title-line { font-size: clamp(16px, 3.8vw, 22px); }
 
   .skills { grid-template-columns: 1fr; }
+  .skills-list { grid-column: 1; }
   .about { grid-template-columns: 1fr; }
   .about-left { grid-template-columns: 1fr; }
   .about-left .about-heading { grid-row: auto; }
+  .about-left .about-copy,
+  .about-left .about-highlights,
+  .about-left .about-link { grid-column: 1; }
   .skills-heading { position: static; }
   .contact-aside { display: none; }
   .contact-mobile {

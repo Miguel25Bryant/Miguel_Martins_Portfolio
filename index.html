@@ -864,8 +864,8 @@ img { display: block; max-width: 100%; }
   }
   /* Unwrap hero-row-1 so we can reorder its children */
   .hero-row-1 { display: contents; }
-  #h-first    { order: 1; left: 0; }
-  #h-last     { order: 2; display: block; left: 0; margin-bottom: 4vw; }
+  #h-first    { order: 1; position: static; }
+  #h-last     { order: 2; display: block; position: static; margin-bottom: 4vw; }
   /* Disable hover letter-spread on mobile — prevents wrapping on tap */
   #h-first.bloom-settled:hover,
   #h-last.bloom-settled:hover { letter-spacing: -0.02em; }
@@ -875,10 +875,10 @@ img { display: block; max-width: 100%; }
     flex-direction: row;
     align-items: baseline;
     gap: 0.2em;
-    padding-top: 0;
-    margin-bottom: 8vw;
+    padding: 0;
+    margin: 0 0 8vw 0;
   }
-  .hero-bottom { order: 4; margin-top: 0; }
+  .hero-bottom { order: 4; margin: 0; padding: 0; }
   .hero-scroll { position: static; gap: 2.5vw; }
   .h-display { font-size: clamp(76px, 22vw, 130px); }
   .hero-title-line {

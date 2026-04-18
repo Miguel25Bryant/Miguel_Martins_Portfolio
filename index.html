@@ -820,7 +820,12 @@ img { display: block; max-width: 100%; }
   /* Filmstrip mobile — compact height, touch drag */
   .works-pin-wrap {
     height: auto;
-    padding: 5vw 0;
+    overflow: visible;
+    padding: 10vw 0;
+  }
+  .works-track {
+    flex-direction: column;
+    align-items: stretch;
   }
   .works-track-inner {
     overflow-x: auto;
@@ -831,15 +836,12 @@ img { display: block; max-width: 100%; }
     height: auto;
     align-items: stretch;
     cursor: default;
+    width: 100%;
   }
   .works-track-inner::-webkit-scrollbar { display: none; }
-  .works-track {
-    flex-direction: column;
-    align-items: flex-start;
-  }
   .film-heading {
     margin-right: 0;
-    padding: 6vw 5vw 4vw;
+    padding: 0 5vw 6vw;
   }
   .film-card {
     width: 85vw;

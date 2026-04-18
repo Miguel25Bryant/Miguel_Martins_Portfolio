@@ -869,7 +869,9 @@ img { display: block; max-width: 100%; }
   .hero-title-block {
     order: 3;
     position: static;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.2em;
     padding-top: 0;
     margin-bottom: 8vw;
   }
@@ -877,7 +879,7 @@ img { display: block; max-width: 100%; }
   .hero-scroll { position: static; gap: 2.5vw; }
   .h-display { font-size: clamp(76px, 22vw, 130px); }
   .hero-title-line {
-    font-size: clamp(34px, 10vw, 58px);
+    font-size: clamp(24px, 7vw, 42px);
     text-align: left;
   }
   .hero-tag { font-size: clamp(10px, 2.8vw, 13px); }

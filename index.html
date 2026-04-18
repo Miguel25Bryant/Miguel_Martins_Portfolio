@@ -849,42 +849,38 @@ img { display: block; max-width: 100%; }
   }
   .drag-hint { display: none; }
 
-  /* ── Hero mobile — split layout: name top, title bottom ── */
+  /* ── Hero mobile — centered stack: name → title → tags ── */
   .hero {
     min-height: 100svh;
     justify-content: flex-start;
-    padding-top: 18vw;
-    padding-bottom: 10vw;
+    padding-top: 14vw;
+    padding-bottom: 12vw;
   }
-  .hero-inner { flex: 1; }
-  .hero-row-1 {
+  .hero-inner {
+    flex: 1;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 0;
+    justify-content: center;
   }
-  .h-display { font-size: clamp(76px, 22vw, 130px); }
+  /* Unwrap hero-row-1 so we can reorder its children */
+  .hero-row-1 { display: contents; }
+  #h-first    { order: 1; }
+  #h-last     { order: 2; display: block; margin-bottom: 10vw; }
   .hero-title-block {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    order: 3;
+    position: static;
     align-items: flex-start;
     padding-top: 0;
+    margin-bottom: 8vw;
   }
+  .hero-bottom { order: 4; margin-top: 0; }
+  .hero-scroll { position: static; gap: 2.5vw; }
+  .h-display { font-size: clamp(76px, 22vw, 130px); }
   .hero-title-line {
     font-size: clamp(34px, 10vw, 58px);
     text-align: left;
   }
-  .hero-bottom {
-    margin-top: 5vw;
-    justify-content: flex-start;
-  }
   .hero-tag { font-size: clamp(10px, 2.8vw, 13px); }
-  .hero-scroll {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    gap: 2.5vw;
-  }
 
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }

@@ -833,8 +833,13 @@ img { display: block; max-width: 100%; }
     cursor: default;
   }
   .works-track-inner::-webkit-scrollbar { display: none; }
+  .works-track {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .film-heading {
-    display: none;
+    margin-right: 0;
+    padding: 6vw 5vw 4vw;
   }
   .film-card {
     width: 85vw;
@@ -1239,12 +1244,11 @@ img { display: block; max-width: 100%; }
 <section id="works" class="works works-filmstrip">
   <div class="works-pin-wrap">
     <div class="works-track">
+      <div class="film-heading">
+        <div class="works-h" id="works-h1">Selected</div>
+        <div class="works-h" id="works-h2">Work</div>
+      </div>
       <div class="works-track-inner">
-
-        <div class="film-heading">
-          <div class="works-h" id="works-h1">Selected</div>
-          <div class="works-h" id="works-h2">Work</div>
-        </div>
 
         <a href="#" class="film-card" data-idx="0">
           <div class="work-thumb"><img src="Selected%20Work/Distortion/thumbs/Magazine_Mockup_0.jpg" alt="Distortion" decoding="async"/></div>
@@ -1474,6 +1478,7 @@ gsap.ticker.lagSmoothing(0);
 
 /* ── WORKS SECTION SNAP ── */
 (function () {
+  if (window.matchMedia('(max-width: 900px)').matches) return;
   const works = document.getElementById('works');
   if (!works) return;
   let snapTimer = null;

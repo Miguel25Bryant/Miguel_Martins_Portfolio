@@ -149,6 +149,24 @@ img { display: block; max-width: 100%; }
   color: var(--fg);
 }
 
+/* Name bloom (A) + hover spread (C) */
+#h-first, #h-last { letter-spacing: 0.16em; }
+@keyframes nameBloom {
+  from { letter-spacing: 0.16em; }
+  to   { letter-spacing: -0.02em; }
+}
+#h-first.bloom-go, #h-last.bloom-go {
+  animation: nameBloom 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+#h-first.bloom-settled, #h-last.bloom-settled {
+  letter-spacing: -0.02em;
+  transition: letter-spacing 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: default;
+}
+#h-first.bloom-settled:hover, #h-last.bloom-settled:hover {
+  letter-spacing: 0.08em;
+}
+
 .hero-first {
   position: relative;
   left: -0.9375vw;
@@ -176,7 +194,7 @@ img { display: block; max-width: 100%; }
 .hero-last {
   position: relative;
   left: -0.9375vw;
-  display: block;
+  display: inline-block;
 }
 
 .hero-bottom {
@@ -1520,6 +1538,14 @@ function splitLines(el, baseDelay) {
         const intro = document.getElementById('intro');
         intro.classList.add('fade-out');
         document.body.style.overflow = '';
+        ['h-first', 'h-last'].forEach(id => {
+          const el = document.getElementById(id);
+          el.classList.add('bloom-go');
+          el.addEventListener('animationend', () => {
+            el.classList.remove('bloom-go');
+            el.classList.add('bloom-settled');
+          }, { once: true });
+        });
         setTimeout(() => intro.remove(), 950);
       }, 800);
       return;

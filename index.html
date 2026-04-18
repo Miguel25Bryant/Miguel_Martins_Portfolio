@@ -849,13 +849,42 @@ img { display: block; max-width: 100%; }
   }
   .drag-hint { display: none; }
 
-  /* Show Graphic / Designer on mobile — smaller but visible */
-  .hero-title-block {
-    display: flex;
-    padding-top: 0.35em;
-    align-items: flex-start;
+  /* ── Hero mobile — split layout: name top, title bottom ── */
+  .hero {
+    min-height: 100svh;
+    justify-content: flex-start;
+    padding-top: 18vw;
+    padding-bottom: 10vw;
   }
-  .hero-title-line { font-size: clamp(16px, 3.8vw, 22px); }
+  .hero-inner { flex: 1; }
+  .hero-row-1 {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0;
+  }
+  .h-display { font-size: clamp(76px, 22vw, 130px); }
+  .hero-title-block {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+  .hero-title-line {
+    font-size: clamp(34px, 10vw, 58px);
+    text-align: left;
+  }
+  .hero-bottom {
+    margin-top: 5vw;
+    justify-content: flex-start;
+  }
+  .hero-tag { font-size: clamp(10px, 2.8vw, 13px); }
+  .hero-scroll {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    gap: 2.5vw;
+  }
 
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }

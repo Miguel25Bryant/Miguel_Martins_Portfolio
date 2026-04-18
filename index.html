@@ -858,16 +858,17 @@ img { display: block; max-width: 100%; }
 
   .skills { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; }
-  .about-left { display: flex; flex-direction: column; }
-  .about-left .about-heading { order: 0; }
+  .about-left { grid-template-columns: 1fr; }
+  .about-left .about-heading { grid-row: auto; }
   .about-highlights {
-    align-self: flex-end;
+    display: block;
+    text-align: right;
+    margin-left: auto;
     width: fit-content;
-    align-items: flex-end;
   }
-  .about-hl-item { align-items: flex-end; }
-  .hl-label { text-align: right; }
-  .hl-place { text-align: right; }
+  .about-hl-item { display: block; }
+  .hl-label { display: block; text-align: right; }
+  .hl-place { display: block; text-align: right; }
   .contact-aside { display: none; }
   .contact-mobile {
     display: flex;

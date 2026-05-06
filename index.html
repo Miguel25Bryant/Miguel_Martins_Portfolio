@@ -950,9 +950,12 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   padding: 2.5vw;
-  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.0s cubic-bezier(0.76, 0, 0.24, 1);
 }
-.intro.fade-out { opacity: 0; pointer-events: none; }
+.intro.split-out {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
 
 .intro-text {
   font-family: 'Barlow', sans-serif;
@@ -1583,7 +1586,7 @@ function splitLines(el, baseDelay) {
       cursor.style.display = 'none';
       setTimeout(() => {
         const intro = document.getElementById('intro');
-        intro.classList.add('fade-out');
+        intro.classList.add('split-out');
         document.body.style.overflow = '';
         ['h-first', 'h-last'].forEach(id => {
           const el = document.getElementById(id);

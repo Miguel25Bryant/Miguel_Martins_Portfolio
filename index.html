@@ -160,11 +160,7 @@ img { display: block; max-width: 100%; }
 }
 #h-first.bloom-settled, #h-last.bloom-settled {
   letter-spacing: -0.02em;
-  transition: letter-spacing 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: default;
-}
-#h-first.bloom-settled:hover, #h-last.bloom-settled:hover {
-  letter-spacing: 0.08em;
 }
 
 .hero-first {
@@ -867,9 +863,6 @@ img { display: block; max-width: 100%; }
   .hero-row-1 { display: contents; }
   #h-first    { order: 1; position: static; }
   #h-last     { order: 2; display: block; position: static; margin-bottom: 4vw; }
-  /* Disable hover letter-spread on mobile — prevents wrapping on tap */
-  #h-first.bloom-settled:hover,
-  #h-last.bloom-settled:hover { letter-spacing: -0.02em; }
   .hero-title-block {
     order: 3;
     position: static;

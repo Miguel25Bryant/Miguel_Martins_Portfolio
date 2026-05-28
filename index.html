@@ -1657,17 +1657,8 @@ let worksCharsTriggered = false;
     }
   }, true);
 
-  // Touch
-  let touchStartX = 0, touchScrollLeft = 0;
-  track.addEventListener('touchstart', e => {
-    cancelAnimationFrame(rafId);
-    touchStartX = e.touches[0].clientX;
-    touchScrollLeft = track.scrollLeft;
-  }, { passive: true });
-  track.addEventListener('touchmove', e => {
-    track.scrollLeft = touchScrollLeft - (e.touches[0].clientX - touchStartX);
-    dismissHint();
-  }, { passive: true });
+  // Touch — native overflow-x scroll handles momentum on mobile
+  track.addEventListener('touchmove', () => dismissHint(), { passive: true });
 })();
 
 /* ── SECTION HEADINGS — line-by-line reveal ── */

@@ -1495,9 +1495,9 @@ function splitLines(el, baseDelay) {
 /* ── INTRO TYPEWRITER ── */
 (function () {
   const segments = [
-    { text: 'I built this website on my own from scratch', accent: false },
-    { text: 'watch out',                                   accent: true  },
-    { text: 'it might explode',                            accent: false },
+    { text: 'Hi, my name is Miguel', accent: false },
+    { text: 'welcome to my ', accent: false, noBreak: true },
+    { text: 'portfolio',      accent: true  },
   ];
 
   const container = document.getElementById('intro-text');
@@ -1540,7 +1540,7 @@ function splitLines(el, baseDelay) {
     ci++;
 
     if (ci >= segments[si].text.length) {
-      if (si < segments.length - 1) {
+      if (si < segments.length - 1 && !segments[si].noBreak) {
         const br = document.createElement('br');
         container.insertBefore(br, cursor);
       }

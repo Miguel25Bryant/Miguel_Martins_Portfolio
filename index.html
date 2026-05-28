@@ -406,6 +406,7 @@ img { display: block; max-width: 100%; }
   transition: opacity 0.6s ease;
 }
 .drag-hint.hidden { opacity: 0; }
+.drag-hint.no-indent { margin-left: 0.315vw; }
 .drag-hint-label {
   font-family: 'Barlow', sans-serif;
   font-size: 12px;
@@ -1237,7 +1238,7 @@ img { display: block; max-width: 100%; }
         <div class="works-h" id="works-h1">Selected</div>
         <div class="works-h" id="works-h2">Work</div>
         <div class="drag-hint" id="drag-hint">
-          <span class="drag-hint-label">DRAG TO EXPLORE</span>
+          <span class="drag-hint-label" id="drag-hint-label">DRAG TO EXPLORE</span>
           <span class="drag-hint-arrow drag-hint-arrow--right">→</span>
         </div>
       </div>
@@ -1453,6 +1454,20 @@ lenis.on('scroll', ScrollTrigger.update);
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 
+/* ── SMOOTH ANCHOR NAVIGATION ── */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    e.preventDefault();
+    const href = anchor.getAttribute('href');
+    if (href === '#') {
+      lenis.scrollTo(0, { duration: 1.4, easing: t => 1 - Math.pow(1 - t, 4) });
+    } else {
+      const target = document.querySelector(href);
+      if (target) lenis.scrollTo(target, { duration: 1.4, easing: t => 1 - Math.pow(1 - t, 4) });
+    }
+  });
+});
+
 /* ── WORKS SECTION SNAP ── */
 (function () {
   if (window.matchMedia('(max-width: 900px)').matches) return;
@@ -1503,7 +1518,7 @@ function splitLines(el, baseDelay) {
   const container = document.getElementById('intro-text');
   const cursor    = document.getElementById('intro-cursor');
   const totalChars = segments.reduce((n, s) => n + s.text.length, 0);
-  const charDelay  = 5500 / totalChars; // finish typing in ~5.5s
+  const charDelay  = 3800 / totalChars; // finish typing in ~3.8s
 
   let si = 0, ci = 0, span = null;
 
@@ -1547,7 +1562,7 @@ function splitLines(el, baseDelay) {
       si++; ci = 0;
     }
 
-    setTimeout(type, charDelay + (Math.random() * charDelay * 0.4 - charDelay * 0.2));
+    setTimeout(type, charDelay + (Math.random() * charDelay * 0.08 - charDelay * 0.04));
   }
 
   setTimeout(type, 900); // brief pause before typing starts
@@ -2002,6 +2017,7 @@ const PROJECTS = [
       heroScroll:   'Scroll',
       worksH1:      'Selected',
       worksH2:      'Work',
+      dragHint:     'DRAG TO EXPLORE',
       skillsHeading:'Favorite<br>Stack',
       aboutHeading: 'About<br>Myself',
       aboutCopy:    "Born June 23rd, 1996, I'm a passionate graphic designer who recently completed my studies at the Lisbon School of Design. My professional journey began in hospitality — 10 years in the field — before I made the decision to pursue my true calling in the creative industry. Looking for a new challenge, I now build visual identities, print work, and campaigns that are bold, coherent, and impossible to ignore.",
@@ -2034,8 +2050,9 @@ const PROJECTS = [
       heroTitle2:   'Gráfico',
       heroAvailable:'Disponível para Projetos',
       heroScroll:   'Descer',
-      worksH1:      'Trabalho',
-      worksH2:      'Selecionado',
+      worksH1:      'Trabalhos',
+      worksH2:      'em Destaque',
+      dragHint:     'ARRASTAR PARA EXPLORAR',
       skillsHeading:'Ferramentas<br>Favoritas',
       aboutHeading: 'Sobre<br>Mim',
       aboutCopy:    "Nascido a 23 de junho de 1996, sou um designer gráfico apaixonado que concluiu recentemente os estudos na Escola de Design de Lisboa. O meu percurso profissional começou na hotelaria — 10 anos na área — antes de decidir seguir a minha verdadeira vocação na indústria criativa. À procura de novos desafios, crio identidades visuais, trabalhos gráficos e campanhas que são ousados, coerentes e impossíveis de ignorar.",
@@ -2068,8 +2085,9 @@ const PROJECTS = [
       heroTitle2:   'Gráfico',
       heroAvailable:'Disponible para Proyectos',
       heroScroll:   'Deslizar',
-      worksH1:      'Trabajo',
-      worksH2:      'Selecto',
+      worksH1:      'Trabajos',
+      worksH2:      'Destacados',
+      dragHint:     'ARRASTRA PARA EXPLORAR',
       skillsHeading:'Herramientas<br>Favoritas',
       aboutHeading: 'Sobre<br>Mí',
       aboutCopy:    "Nacido el 23 de junio de 1996, soy un apasionado diseñador gráfico que recientemente completó sus estudios en la Escuela de Diseño de Lisboa. Mi trayectoria profesional comenzó en la hostelería — 10 años en el sector — antes de tomar la decisión de seguir mi verdadera vocación en la industria creativa. En busca de nuevos retos, creo identidades visuales, trabajos impresos y campañas que son audaces, coherentes e imposibles de ignorar.",
@@ -2102,8 +2120,9 @@ const PROJECTS = [
       heroTitle2:   'Graphique',
       heroAvailable:'Disponible pour Projets',
       heroScroll:   'Défiler',
-      worksH1:      'Travail',
-      worksH2:      'Sélectionné',
+      worksH1:      'Travaux',
+      worksH2:      'Choisis',
+      dragHint:     'GLISSER POUR EXPLORER',
       skillsHeading:'Outils<br>Favoris',
       aboutHeading: 'À<br>Propos',
       aboutCopy:    "Né le 23 juin 1996, je suis un designer graphique passionné qui a récemment terminé ses études à l'École de Design de Lisbonne. Mon parcours professionnel a débuté dans l'hôtellerie — 10 ans dans le secteur — avant de décider de suivre ma véritable vocation dans l'industrie créative. À la recherche de nouveaux défis, je crée des identités visuelles, des créations imprimées et des campagnes qui sont audacieuses, cohérentes et impossibles à ignorer.",
@@ -2138,6 +2157,7 @@ const PROJECTS = [
       heroScroll:   'Scrollen',
       worksH1:      'Ausgewählte',
       worksH2:      'Arbeiten',
+      dragHint:     'ZIEHEN ZUM ERKUNDEN',
       skillsHeading:'Lieblings<br>Tools',
       aboutHeading: 'Über<br>Mich',
       aboutCopy:    "Geboren am 23. Juni 1996, bin ich ein leidenschaftlicher Grafikdesigner, der kürzlich sein Studium an der Design-Schule Lissabon abgeschlossen hat. Mein beruflicher Werdegang begann im Gastgewerbe — 10 Jahre in diesem Bereich — bevor ich mich entschied, meiner wahren Berufung in der Kreativbranche zu folgen. Auf der Suche nach neuen Herausforderungen gestalte ich visuelle Identitäten, Druckarbeiten und Kampagnen, die mutig, kohärent und unmöglich zu übersehen sind.",
@@ -2191,6 +2211,8 @@ const PROJECTS = [
 
     document.getElementById('works-h1').textContent      = t.worksH1;
     document.getElementById('works-h2').textContent      = t.worksH2;
+    document.getElementById('drag-hint-label').textContent = t.dragHint;
+    document.getElementById('drag-hint').classList.toggle('no-indent', lang !== 'en');
     splitChars(document.getElementById('works-h1'), 0.05);
     splitChars(document.getElementById('works-h2'), 0.35);
     if (worksCharsTriggered) {

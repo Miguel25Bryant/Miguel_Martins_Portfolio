@@ -998,9 +998,7 @@ img { display: block; max-width: 100%; }
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 8, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(8, 8, 8, 0.92);
 }
 .lightbox-panel {
   position: relative;
@@ -1752,14 +1750,15 @@ if (navigator.webdriver) {
 
   let tx = -200, ty = -200, cx = -200, cy = -200;
   const darkSections = document.querySelectorAll('.works, .contact');
+  let darkRects = [];
+  function updateDarkRects() { darkRects = Array.from(darkSections).map(s => s.getBoundingClientRect()); }
+  updateDarkRects();
+  window.addEventListener('scroll', updateDarkRects, { passive: true });
+  window.addEventListener('resize', updateDarkRects, { passive: true });
 
   window.addEventListener('mousemove', e => {
     tx = e.clientX; ty = e.clientY;
-    let onDark = false;
-    darkSections.forEach(sec => {
-      const r = sec.getBoundingClientRect();
-      if (tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom) onDark = true;
-    });
+    const onDark = darkRects.some(r => tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom);
     el.classList.toggle('on-dark', onDark);
   });
   document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });

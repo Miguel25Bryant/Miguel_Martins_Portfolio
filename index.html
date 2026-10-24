@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Miguel Martins — Graphic Designer</title>
-<meta name="description" content="Miguel Martins is a graphic designer in Portugal working across branding and identity, art direction, editorial and typography, print and production, digital design, and campaigns." />
+<title>Miguel Martins - Graphic Designer</title>
+<meta name="description" content="Miguel Martins, graphic designer based in Lisbon. Visual identity, branding, editorial, digital and print design." />
 <link rel="canonical" href="https://miguelangelomartins.pt/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://miguelangelomartins.pt/" />
-<meta property="og:title" content="Miguel Martins — Graphic Designer" />
+<meta property="og:title" content="Miguel Martins - Graphic Designer" />
 <meta property="og:description" content="Branding & Identity, Art Direction, Editorial & Typography, Print & Production, Digital Design, Campaigns & Advertising." />
 
 <link rel="icon" href="brand_assets/SIGNATUREBLACK.png" media="(prefers-color-scheme: light)" />
@@ -21,7 +21,7 @@
 
 <style>
 /* ═══════════════════════════════════════════
-   FONTS — Helvetica Neue, Latin subset (Font/web).
+   FONTS: Helvetica Neue, Latin subset (Font/web).
    Faces download only when a weight is used.
 ═══════════════════════════════════════════ */
 @font-face { font-family: 'Helvetica Neue'; font-weight: 100; font-style: normal; font-display: swap; src: url('Font/web/HelveticaNeue-UltraLight.woff2') format('woff2'); }
@@ -98,7 +98,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 .nav > * { pointer-events: auto; }
 
-/* Mobile backdrop — only shown once the page has scrolled (see responsive) */
+/* Mobile backdrop: only shown once the page has scrolled (see responsive) */
 .nav::before {
   content: '';
   position: absolute;
@@ -290,7 +290,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 
 /* ═══════════════════════════════════════════
-   WORKS (DARK) — FILMSTRIP
+   WORKS (DARK): FILMSTRIP
 ═══════════════════════════════════════════ */
 .works { background: var(--dark); }
 
@@ -307,7 +307,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   align-items: center;
 }
 
-/* Scrollable strip — drag, trackpad, arrows and keyboard all move it */
+/* Scrollable strip: drag, trackpad, arrows and keyboard all move it */
 .works-track-inner {
   display: flex;
   align-items: center;
@@ -325,7 +325,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 .works-track-inner::-webkit-scrollbar { display: none; }
 .works-track-inner.is-dragging { cursor: grabbing; }
 
-/* "Selected Work" heading — left anchor of the strip */
+/* "Selected Work" heading, left anchor of the strip */
 .film-heading {
   flex-shrink: 0;
   padding-left: 5vw;
@@ -573,7 +573,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 
 /* ═══════════════════════════════════════════
-   EXPERTISE — compact rows (original skills layout)
+   EXPERTISE: compact rows (original skills layout)
 ═══════════════════════════════════════════ */
 .skills {
   background: var(--bg);
@@ -760,7 +760,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   .nav-links { gap: clamp(9px, 2.8vw, 16px); }
   .nav-logo, .nav-links a { font-size: 10px; }
 
-  /* Filmstrip mobile — native swipe with snap */
+  /* Filmstrip mobile: native swipe with snap */
   .works-pin-wrap {
     height: auto;
     min-height: 0;
@@ -796,7 +796,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   .work-arrow { display: none; }
   .drag-hint { display: none; }
 
-  /* ── Hero mobile — centered stack: name → title → tags ── */
+  /* ── Hero mobile: centered stack: name → title → tags ── */
   .hero {
     min-height: 100svh;
     justify-content: flex-start;
@@ -972,7 +972,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 .site-cursor.view .site-cursor-label { opacity: 1; }
 
 /* ═══════════════════════════════════════════
-   LIGHTBOX — project viewer
+   LIGHTBOX: project viewer
 ═══════════════════════════════════════════ */
 .lightbox {
   position: fixed;
@@ -1252,7 +1252,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
         <span class="hero-title-line" id="h-title1">Graphic</span>
         <span class="hero-title-line" id="h-title2">Designer</span>
       </span>
-      <span class="sr-only" id="h1-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Miguel Martins — Graphic Designer</span>
+      <span class="sr-only" id="h1-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Miguel Martins - Graphic Designer</span>
     </h1>
     <div class="h-display hero-last" id="h-last" aria-hidden="true">Martins</div>
 
@@ -1292,7 +1292,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
           <span class="film-progress" aria-hidden="true"><span id="film-progress-bar"></span></span>
         </div>
       </div>
-      <!-- Cards are rendered from PROJECTS (script below) — one source of truth -->
+      <!-- Cards are rendered from PROJECTS (script below): one source of truth -->
       <div class="works-track-inner" id="film-track" role="list"></div>
     </div>
   </div>
@@ -1308,7 +1308,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
     <div class="about-highlights" data-reveal style="transition-delay:0.13s">
       <div class="about-hl-item">
         <span class="hl-label" id="hl-label-1">Currently working at</span>
-        <span class="hl-place">Grafpub — Grafismo e Publicidade<br><span class="hl-sub" id="hl-sub-1">Graphic Designer — Since 2025</span></span>
+        <span class="hl-place">Grafpub - Grafismo e Publicidade<br><span class="hl-sub" id="hl-sub-1">Graphic Designer - Since 2025</span></span>
       </div>
       <div class="about-hl-item">
         <span class="hl-label" id="hl-label-2">Studied at</span>
@@ -1369,6 +1369,10 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
           <a href="brand_assets/cv_10_2026.pdf" class="contact-email" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
           <a href="brand_assets/cv_10_2026_pt.pdf" class="contact-email" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
         </div>
+        <div class="contact-cv">
+          <span class="contact-cv-label" id="pf-label">Download Portfolio</span>
+          <a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" class="contact-email" download="Miguel-Martins-Portfolio-2026.pdf" aria-label="Download portfolio PDF">PDF ↓</a>
+        </div>
         <div class="contact-socials">
           <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
           <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
@@ -1384,6 +1388,10 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
         <a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
         <a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
       </div>
+      <div class="contact-cv">
+        <span class="contact-cv-label" id="pf-label-m">Download Portfolio</span>
+        <a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" download="Miguel-Martins-Portfolio-2026.pdf" aria-label="Download portfolio PDF">PDF ↓</a>
+      </div>
       <div class="contact-socials">
         <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
         <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
@@ -1392,7 +1400,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
     </div>
     <div class="contact-foot">
       <span class="contact-foot-txt" id="foot-1">© 2026 Miguel Martins. All rights reserved.</span>
-      <span class="contact-foot-txt" id="foot-2">Graphic Designer — Lisbon, Portugal</span>
+      <span class="contact-foot-txt" id="foot-2">Graphic Designer - Lisbon, Portugal</span>
     </div>
   </div>
 </footer>
@@ -1438,9 +1446,9 @@ function store(method, key, value) {
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 /* ═══════════════════════════════════════════
-   PROJECTS — single source of truth for cards + viewer.
+   PROJECTS: single source of truth for cards + viewer.
    Each folder in Selected Work holds five numbered images:
-   01 is the cover (also the card), 02–04 mockups,
+   01 is the cover (also the card), 02 to 04 mockups,
    05 the written explanation of the work.
    `context: 'academic'` marks school work in the viewer.
 ═══════════════════════════════════════════ */
@@ -1467,7 +1475,7 @@ const webSrc = (p, file) =>
 ═══════════════════════════════════════════ */
 const T = {
   en: {
-    pageTitle:    'Miguel Martins — Graphic Designer',
+    pageTitle:    'Miguel Martins - Graphic Designer',
     navHome:      'Home',
     navWork:      'Work',
     navAbout:     'About',
@@ -1492,7 +1500,7 @@ const T = {
       { name: 'Campaigns & Advertising',   items: ['Campaign concepts', 'Advertising', 'Outdoor', 'Promotional design'] },
     ],
     hlLabel1:     'Currently working at',
-    hlSub1:       'Graphic Designer — Since 2025',
+    hlSub1:       'Graphic Designer - Since 2025',
     hlLabel2:     'Studied at',
     hlSub2:       'Graphic Design',
     aboutHeading: 'About<br>Myself',
@@ -1500,8 +1508,9 @@ const T = {
     skillsHeading:'Favorite<br>Stack',
     contactHeading:'Get in<br><span class="accent">Touch</span>',
     cvLink:       'Download CV',
+    pfLink:       'Download Portfolio',
     foot1:        '© 2026 Miguel Martins. All rights reserved.',
-    foot2:        'Graphic Designer — Lisbon, Portugal',
+    foot2:        'Graphic Designer - Lisbon, Portugal',
     nextProject:  'Next project',
     academic:     'Academic project',
     lbClose:      'Close',
@@ -1517,7 +1526,7 @@ const T = {
     },
   },
   pt: {
-    pageTitle:    'Miguel Martins — Designer Gráfico',
+    pageTitle:    'Miguel Martins - Designer Gráfico',
     navHome:      'Início',
     navWork:      'Trabalho',
     navAbout:     'Sobre',
@@ -1542,7 +1551,7 @@ const T = {
       { name: 'Campanhas & Publicidade',   items: ['Conceitos de campanha', 'Publicidade', 'Outdoor', 'Design promocional'] },
     ],
     hlLabel1:     'Atualmente em',
-    hlSub1:       'Designer Gráfico — Desde 2025',
+    hlSub1:       'Designer Gráfico - Desde 2025',
     hlLabel2:     'Estudou em',
     hlSub2:       'Design Gráfico',
     aboutHeading: 'Sobre<br>Mim',
@@ -1550,8 +1559,9 @@ const T = {
     skillsHeading:'Ferramentas<br>Favoritas',
     contactHeading:'Entre em<br><span class="accent">Contacto</span>',
     cvLink:       'Descarregar CV',
+    pfLink:       'Descarregar Portfólio',
     foot1:        '© 2026 Miguel Martins. Todos os direitos reservados.',
-    foot2:        'Designer Gráfico — Lisboa, Portugal',
+    foot2:        'Designer Gráfico - Lisboa, Portugal',
     nextProject:  'Próximo projeto',
     academic:     'Projeto académico',
     lbClose:      'Fechar',
@@ -1567,7 +1577,7 @@ const T = {
     },
   },
   es: {
-    pageTitle:    'Miguel Martins — Diseñador Gráfico',
+    pageTitle:    'Miguel Martins - Diseñador Gráfico',
     navHome:      'Inicio',
     navWork:      'Trabajo',
     navAbout:     'Sobre Mí',
@@ -1592,7 +1602,7 @@ const T = {
       { name: 'Campañas & Publicidad',     items: ['Conceptos de campaña', 'Publicidad', 'Exterior', 'Diseño promocional'] },
     ],
     hlLabel1:     'Actualmente en',
-    hlSub1:       'Diseñador Gráfico — Desde 2025',
+    hlSub1:       'Diseñador Gráfico - Desde 2025',
     hlLabel2:     'Estudió en',
     hlSub2:       'Diseño Gráfico',
     aboutHeading: 'Sobre<br>Mí',
@@ -1600,8 +1610,9 @@ const T = {
     skillsHeading:'Herramientas<br>Favoritas',
     contactHeading:'Ponte en<br><span class="accent">Contacto</span>',
     cvLink:       'Descargar CV',
+    pfLink:       'Descargar Portafolio',
     foot1:        '© 2026 Miguel Martins. Todos los derechos reservados.',
-    foot2:        'Diseñador Gráfico — Lisboa, Portugal',
+    foot2:        'Diseñador Gráfico - Lisboa, Portugal',
     nextProject:  'Siguiente proyecto',
     academic:     'Proyecto académico',
     lbClose:      'Cerrar',
@@ -1617,7 +1628,7 @@ const T = {
     },
   },
   fr: {
-    pageTitle:    'Miguel Martins — Designer Graphique',
+    pageTitle:    'Miguel Martins - Designer Graphique',
     navHome:      'Accueil',
     navWork:      'Travail',
     navAbout:     'À Propos',
@@ -1642,7 +1653,7 @@ const T = {
       { name: 'Campagnes & Publicité',     items: ['Concepts de campagne', 'Publicité', 'Affichage extérieur', 'Design promotionnel'] },
     ],
     hlLabel1:     'Actuellement chez',
-    hlSub1:       'Designer Graphique — Depuis 2025',
+    hlSub1:       'Designer Graphique - Depuis 2025',
     hlLabel2:     'A étudié à',
     hlSub2:       'Design Graphique',
     aboutHeading: 'À<br>Propos',
@@ -1650,8 +1661,9 @@ const T = {
     skillsHeading:'Outils<br>Favoris',
     contactHeading:'Prenez<br><span class="accent">Contact</span>',
     cvLink:       'Télécharger le CV',
+    pfLink:       'Télécharger le Portfolio',
     foot1:        '© 2026 Miguel Martins. Tous droits réservés.',
-    foot2:        'Designer Graphique — Lisbonne, Portugal',
+    foot2:        'Designer Graphique - Lisbonne, Portugal',
     nextProject:  'Projet suivant',
     academic:     'Projet académique',
     lbClose:      'Fermer',
@@ -1667,7 +1679,7 @@ const T = {
     },
   },
   de: {
-    pageTitle:    'Miguel Martins — Grafikdesigner',
+    pageTitle:    'Miguel Martins - Grafikdesigner',
     navHome:      'Start',
     navWork:      'Arbeiten',
     navAbout:     'Über mich',
@@ -1692,7 +1704,7 @@ const T = {
       { name: 'Kampagnen & Werbung',       items: ['Kampagnenkonzepte', 'Werbung', 'Außenwerbung', 'Werbedesign'] },
     ],
     hlLabel1:     'Aktuell bei',
-    hlSub1:       'Grafikdesigner — Seit 2025',
+    hlSub1:       'Grafikdesigner - Seit 2025',
     hlLabel2:     'Studierte an',
     hlSub2:       'Grafikdesign',
     aboutHeading: 'Über<br>Mich',
@@ -1700,8 +1712,9 @@ const T = {
     skillsHeading:'Lieblings<br>Tools',
     contactHeading:'Nehmen Sie<br><span class="accent">Kontakt auf</span>',
     cvLink:       'Lebenslauf herunterladen',
+    pfLink:       'Portfolio herunterladen',
     foot1:        '© 2026 Miguel Martins. Alle Rechte vorbehalten.',
-    foot2:        'Grafikdesigner — Lissabon, Portugal',
+    foot2:        'Grafikdesigner - Lissabon, Portugal',
     nextProject:  'Nächstes Projekt',
     academic:     'Studienprojekt',
     lbClose:      'Schließen',
@@ -1721,7 +1734,7 @@ let t = T.en;
 const typeLabel = key => t.workTypes[key] || key;
 
 /* ═══════════════════════════════════════════
-   SMOOTH SCROLL (Lenis — off for reduced motion)
+   SMOOTH SCROLL (Lenis: off for reduced motion)
 ═══════════════════════════════════════════ */
 let lenis = null;
 if (!reduceMotion) {
@@ -1764,7 +1777,7 @@ function splitLines(el, baseDelay) {
 }
 
 /* ═══════════════════════════════════════════
-   INTRO — typewriter, once per visit, click/key to skip
+   INTRO: typewriter, once per visit, click/key to skip
 ═══════════════════════════════════════════ */
 function bloomName(animate) {
   ['h-first', 'h-last'].forEach(id => {
@@ -1840,7 +1853,7 @@ function bloomName(animate) {
 })();
 
 /* ═══════════════════════════════════════════
-   FILMSTRIP — render cards from PROJECTS
+   FILMSTRIP: render cards from PROJECTS
 ═══════════════════════════════════════════ */
 const track = document.getElementById('film-track');
 const pad2 = n => String(n).padStart(2, '0');
@@ -1859,7 +1872,7 @@ track.innerHTML = PROJECTS.map((p, i) => `
 const cards = [...track.querySelectorAll('.film-card')];
 
 /* ═══════════════════════════════════════════
-   FILMSTRIP — drag, trackpad, arrows, keyboard, progress
+   FILMSTRIP: drag, trackpad, arrows, keyboard, progress
 ═══════════════════════════════════════════ */
 (function () {
   const hint     = document.getElementById('drag-hint');
@@ -1914,7 +1927,7 @@ const cards = [...track.querySelectorAll('.film-card')];
     next.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
   });
 
-  /* Trackpad sideways swipes scroll the strip natively — keep them away from Lenis */
+  /* Trackpad sideways swipes scroll the strip natively: keep them away from Lenis */
   track.addEventListener('wheel', e => {
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.stopPropagation(); dismissHint(); }
   }, { passive: true });
@@ -1999,7 +2012,7 @@ const cards = [...track.querySelectorAll('.film-card')];
 })();
 
 /* ═══════════════════════════════════════════
-   CONTACT HEADING — line-by-line reveal
+   CONTACT HEADING: line-by-line reveal
 ═══════════════════════════════════════════ */
 let contactLinesTriggered = false;
 splitLines(document.getElementById('contact-heading'), 0.04);
@@ -2041,7 +2054,7 @@ if (isAutomated) {
 }
 
 /* ═══════════════════════════════════════════
-   LIGHTBOX — project viewer
+   LIGHTBOX: project viewer
 ═══════════════════════════════════════════ */
 const viewer = (function () {
   const lb        = document.getElementById('lightbox');
@@ -2075,7 +2088,7 @@ const viewer = (function () {
     counterEl.textContent = n > 1 ? `${pad2(iIdx + 1)} / ${pad2(n)}` : '';
     prevBtn.hidden = nextBtn.hidden = n < 2;
     const np = PROJECTS[(pIdx + 1) % PROJECTS.length];
-    nextProj.textContent = `${t.nextProject} — ${np.name} →`;
+    nextProj.textContent = `${t.nextProject} - ${np.name} →`;
     closeBtn.setAttribute('aria-label', t.lbClose);
     prevBtn.setAttribute('aria-label', t.lbPrev);
     nextBtn.setAttribute('aria-label', t.lbNext);
@@ -2095,7 +2108,7 @@ const viewer = (function () {
     (pre.decode ? pre.decode() : Promise.resolve()).catch(() => {}).then(() => {
       if (token !== loadToken) return;
       img.src = src;
-      img.alt = `${PROJECTS[pIdx].name} — ${iIdx + 1} / ${n}`;
+      img.alt = `${PROJECTS[pIdx].name} - ${iIdx + 1} / ${n}`;
       img.classList.remove('is-loading');
     });
     preloadAround(pIdx, iIdx);
@@ -2229,7 +2242,7 @@ const viewer = (function () {
 })();
 
 /* ═══════════════════════════════════════════
-   NAV — colour adapts over dark sections;
+   NAV: colour adapts over dark sections;
    on mobile it gains a backdrop and hides while scrolling down
 ═══════════════════════════════════════════ */
 (function () {
@@ -2288,7 +2301,7 @@ const viewer = (function () {
     // Hero
     $('h-title1').textContent = t.heroTitle1;
     $('h-title2').textContent = t.heroTitle2;
-    $('h1-label').textContent = `Miguel Martins — ${t.heroTitle1} ${t.heroTitle2}`;
+    $('h1-label').textContent = `Miguel Martins - ${t.heroTitle1} ${t.heroTitle2}`;
     $('hero-available').textContent = t.heroAvailable;
     $('hero-scroll').textContent    = t.heroScroll;
 
@@ -2326,6 +2339,8 @@ const viewer = (function () {
     if (contactLinesTriggered) $('contact-heading').classList.add('lines-revealed');
     $('cv-label').textContent   = t.cvLink;
     $('cv-label-m').textContent = t.cvLink;
+    $('pf-label').textContent   = t.pfLink;
+    $('pf-label-m').textContent = t.pfLink;
     $('foot-1').textContent    = t.foot1;
     $('foot-2').textContent    = t.foot2;
 

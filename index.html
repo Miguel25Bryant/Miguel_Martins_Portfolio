@@ -1274,7 +1274,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
           <button type="button" class="film-btn" id="film-next" aria-label="Next projects">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <span class="film-count" id="film-count" aria-live="polite">01 / 16</span>
+          <span class="film-count" id="film-count" aria-live="polite">01 / 11</span>
           <span class="film-progress" aria-hidden="true"><span id="film-progress-bar"></span></span>
         </div>
       </div>
@@ -1423,69 +1423,28 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 /* ═══════════════════════════════════════════
    PROJECTS — single source of truth for cards + viewer.
-   `images` are original filenames; the site loads the
-   web-sized copies in each project's /web folder.
+   Each folder in Selected Work holds five numbered images:
+   01 is the cover (also the card), 02–04 mockups,
+   05 the written explanation of the work.
    `context: 'academic'` marks school work in the viewer.
 ═══════════════════════════════════════════ */
+const IMAGES = ['01-card.webp', '02.webp', '03.webp', '04.webp', '05-about.webp'];
 const PROJECTS = [
-  { name: 'Hotel Navegadores', folder: 'Hotel Navegadores', type: 'Digital & Campaign', images: [
-    'maquete_patrociniotorneiodegolf_v1.png', 'mockup_website.jpg', 'mockup_websitemobile.jpg',
-    'maqueteinsta_v1.jpeg', 'maqueteinstamobile_v1.jpeg',
-  ]},
-  { name: 'Kaya', folder: 'Kaya', type: 'Branding & Identity', images: [
-    '1.jpeg', '2.jpeg', '3.jpeg', '4.jpeg', '5.jpeg',
-  ]},
-  { name: 'Distortion', folder: 'Distortion', type: 'Print & Editorial', context: 'academic', images: [
-    'Magazine_Mockup_0.png', 'Magazine_Mockup_1-2.png', 'Magazine_Mockup_3-4.png', 'Magazine_Mockup_5-6.png',
-    'Magazine_Mockup_7-8.png', 'Magazine_Mockup_9-10.png', 'Magazine_Mockup_11-12.png', 'Magazine_Mockup_13-14.png',
-    'Magazine_Mockup_15-16.png', 'Magazine_Mockup_17-18.png', 'Magazine_Mockup_19-20.png', 'Magazine_Mockup_21-22.png',
-    'Magazine_Mockup_23.png', 'Magazine_Mockup_extra.png',
-  ]},
-  { name: 'Stay Home', folder: 'Stay Home', type: 'Digital & Campaign', pos: 'left center', images: [
-    'Billboard_Mockup.jpg', 'Mupi_Mockup.jpg', 'Magazine_Mockup.jpg',
-  ]},
-  { name: 'Grafpub', folder: 'Grafpub', type: 'Print & Editorial', images: [
-    '2.jpeg', '3.jpeg', 'WhatsApp Image 2026-01-30 at 18.21.17.jpeg',
-  ]},
-  { name: 'IPB E3+', folder: 'IPB E3+', type: 'Branding & Identity', images: [
-    'Mockup_2.jpg', 'mockup_v2.jpg', 'balcão.jpg',
-  ]},
-  { name: 'Inova Contabilidade', folder: 'Inova', type: 'Branding & Identity', images: [
-    'mockup_v3.jpg', 'mockup_v1.jpg', 'mockup_card_v1.jpg', 'mockup_envelope_v1.jpg', 'mockup_Folhatimbrada_v1.jpg',
-  ]},
-  { name: 'ACOB', folder: 'ACOB', type: 'Print & Editorial', images: [
-    'maquete_flyeracob_v2.jpg', 'maquete_flyeracob_v1.jpg', 'maquetedupla_acob_v2.jpg',
-  ]},
-  { name: 'Solar do Rabal', folder: 'Solar do Rabal', type: 'Print & Campaign', pos: 'left center', images: [
-    'Mockup_Outdoor.jpg', 'Solar_Rabal_Flyer_Mockup_1.jpg',
-  ]},
-  { name: 'Business Cards', folder: 'Business Cards', type: 'Print & Identity', images: [
-    'Business_Card_Mockup2_Final.jpg', 'Cartão_Visita_Mockup_2.2.jpg', 'maquete_trazgas_v1.jpg',
-  ]},
-  { name: 'Ciência Viva', folder: 'Ciência Viva', type: 'Print & Campaign', images: [
-    'maquete_ccv_v1.jpg', 'maquete_cienciavivarollup_v2.jpg',
-  ]},
-  { name: 'Sol & Sombra', folder: 'Sol e Sombra', type: 'Branding & Identity', images: [
-    'mockupbranding_v1.jpg', 'projeto_placapvc_v3-01.jpg', 'projeto_sol&sombra_v2-01.png', 'projeto_sol&sombra_v2-02.png',
-  ]},
-  { name: 'Live Well', folder: 'Live Well', type: 'Print & Campaign', images: [
-    'maquete_rolluplivewell_v2.jpg',
-  ]},
-  { name: 'O Arado', folder: 'O Arado', type: 'Print & Editorial', images: [
-    'maquete_oarado_v1.jpg',
-  ]},
-  { name: 'Posters', folder: 'Posters', type: 'Print Design', images: [
-    'mockup_ground.jpg', 'Free Subway Advertising Display Mockup.jpg',
-    'WhatsApp Image 2026-03-06 at 11.58.23.jpeg',
-    'aluno-764-miguelm-tiborkalman-poster-hdg-20241112232736 (2)_Página_2.jpg',
-  ]},
-  { name: 'SOS Renovações', folder: 'SOS Renovações', type: 'Branding & Identity', images: [
-    'proposta_sosrenovaçoes_v1.jpg',
-  ]},
-];
+  { name: 'Kaya',              folder: 'Kaya',              type: 'Branding & Identity' },
+  { name: 'Swell',             folder: 'Swell',             type: 'Branding & Identity' },
+  { name: 'Distortion',        folder: 'Distortion',        type: 'Print & Editorial', context: 'academic' },
+  { name: 'Grafpub 2027',      folder: 'Grafpub 2027',      type: 'Print & Editorial' },
+  { name: 'Hotel Navegadores', folder: 'Hotel Navegadores', type: 'Digital & Campaign' },
+  { name: 'Stay Home',         folder: 'Stay Home',         type: 'Digital & Campaign' },
+  { name: 'Sol & Sombra',      folder: 'Sol e Sombra',      type: 'Branding & Identity' },
+  { name: 'SOS Renovações',    folder: 'SOS Renovações',    type: 'Branding & Identity' },
+  { name: 'Grafpub 2026',      folder: 'Grafpub 2026',      type: 'Print & Editorial' },
+  { name: 'Inova Contabilidade', folder: 'Inova',           type: 'Branding & Identity' },
+  { name: 'Posters',           folder: 'Posters',           type: 'Print Design' },
+].map(p => ({ ...p, images: IMAGES }));
 
 const webSrc = (p, file) =>
-  ['Selected Work', p.folder, 'web', file.replace(/\.[^.]+$/, '.webp')].map(encodeURIComponent).join('/');
+  ['Selected Work', p.folder, file].map(encodeURIComponent).join('/');
 
 /* ═══════════════════════════════════════════
    TRANSLATIONS
@@ -1872,7 +1831,7 @@ const pad2 = n => String(n).padStart(2, '0');
 
 track.innerHTML = PROJECTS.map((p, i) => `
   <button type="button" class="film-card" role="listitem" data-idx="${i}">
-    <span class="work-thumb"><img src="${webSrc(p, 'card.webp')}" alt="" width="1000" height="1500" decoding="async"${i < 3 ? '' : ' loading="lazy"'}${p.pos ? ` style="object-position:${p.pos}"` : ''}></span>
+    <span class="work-thumb"><img src="${webSrc(p, p.images[0])}" alt="" width="1200" height="1500" decoding="async"${i < 3 ? '' : ' loading="lazy"'}></span>
     <span class="work-info">
       <span class="work-num">${pad2(i + 1)}</span>
       <span class="work-name">${esc(p.name)}</span>

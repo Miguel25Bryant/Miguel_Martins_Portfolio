@@ -37,14 +37,14 @@
    ROOT & RESET
 ═══════════════════════════════════════════ */
 :root {
-  --bg:         #fdfaf3;
+  --bg:         #f2f2f2;                  /* CV paper */
   --light:      #ffffff;
-  --fg:         #472425;
-  --fg-soft:    rgba(71, 36, 37, 0.7);   /* readable secondary text on cream */
+  --fg:         #1c1c1c;                  /* CV ink */
+  --fg-soft:    rgba(28, 28, 28, 0.66);   /* readable secondary text on paper */
   --light-soft: rgba(255, 255, 255, 0.6); /* readable secondary text on dark */
   --dark:       #121212;
-  --red:        #e73737;
-  --border:     rgba(71, 36, 37, 0.09);
+  --grey:       #5e5e5e;                  /* mid-tone, second line of headings on dark */
+  --border:     rgba(28, 28, 28, 0.1);
   --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
   --font:       'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -79,9 +79,9 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 /* ── Custom scrollbar ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(71, 36, 37, 0.22); border-radius: 0; }
-::-webkit-scrollbar-thumb:hover { background: rgba(71, 36, 37, 0.5); }
-* { scrollbar-width: thin; scrollbar-color: rgba(71, 36, 37, 0.22) transparent; }
+::-webkit-scrollbar-thumb { background: rgba(28, 28, 28, 0.22); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: rgba(28, 28, 28, 0.5); }
+* { scrollbar-width: thin; scrollbar-color: rgba(28, 28, 28, 0.22) transparent; }
 
 /* ═══════════════════════════════════════════
    NAV
@@ -251,7 +251,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   opacity: 0.32;
 }
 .hero-tag-link {
-  border-bottom: 1px solid rgba(71,36,37,0.2);
+  border-bottom: 1px solid rgba(28, 28, 28, 0.2);
   padding-bottom: 2px;
   transition: opacity 0.2s ease, border-color 0.2s ease;
 }
@@ -271,7 +271,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 .scroll-line {
   width: 44px;
   height: 1px;
-  background: rgba(71,36,37,0.25);
+  background: rgba(28, 28, 28, 0.25);
   position: relative;
   overflow: hidden;
 }
@@ -661,7 +661,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   position: relative;
   left: -0.5vw;
 }
-.contact-heading .accent { color: var(--fg); }
+.contact-heading .accent { color: var(--grey); }
 
 .contact-aside {
   display: flex;
@@ -683,7 +683,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   transition: color 0.2s ease, border-color 0.2s ease,
               transform 0.45s var(--ease-out);
 }
-.contact-email:hover, .contact-email:focus-visible { color: var(--red); border-color: var(--red); }
+.contact-email:hover, .contact-email:focus-visible { color: var(--light); border-color: var(--light); }
 .contact-email:active { opacity: 0.7; }
 
 .contact-cv { display: flex; align-items: baseline; gap: 1.2vw; }
@@ -913,7 +913,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   text-align: center;
   line-height: 1.9em;
 }
-.intro-accent { color: var(--red); }
+.intro-accent { font-weight: 500; }
 
 .intro-cursor {
   display: inline-block;
@@ -948,7 +948,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
               background 0.3s ease,
               opacity 0.3s ease;
 }
-.site-cursor.on-dark { background: #fdfaf3; }
+.site-cursor.on-dark { background: var(--bg); }
 .site-cursor.view {
   width: 48px;
   height: 48px;
@@ -1192,7 +1192,7 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 .lang-opt:hover, .lang-opt:focus-visible { color: rgba(255,255,255,0.95); }
 .lang-opt:active { color: #fff; }
-.lang-opt.active { color: var(--red); }
+.lang-opt.active { color: var(--light); text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 900px) {
   .lang-opt { padding: 12px 16px; font-size: 11px; }
 }

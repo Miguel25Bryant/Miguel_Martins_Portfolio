@@ -673,6 +673,16 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 .contact-email:hover, .contact-email:focus-visible { color: var(--red); border-color: var(--red); }
 .contact-email:active { opacity: 0.7; }
 
+.contact-cv { display: flex; align-items: baseline; gap: 1.2vw; }
+.contact-cv-label {
+  font-size: clamp(9px, 0.65vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--light);
+  opacity: 0.5;
+}
+
 .contact-socials { display: flex; gap: 2vw; }
 .contact-social {
   font-size: clamp(9px, 0.65vw, 11px);
@@ -843,6 +853,8 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
     transition: opacity 0.2s ease;
   }
   .contact-mobile a:hover, .contact-mobile a:focus-visible { opacity: 1; }
+  .contact-mobile .contact-cv { gap: 1.4rem; }
+  .contact-mobile .contact-cv-label { font-size: clamp(10px, 2.8vw, 13px); }
   .contact-mobile .contact-socials {
     display: flex;
     gap: 1.8rem;
@@ -1338,7 +1350,11 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
         <a href="tel:+351934477683" class="contact-email">
           +351 934 477 683
         </a>
-        <a href="brand_assets/scv_07_2026.pdf" class="contact-email" download="Miguel-Martins-CV.pdf" id="cv-link">Download CV ↓</a>
+        <div class="contact-cv">
+          <span class="contact-cv-label" id="cv-label">Download CV</span>
+          <a href="brand_assets/cv_10_2026.pdf" class="contact-email" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
+          <a href="brand_assets/cv_10_2026_pt.pdf" class="contact-email" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
+        </div>
         <div class="contact-socials">
           <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
           <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
@@ -1348,7 +1364,11 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
     <div class="contact-mobile">
       <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry">miguelmartins210@gmail.com</a>
       <a href="tel:+351934477683">+351 934 477 683</a>
-      <a href="brand_assets/scv_07_2026.pdf" download="Miguel-Martins-CV.pdf" id="cv-link-m">Download CV ↓</a>
+      <div class="contact-cv">
+        <span class="contact-cv-label" id="cv-label-m">Download CV</span>
+        <a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
+        <a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
+      </div>
       <div class="contact-socials">
         <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
         <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
@@ -1504,7 +1524,7 @@ const T = {
     aboutCopy:    "I'm a graphic designer working across branding, art direction, editorial, digital and campaign design. At Grafpub I design for clients and follow the work through to production, so how an idea will be printed, cut or applied is part of the thinking from the start — not an afterthought.",
     skillsHeading:'Favorite<br>Stack',
     contactHeading:'Get in<br><span class="accent">Touch</span>',
-    cvLink:       'Download CV ↓',
+    cvLink:       'Download CV',
     foot1:        '© 2026 Miguel Martins. All rights reserved.',
     foot2:        'Graphic Designer — Lisbon, Portugal',
     nextProject:  'Next project',
@@ -1554,7 +1574,7 @@ const T = {
     aboutCopy:    'Sou designer gráfico e trabalho em branding, direção de arte, editorial, design digital e campanhas. Na Grafpub desenvolvo projetos para clientes e acompanho-os até à produção, por isso a forma como uma ideia vai ser impressa, cortada ou aplicada faz parte do processo desde o início — não é um pormenor final.',
     skillsHeading:'Ferramentas<br>Favoritas',
     contactHeading:'Entre em<br><span class="accent">Contacto</span>',
-    cvLink:       'Descarregar CV ↓',
+    cvLink:       'Descarregar CV',
     foot1:        '© 2026 Miguel Martins. Todos os direitos reservados.',
     foot2:        'Designer Gráfico — Lisboa, Portugal',
     nextProject:  'Próximo projeto',
@@ -1604,7 +1624,7 @@ const T = {
     aboutCopy:    'Soy diseñador gráfico y trabajo en branding, dirección de arte, editorial, diseño digital y campañas. En Grafpub diseño para clientes y acompaño los proyectos hasta la producción, así que cómo se va a imprimir, cortar o aplicar una idea forma parte del proceso desde el principio — no es un detalle final.',
     skillsHeading:'Herramientas<br>Favoritas',
     contactHeading:'Ponte en<br><span class="accent">Contacto</span>',
-    cvLink:       'Descargar CV ↓',
+    cvLink:       'Descargar CV',
     foot1:        '© 2026 Miguel Martins. Todos los derechos reservados.',
     foot2:        'Diseñador Gráfico — Lisboa, Portugal',
     nextProject:  'Siguiente proyecto',
@@ -1654,7 +1674,7 @@ const T = {
     aboutCopy:    "Je suis designer graphique et je travaille en branding, direction artistique, éditorial, design digital et campagnes. Chez Grafpub, je conçois pour des clients et je suis les projets jusqu'à la production : la façon dont une idée sera imprimée, découpée ou posée fait partie de la réflexion dès le départ — pas un détail de fin de parcours.",
     skillsHeading:'Outils<br>Favoris',
     contactHeading:'Prenez<br><span class="accent">Contact</span>',
-    cvLink:       'Télécharger le CV ↓',
+    cvLink:       'Télécharger le CV',
     foot1:        '© 2026 Miguel Martins. Tous droits réservés.',
     foot2:        'Designer Graphique — Lisbonne, Portugal',
     nextProject:  'Projet suivant',
@@ -1704,7 +1724,7 @@ const T = {
     aboutCopy:    'Ich bin Grafikdesigner und arbeite in den Bereichen Branding, Art Direction, Editorial, Digitaldesign und Kampagnen. Bei Grafpub gestalte ich für Kunden und begleite Projekte bis in die Produktion – wie eine Idee gedruckt, geschnitten oder angebracht wird, ist deshalb von Anfang an Teil des Denkens, nicht ein letzter Schritt.',
     skillsHeading:'Lieblings<br>Tools',
     contactHeading:'Nehmen Sie<br><span class="accent">Kontakt auf</span>',
-    cvLink:       'Lebenslauf herunterladen ↓',
+    cvLink:       'Lebenslauf herunterladen',
     foot1:        '© 2026 Miguel Martins. Alle Rechte vorbehalten.',
     foot2:        'Grafikdesigner — Lissabon, Portugal',
     nextProject:  'Nächstes Projekt',
@@ -2330,8 +2350,8 @@ const viewer = (function () {
     $('contact-heading').innerHTML = t.contactHeading;
     splitLines($('contact-heading'), 0.04);
     if (contactLinesTriggered) $('contact-heading').classList.add('lines-revealed');
-    $('cv-link').textContent   = t.cvLink;
-    $('cv-link-m').textContent = t.cvLink;
+    $('cv-label').textContent   = t.cvLink;
+    $('cv-label-m').textContent = t.cvLink;
     $('foot-1').textContent    = t.foot1;
     $('foot-2').textContent    = t.foot2;
 

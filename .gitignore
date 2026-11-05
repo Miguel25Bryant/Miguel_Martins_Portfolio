@@ -14,3 +14,22 @@ CLAUDE.md
 # Reference files
 screencapture-leonidkostetskyi*.png
 *.cache
+
+.vercel
+
+# Private reference material
+Ideas/
+
+# Font source files (licensed, only Font/web is served)
+Font/*.otf
+Font/*.ttf
+
+# Claude and skill tooling (local only)
+.agents/
+.claude/
+.superpowers/
+docs/superpowers/
+PRODUCT.md
+plugins-list.json
+skills-lock.json
+screenshot-*.mjs

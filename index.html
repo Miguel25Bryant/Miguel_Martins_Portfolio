@@ -1997,8 +1997,8 @@ const cards = [...track.querySelectorAll('.film-card')];
 (function () {
   if (!finePointer || reduceMotion) return;
   cards.forEach(card => {
-    const xTo = gsap.quickTo(card, 'rotateY', { duration: 0.4, ease: 'power3.out' });
-    const yTo = gsap.quickTo(card, 'rotateX', { duration: 0.4, ease: 'power3.out' });
+    const xTo = gsap.quickTo(card, 'rotationY', { duration: 0.4, ease: 'power3.out' });
+    const yTo = gsap.quickTo(card, 'rotationX', { duration: 0.4, ease: 'power3.out' });
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
       const x = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
@@ -2007,7 +2007,8 @@ const cards = [...track.querySelectorAll('.film-card')];
       yTo(-y * 6);
     });
     card.addEventListener('mouseleave', () => {
-      gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
+      xTo(0);
+      yTo(0);
     });
   });
 })();

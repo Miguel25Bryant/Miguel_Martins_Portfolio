@@ -342,6 +342,11 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 .info a:hover, .info a:focus-visible { border-color: var(--fg); }
 .info a:active { opacity: 0.55; }
+/* Downloads: "CV EN PT    Portfolio EN PT" on one line; the codes are plain text links */
+.info-dl { display: flex; flex-wrap: wrap; column-gap: 2.2em; row-gap: 0.3em; }
+.info-dl-group { white-space: nowrap; word-spacing: 0.35em; }
+.info .info-dl a { border-bottom: 0; text-decoration: none; text-underline-offset: 2px; word-spacing: normal; }
+.info .info-dl a:hover, .info .info-dl a:focus-visible { text-decoration: underline; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
@@ -665,8 +670,10 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
         <li><a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://www.behance.net/miguelangelomartins" target="_blank" rel="noopener">Behance</a></li>
         <li><a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><span id="info-pdf">Download Portfolio</span>&ensp;<a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" download="Miguel-Martins-Portfolio-2026.pdf" hreflang="en" aria-label="Download portfolio in English">EN ↓</a>&ensp;<a href="brand_assets/Miguel-Martins-Portfolio-2026_pt.pdf" download="Miguel-Martins-Portfolio-2026-PT.pdf" hreflang="pt" aria-label="Descarregar portfólio em português">PT ↓</a></li>
-        <li><span id="info-cv">Download CV</span>&ensp;<a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>&ensp;<a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a></li>
+        <li class="info-dl">
+          <span class="info-dl-group">CV <a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="CV, English">EN</a> <a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="CV, português">PT</a></span>
+          <span class="info-dl-group">Portfolio <a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" download="Miguel-Martins-Portfolio-2026.pdf" hreflang="en" aria-label="Portfolio, English">EN</a> <a href="brand_assets/Miguel-Martins-Portfolio-2026_pt.pdf" download="Miguel-Martins-Portfolio-2026-PT.pdf" hreflang="pt" aria-label="Portfolio, português">PT</a></span>
+        </li>
       </ul>
     </section>
     <p class="info-copy soft" id="info-copy"></p>
@@ -713,7 +720,6 @@ const T = {
     navLang:      'EN',
     projectLabel: 'Project',
     aboutLabel:   'About',
-    cvLink:       'Download CV',
     copyright:    '© 2026 Miguel Martins. All rights reserved.',
     navClose:     'Close',
     toolsLabel:   'Tools',
@@ -736,7 +742,6 @@ const T = {
     hlLabel2:     'Studied at',
     hlSub2:       'Graphic Design',
     aboutCopy:    "Graphic Designer focused on visual identity, branding and digital and print design. Experienced in developing visual assets, editorial layouts and print-ready artwork, with a strong interest in creating clear, consistent and purposeful visual communication.",
-    pfLink:       'Download Portfolio',
     nextProject:  'Next project',
     academic:     'Academic project',
   },
@@ -746,7 +751,6 @@ const T = {
     navLang:      'PT',
     projectLabel: 'Projeto',
     aboutLabel:   'Sobre',
-    cvLink:       'Descarregar CV',
     copyright:    '© 2026 Miguel Martins. Todos os direitos reservados.',
     navClose:     'Fechar',
     toolsLabel:   'Ferramentas',
@@ -769,7 +773,6 @@ const T = {
     hlLabel2:     'Estudou em',
     hlSub2:       'Design Gráfico',
     aboutCopy:    "Designer gráfico com foco em identidade visual, branding e design digital e impresso. Experiência no desenvolvimento de elementos visuais, layouts editoriais e artes finais para impressão, com especial interesse na criação de uma comunicação visual clara, coerente e com propósito.",
-    pfLink:       'Descarregar Portfólio',
     nextProject:  'Próximo projeto',
     academic:     'Projeto académico',
   },
@@ -779,7 +782,6 @@ const T = {
     navLang:      'ES',
     projectLabel: 'Proyecto',
     aboutLabel:   'Sobre',
-    cvLink:       'Descargar CV',
     copyright:    '© 2026 Miguel Martins. Todos los derechos reservados.',
     navClose:     'Cerrar',
     toolsLabel:   'Herramientas',
@@ -802,7 +804,6 @@ const T = {
     hlLabel2:     'Estudió en',
     hlSub2:       'Diseño Gráfico',
     aboutCopy:    "Diseñador gráfico centrado en identidad visual, branding y diseño digital e impreso. Con experiencia en el desarrollo de recursos visuales, maquetación editorial y artes finales para impresión, con especial interés en crear una comunicación visual clara, coherente y con propósito.",
-    pfLink:       'Descargar Portafolio',
     nextProject:  'Siguiente proyecto',
     academic:     'Proyecto académico',
   },
@@ -812,7 +813,6 @@ const T = {
     navLang:      'FR',
     projectLabel: 'Projet',
     aboutLabel:   'À propos',
-    cvLink:       'Télécharger le CV',
     copyright:    '© 2026 Miguel Martins. Tous droits réservés.',
     navClose:     'Fermer',
     toolsLabel:   'Outils',
@@ -835,7 +835,6 @@ const T = {
     hlLabel2:     'A étudié à',
     hlSub2:       'Design Graphique',
     aboutCopy:    "Designer graphique spécialisé en identité visuelle, branding et design digital et print. Expérience dans la création de supports visuels, de mises en page éditoriales et de fichiers prêts à imprimer, avec un vif intérêt pour une communication visuelle claire, cohérente et porteuse de sens.",
-    pfLink:       'Télécharger le Portfolio',
     nextProject:  'Projet suivant',
     academic:     'Projet académique',
   },
@@ -845,7 +844,6 @@ const T = {
     navLang:      'DE',
     projectLabel: 'Projekt',
     aboutLabel:   'Über',
-    cvLink:       'Lebenslauf herunterladen',
     copyright:    '© 2026 Miguel Martins. Alle Rechte vorbehalten.',
     navClose:     'Schließen',
     toolsLabel:   'Tools',
@@ -868,7 +866,6 @@ const T = {
     hlLabel2:     'Studierte an',
     hlSub2:       'Grafikdesign',
     aboutCopy:    "Grafikdesigner mit Schwerpunkt auf visueller Identität, Branding sowie Digital- und Printdesign. Erfahrung in der Entwicklung visueller Elemente, editorialer Layouts und druckfertiger Reinzeichnungen, mit besonderem Interesse an klarer, konsistenter und zielgerichteter visueller Kommunikation.",
-    pfLink:       'Portfolio herunterladen',
     nextProject:  'Nächstes Projekt',
     academic:     'Studienprojekt',
   },
@@ -1435,8 +1432,6 @@ const views = (function () {
       `<li>${esc(a.name)} <span class="soft">${esc(a.items.join(', '))}</span></li>`).join('');
     $('info-l-tools').textContent     = t.toolsLabel;
     $('info-l-contact').textContent   = t.contactLabel;
-    $('info-pdf').textContent         = t.pfLink;
-    $('info-cv').textContent          = t.cvLink;
     $('info-copy').textContent        = t.copyright;
 
     pages.refresh();

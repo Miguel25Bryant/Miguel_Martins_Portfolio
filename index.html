@@ -342,11 +342,9 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 .info a:hover, .info a:focus-visible { border-color: var(--fg); }
 .info a:active { opacity: 0.55; }
-/* Downloads: "CV EN PT    Portfolio EN PT" on one line; the codes are plain text links */
-.info-dl { display: flex; flex-wrap: wrap; column-gap: 2.2em; row-gap: 0.3em; }
+/* Downloads: "CV EN PT" and "Portfolio EN PT" on two lines; the codes are links like the others */
+.info-dl { display: flex; flex-direction: column; gap: 0.3em; }
 .info-dl-group { white-space: nowrap; word-spacing: 0.35em; }
-.info .info-dl a { border-bottom: 0; text-decoration: none; text-underline-offset: 2px; word-spacing: normal; }
-.info .info-dl a:hover, .info .info-dl a:focus-visible { text-decoration: underline; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE

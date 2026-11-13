@@ -33,3 +33,14 @@ PRODUCT.md
 plugins-list.json
 skills-lock.json
 screenshot-*.mjs
+
+# Full-quality portfolio copies (source lives in Ideas/)
+brand_assets/*_book_ready.pdf
+
+# Archives and downloads (e.g. Portfolio-Covers_1.zip)
+*.zip
+
+# Project source files: the large Behance PNGs and cover.jpg of each project.
+# The site only serves the web versions in assets/pages and assets/covers,
+# made from these by tools/build-images.mjs.
+Selected Work/

@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Miguel Martins - Graphic Designer</title>
-<meta name="description" content="Miguel Martins, graphic designer based in Lisbon. Visual identity, branding, editorial, digital and print design." />
+<meta name="description" content="Miguel Martins, graphic designer. Visual identity, branding, editorial, digital and print design." />
 <link rel="canonical" href="https://miguelangelomartins.pt/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://miguelangelomartins.pt/" />
@@ -18,6 +18,8 @@
 <link rel="preload" href="Font/web/HelveticaNeue-Medium.woff2" as="font" type="font/woff2" crossorigin />
 <script src="https://unpkg.com/lenis@1.3.27/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.1/gsap.min.js"></script>
+<script src="data/work.js"></script>
+<script src="data/pages.js"></script>
 
 <style>
 /* ═══════════════════════════════════════════
@@ -31,6 +33,7 @@
 @font-face { font-family: 'Helvetica Neue'; font-weight: 500; font-style: normal; font-display: swap; src: url('Font/web/HelveticaNeue-Medium.woff2') format('woff2'); }
 @font-face { font-family: 'Helvetica Neue'; font-weight: 700; font-style: normal; font-display: swap; src: url('Font/web/HelveticaNeue-Bold.woff2') format('woff2'); }
 @font-face { font-family: 'Helvetica Neue'; font-weight: 800; font-style: normal; font-display: swap; src: url('Font/web/HelveticaNeue-Heavy.woff2') format('woff2'); }
+@font-face { font-family: 'Helvetica Neue'; font-weight: 400; font-style: italic; font-display: swap; src: url('Font/web/HelveticaNeue-Italic.woff2') format('woff2'); }
 @font-face { font-family: 'Helvetica Neue'; font-weight: 900; font-style: normal; font-display: swap; src: url('Font/web/HelveticaNeue-Black.woff2') format('woff2'); }
 
 /* ═══════════════════════════════════════════
@@ -47,6 +50,7 @@
   --border:     rgba(28, 28, 28, 0.1);
   --ease-out:   cubic-bezier(0.22, 1, 0.36, 1);
   --font:       'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --small:      clamp(10px, 0.7vw, 12px);   /* captions and Info text */
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,15 +88,16 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 * { scrollbar-width: thin; scrollbar-color: rgba(28, 28, 28, 0.22) transparent; }
 
 /* ═══════════════════════════════════════════
-   NAV
+   NAV: name, role, and Work / List / Info
 ═══════════════════════════════════════════ */
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 200;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  column-gap: 2vw;
   padding: 2.2vw 2.5vw;
   pointer-events: none;
 }
@@ -108,1013 +113,364 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.nav.nav-light::before { background: var(--dark); }
+.nav.nav-solid::before { opacity: 0.96; }
 
-.nav-logo {
+.nav-name, .nav-role, .nav-links a, .nav-sep {
   font-size: clamp(9px, 0.69vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--fg);
-  opacity: 0.7;
-  transition: color 0.35s ease, opacity 0.2s ease;
-}
-.nav-logo:hover, .nav-logo:focus-visible { opacity: 1; }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2.5vw, 44px);
-  list-style: none;
-}
-.nav-links a {
-  font-size: clamp(9px, 0.66vw, 12px);
-  font-weight: 400;
   letter-spacing: 0.1em;
   color: var(--fg);
-  opacity: 0.7;
   transition: color 0.35s ease, opacity 0.18s ease;
 }
-.nav-links a:hover, .nav-links a:focus-visible { opacity: 1; }
-.nav-links a:active, .nav-logo:active { opacity: 0.5; }
+.nav-name { justify-self: start; font-weight: 500; }
+.nav-name:hover, .nav-name:focus-visible { opacity: 0.6; }
+.nav-name:active { opacity: 0.4; }
+.nav-role { justify-self: center; color: var(--fg-soft); }
 
-/* Nav over dark sections */
-.nav.nav-light .nav-logo { color: var(--light); }
-.nav.nav-light .nav-links a { color: var(--light); }
-
-/* ═══════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════ */
-.hero {
-  background: var(--bg);
-  padding: 0 2.5vw;
-  padding-top: clamp(80px, 10.5vw, 160px);
-  padding-bottom: clamp(48px, 5vw, 88px);
-  min-height: 100vh;
+.nav-links {
+  justify-self: end;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+  align-items: baseline;
+  gap: clamp(6px, 0.6vw, 10px);
+  list-style: none;
 }
+.nav-links a { opacity: 0.55; }
+.nav-links a:hover, .nav-links a:focus-visible, .nav-links a.is-active { opacity: 1; }
+.nav-links a:active { opacity: 0.4; }
+.nav-sep { opacity: 0.3; }
+.nav-links .nav-lang-li { margin-left: clamp(14px, 1.8vw, 32px); }
 
-/* Subtle grain overlay */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
 
-.hero-inner { position: relative; z-index: 1; }
-
-.hero-row-1 {
-  font: inherit; /* it's an <h1> for screen readers; keep the original metrics */
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: -0.35em;
-}
-
-/* The giant display font */
-.h-display {
-  font-family: var(--font);
-  font-weight: 400;
-  font-size: clamp(52px, 11.4583vw, 176px);
-  line-height: 0.86em;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-}
-
-/* Name bloom on entry */
-#h-first, #h-last { letter-spacing: 0.16em; }
-@keyframes nameBloom {
-  from { letter-spacing: 0.16em; }
-  to   { letter-spacing: -0.03em; }
-}
-#h-first.bloom-go, #h-last.bloom-go {
-  animation: nameBloom 1.1s var(--ease-out) forwards;
-}
-#h-first.bloom-settled, #h-last.bloom-settled {
-  letter-spacing: -0.03em;
-  cursor: default;
-}
-
-.hero-first {
-  position: relative;
-  left: -0.9375vw;
-}
-
-.hero-title-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.05em;
-  padding-top: 0.85em;
-  flex-shrink: 0;
-}
-.hero-title-line {
-  font-family: var(--font);
-  font-weight: 300;
-  font-size: clamp(22px, 3.125vw, 48px);
-  line-height: 0.92em;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: var(--fg);
-  text-align: right;
-}
-
-.hero-last {
-  position: relative;
-  left: -0.9375vw;
-  display: inline-block;
-}
-
-.hero-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 4.5vw;
-}
-
-.hero-tags {
-  display: flex;
-  align-items: center;
-  gap: 1.4vw;
-}
-.hero-tag {
-  font-size: clamp(9px, 0.6vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  opacity: 0.32;
-}
-.hero-tag-link {
-  border-bottom: 1px solid rgba(28, 28, 28, 0.2);
-  padding-bottom: 2px;
-  transition: opacity 0.2s ease, border-color 0.2s ease;
-}
-.hero-tag-link:hover, .hero-tag-link:focus-visible { opacity: 0.8; border-color: var(--fg); }
-.hero-tag-link:active { opacity: 0.6; }
-
-.hero-scroll {
-  display: flex;
-  align-items: center;
-  gap: 0.8vw;
-  opacity: 0.22;
-}
-.hero-scroll-label {
-  font-size: clamp(9px, 0.56vw, 10px);
-  letter-spacing: 0.16em;
-}
-.scroll-line {
-  width: 44px;
-  height: 1px;
-  background: rgba(28, 28, 28, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-line::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--fg);
-  transform: translateX(-100%);
-  animation: scanLine 1.8s ease-in-out infinite;
-}
-@keyframes scanLine {
-  0%   { transform: translateX(-100%); }
-  50%  { transform: translateX(0); }
-  100% { transform: translateX(100%); }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════════
-   WORKS (DARK): FILMSTRIP
+   HOME: scattered work (positions in data/work.js)
 ═══════════════════════════════════════════ */
-.works { background: var(--dark); }
-
-.works-pin-wrap {
-  height: 100vh;
-  min-height: 620px;
-  overflow: hidden;
+.scatter {
   position: relative;
+  height: calc(var(--h, 200) * 1vw);
 }
-
-.works-track {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-/* Scrollable strip: drag, trackpad, arrows and keyboard all move it */
-.works-track-inner {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2vw, 32px);
-  padding: 0 5vw;
-  height: 100%;
-  perspective: 1200px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-}
-.works-track-inner::-webkit-scrollbar { display: none; }
-.works-track-inner.is-dragging { cursor: grabbing; }
-
-/* "Selected Work" heading, left anchor of the strip */
-.film-heading {
-  flex-shrink: 0;
-  padding-left: 5vw;
-  margin-right: 3vw;
-  display: flex;
-  flex-direction: column;
-}
-
-.works-h {
+.piece {
+  position: absolute;
+  left: calc(var(--x) * 1vw);
+  top: calc(var(--y) * 1vw);
+  width: calc(var(--w) * 1vw);
   display: block;
-  font-family: var(--font);
-  font-weight: 400;
-  font-size: clamp(44px, 6.25vw, 96px);
-  line-height: 0.86em;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--light);
-  margin-left: -0.05em;
-}
-
-/* Strip controls: arrows, counter, progress */
-.film-controls {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 1.6vw;
-  color: var(--light);
-}
-.film-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: none;
-  color: var(--light-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease,
-              transform 0.3s var(--ease-out);
-}
-.film-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-.film-btn:hover, .film-btn:focus-visible { color: var(--light); border-color: rgba(255,255,255,0.5); }
-.film-btn:active { transform: scale(0.92); }
-.film-btn:disabled { opacity: 0.3; pointer-events: none; }
-
-.film-count {
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  color: var(--light-soft);
-  font-variant-numeric: tabular-nums;
-  margin-left: 6px;
-}
-.film-progress {
-  width: clamp(60px, 7vw, 120px);
-  height: 1px;
-  background: rgba(255,255,255,0.15);
-  position: relative;
-  overflow: hidden;
-}
-.film-progress span {
-  position: absolute;
-  inset: 0;
-  background: var(--light);
-  transform-origin: left center;
-  transform: scaleX(0);
-}
-
-/* Individual project card: image + editorial caption below */
-.film-card {
-  flex-shrink: 0;
-  width: clamp(280px, 30vw, 500px);
-  height: 74vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  cursor: pointer;
-  background: none;
-  border: 0;
   padding: 0;
+  border: 0;
+  background: none;
   text-align: left;
-  color: var(--light);
-  will-change: transform;
+  cursor: pointer;
 }
-.film-card:focus-visible { outline: 1px solid var(--light); outline-offset: 8px; }
-
-.film-card .work-thumb {
+.piece:focus-visible { outline: 1px solid var(--fg); outline-offset: 6px; }
+.piece-media {
   display: block;
-  flex: 1;
-  min-height: 0;
+  aspect-ratio: var(--ar, 4 / 5);   /* the cover's own proportions, never cropped */
   overflow: hidden;
-  position: relative;
-  background: #0a0a0a;
+  transition: opacity 0.2s ease;
 }
-.film-card .work-thumb img {
+.piece-media img, .piece-media video {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
 }
-.film-card:hover .work-thumb img,
-.film-card:focus-visible .work-thumb img { transform: scale(1.04); }
-.film-card:active .work-thumb img { opacity: 0.85; }
+.piece:active .piece-media { opacity: 0.85; }
 
-.work-info {
-  display: grid;
-  grid-template-columns: 2.4em 1fr;
-  row-gap: 0.55em;
-  padding-top: 14px;
-}
-.work-num {
-  grid-row: 1 / 3;
-  font-size: clamp(9px, 0.62vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.45);
-  font-variant-numeric: tabular-nums;
-  line-height: 1.5;
-}
-.work-name {
-  font-size: clamp(11px, 0.9vw, 15px);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
-}
-.work-type {
-  font-size: clamp(9px, 0.6vw, 11px);
-  letter-spacing: 0.1em;
-  color: var(--light-soft);
-}
-
-/* Hover arrow */
-.work-arrow {
-  position: absolute;
-  top: 1.2vw;
-  right: 1.2vw;
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(255,255,255,0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 4;
-  opacity: 0;
-  transform: scale(0.8) rotate(-45deg);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.work-arrow svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 1.5; }
-.film-card:hover .work-arrow,
-.film-card:focus-visible .work-arrow { opacity: 1; transform: scale(1) rotate(0deg); }
-
-/* Drag hint */
-.drag-hint {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  pointer-events: none;
-  margin-top: 0.8vw;
-  opacity: 1;
-  transition: opacity 0.6s ease;
-}
-.drag-hint.hidden { opacity: 0; }
-.drag-hint-label {
-  font-family: var(--font);
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.18em;
-  color: rgba(255,255,255,0.55);
-  text-transform: uppercase;
-}
-.drag-hint-arrow {
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  animation: dragNudge 1.8s ease-in-out infinite;
-}
-.drag-hint-arrow--right { animation-delay: 0.9s; }
-@keyframes dragNudge {
-  0%, 100% { transform: translateX(0); opacity: 0.35; }
-  50%       { transform: translateX(3px); opacity: 0.7; }
-}
-
-/* ═══════════════════════════════════════════
-   ABOUT
-═══════════════════════════════════════════ */
-.about {
-  background: var(--bg);
-  padding: 6vw 2.5vw;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 6vw;
-  align-items: start;
-}
-
-.about-heading {
-  font-family: var(--font);
-  font-weight: 400;
-  font-size: clamp(40px, 5.5vw, 72px);
-  line-height: 0.88em;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--fg);
-  position: sticky;
-  top: 4vw;
-}
-
-.about-copy {
-  font-size: clamp(16px, 1.3vw, 21px);
-  line-height: 1.55em;
-  letter-spacing: -0.005em;
-  color: var(--fg-soft);
-  font-weight: 400;
-  text-transform: none;
-  margin-bottom: 2.8vw;
-}
-
-.about-highlights {
+/* Caption: three quiet lines under every piece */
+.piece-cap {
   display: flex;
   flex-direction: column;
-  gap: 1.6vw;
+  gap: 5px;
+  width: max(100%, 15vw);
+  margin-top: 12px;
+  font-size: var(--small);
+  line-height: 1.35;
 }
-.about-hl-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3vw;
-}
-.hl-label {
-  font-size: clamp(8px, 0.6vw, 10px);
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  color: var(--fg-soft);
-}
-.hl-place {
-  font-size: clamp(11px, 0.85vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--fg);
-  line-height: 1.5em;
-}
-.hl-sub {
-  font-size: clamp(9px, 0.68vw, 11px);
-  font-weight: 400;
-  color: var(--fg-soft);
-}
+.cap-name { font-weight: 500; letter-spacing: 0.1em; color: var(--fg); }
+.cap-about, .cap-disc { text-transform: none; letter-spacing: 0.01em; color: var(--fg-soft); }
+.cap-disc { font-style: italic; }
 
 /* ═══════════════════════════════════════════
-   EXPERTISE: compact rows (original skills layout)
+   LIST: a plain index of every project
 ═══════════════════════════════════════════ */
-.skills {
-  background: var(--bg);
-  padding: 5vw 2.5vw;
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 6vw;
-  align-items: start;
-  border-top: 1px solid var(--border);
+.index {
+  min-height: 100vh;
+  padding: calc(2.2vw + 100px) 2.5vw 8vw;
 }
-
-.skills-heading {
-  font-family: var(--font);
-  font-weight: 400;
-  font-size: clamp(40px, 5.5vw, 72px);
-  line-height: 0.9em;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--fg);
-  position: sticky;
-  top: 4vw;
-}
-
-.skills-list { display: flex; flex-direction: column; }
-
-.skill-row {
+.index-list { list-style: none; }
+.row {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 2vw;
+  grid-template-columns: 38% 1fr auto;
   align-items: baseline;
-  padding: 1.5vw 0;
+  column-gap: 2vw;
+  width: 100%;
+  padding: 15px 0;
+  border: 0;
   border-bottom: 1px solid var(--border);
-}
-.skill-row:first-child { border-top: 1px solid var(--border); }
-.skill-row--single { display: flex; align-items: center; }
-
-.skill-name {
-  font-size: clamp(10px, 0.72vw, 12px);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-}
-.skill-items {
-  font-size: clamp(9px, 0.66vw, 11px);
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  line-height: 1.7;
-  color: var(--fg-soft);
-}
-
-/* ═══════════════════════════════════════════
-   CONTACT
-═══════════════════════════════════════════ */
-.contact {
-  background: var(--dark);
-  padding: 6vw 2.5vw 7vw;
-  position: relative;
-  overflow: hidden;
-}
-.contact::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-.contact-inner { position: relative; z-index: 1; }
-
-.contact-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 4vw;
-}
-
-.contact-heading {
-  font-family: var(--font);
-  font-weight: 400;
-  font-size: clamp(52px, 8vw, 128px);
-  line-height: 0.86em;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  color: var(--light);
-  position: relative;
-  left: -0.5vw;
-}
-.contact-heading .accent { color: var(--grey); }
-
-.contact-aside {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2.2vw;
-  padding-top: 0.8vw;
-  flex-shrink: 0;
-}
-
-.contact-email {
-  font-size: clamp(10px, 0.83vw, 14px);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: var(--light);
-  border-bottom: 1px solid rgba(255,255,255,0.18);
-  padding-bottom: 0.3vw;
-  display: inline-block;
-  transition: color 0.2s ease, border-color 0.2s ease,
-              transform 0.45s var(--ease-out);
-}
-.contact-email:hover, .contact-email:focus-visible { color: var(--light); border-color: var(--light); }
-.contact-email:active { opacity: 0.7; }
-
-.contact-cv { display: flex; align-items: baseline; gap: 1.2vw; }
-.contact-cv-label {
-  font-size: clamp(9px, 0.65vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--light);
-  opacity: 0.5;
-}
-
-.contact-socials { display: flex; gap: 2vw; }
-.contact-social {
-  font-size: clamp(9px, 0.65vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--light);
-  opacity: 0.6;
+  background: none;
+  text-align: left;
+  font-size: var(--small);
+  line-height: 1.3;
+  cursor: pointer;
   transition: opacity 0.2s ease;
 }
-.contact-social:hover, .contact-social:focus-visible { opacity: 1; }
-.contact-social:active { opacity: 0.4; }
+.index-list li:first-child .row { border-top: 1px solid var(--border); }
+.index-list:hover .row { opacity: 0.4; }
+.index-list .row:hover, .index-list .row:focus-visible { opacity: 1; }
+.row:active { opacity: 0.6; }
+.row:focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+.row-name { font-weight: 500; letter-spacing: 0.1em; }
+.row-disc { font-style: italic; text-transform: none; letter-spacing: 0.01em; color: var(--fg-soft); }
+.row-year { color: var(--fg-soft); font-variant-numeric: tabular-nums; }
+.row-thumb { display: none; }
 
-.contact-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 2.5vw;
+/* Cover preview that follows the mouse over a row */
+.preview {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 190;
+  width: clamp(140px, 12vw, 220px);
+  aspect-ratio: 4 / 5;             /* replaced by each cover's own proportions */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s linear;
 }
-.contact-foot-txt {
-  font-size: clamp(8px, 0.58vw, 10px);
-  letter-spacing: 0.1em;
-  color: var(--light);
-  opacity: 0.5;
-}
+.preview.on { opacity: 1; }
+.preview img, .preview video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* ═══════════════════════════════════════════
-   ANIMATIONS
+   PROJECT PAGE: text in small columns, then the boards
 ═══════════════════════════════════════════ */
-
-/* Scroll reveal */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.85s var(--ease-out), transform 0.85s var(--ease-out);
+/* one centred column for text, pages and next project */
+.project { --pj-margin: clamp(24px, 6vw, 96px); }
+.info-grid.pj-head, .pj-boards, .pj-foot {
+  width: min(1200px, 100% - 2 * var(--pj-margin));
+  margin-inline: auto;
+  padding-inline: 0;
 }
-[data-reveal].in-view { opacity: 1; transform: translateY(0); }
-
-/* Line-by-line reveal (contact heading) */
-.line-reveal { display: block; overflow: hidden; }
-.line-inner {
+.info-grid.pj-head { min-height: 0; grid-template-rows: none; padding-bottom: 5vw; }
+.pj-name { font-weight: 500; letter-spacing: 0.1em; }
+.pj-meta { text-transform: none; letter-spacing: 0.01em; }
+.pj-disc { font-style: italic; color: var(--fg-soft); }
+.pj-boards {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 0.8vw, 14px);
+}
+.pj-boards img {
   display: block;
-  transform: translateY(110%);
-  transition: transform 0.85s var(--ease-out);
+  width: 100%;
+  height: auto;                    /* proportions from each page's width and height */
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.9s var(--ease-out);
 }
-.lines-revealed .line-inner { transform: translateY(0); }
+.pj-boards img.in { opacity: 1; transform: none; }
+.pj-foot {
+  padding-block: 6vw 8vw;
+  font-size: var(--small);
+  line-height: 1.45;
+}
+.pj-next {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.pj-next:hover, .pj-next:focus-visible { opacity: 0.6; }
+.pj-next:active { opacity: 0.4; }
+.pj-next:focus-visible { outline: 1px solid var(--fg); outline-offset: 6px; }
+.pj-next-thumb { width: 72px; }
+.pj-next-thumb img { width: 100%; height: auto; }   /* the cover's own proportions */
+.pj-next-text { display: flex; flex-direction: column; gap: 4px; }
+
+/* ═══════════════════════════════════════════
+   INFO PANEL: bio, expertise, tools, contact
+═══════════════════════════════════════════ */
+.info, .project {
+  position: fixed;
+  inset: 0;
+  z-index: 150;                    /* above the work, below the header */
+  background: var(--bg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.info.open, .project.open { opacity: 1; }
+.info:focus, .project:focus { outline: none; }
+.info-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1.6fr 0.8fr 1fr;
+  gap: 48px 3vw;
+  padding: calc(2.2vw + 88px) 2.5vw 6vw;
+  font-size: var(--small);
+  line-height: 1.45;
+  min-height: 100%;
+  grid-template-rows: auto 1fr;    /* the copyright row takes the rest, down to the bottom margin */
+}
+.info-label {
+  margin-bottom: 18px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.info-text, .info-list {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  max-width: 36em;
+}
+.info-text + .info-text { margin-top: 1.1em; }
+.info-list { list-style: none; display: flex; flex-direction: column; gap: 0.3em; }
+.soft { color: var(--fg-soft); }
+/* copyright: bottom right corner, on the panel's margins */
+.info-copy { grid-column: 1 / -1; align-self: end; justify-self: end; text-align: right; margin-top: 4vw; text-transform: none; letter-spacing: 0.01em; }
+.info a {
+  border-bottom: 1px solid var(--border);
+  transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+.info a:hover, .info a:focus-visible { border-color: var(--fg); }
+.info a:active { opacity: 0.55; }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════ */
-.contact-mobile { display: none; }
 
 @media (max-width: 900px) {
-  /* Nav: fixed, gains a backdrop once scrolled, hides while scrolling down */
+  /* Nav: name and links on one row, role below the name.
+     Fixed, gains a backdrop once scrolled, hides while scrolling down */
   .nav {
+    grid-template-columns: 1fr auto;
+    row-gap: 7px;
     padding: 16px clamp(16px, 5vw, 32px);
-    gap: 12px;
     transition: transform 0.45s var(--ease-out);
   }
-  .nav.nav-solid::before { opacity: 0.96; }
   .nav.nav-hidden { transform: translateY(-100%); }
-  .nav-links { gap: clamp(9px, 2.8vw, 16px); }
-  .nav-logo, .nav-links a { font-size: 10px; }
+  .nav-name, .nav-role, .nav-links a, .nav-sep { font-size: 10px; }
+  .nav-role { grid-row: 2; grid-column: 1; justify-self: start; }
+  .nav-links { grid-row: 1; grid-column: 2; gap: 6px; }
+  .nav-links .nav-lang-li { margin-left: 14px; }
 
-  /* Filmstrip mobile: native swipe with snap */
-  .works-pin-wrap {
+  /* Home: one column, alternating sizes and sides */
+  .scatter {
     height: auto;
-    min-height: 0;
-    overflow: visible;
-    padding: 14vw 0 12vw;
-  }
-  .works-track {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .works-track-inner {
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 0 5vw;
-    padding: 0 5vw;
-    gap: 12px;
-    height: auto;
-    align-items: stretch;
-    cursor: default;
-    width: 100%;
-  }
-  .film-heading {
-    margin-right: 0;
-    padding: 0 5vw 8vw;
-  }
-  .film-controls { margin-top: 6vw; }
-  .film-card {
-    width: 78vw;
-    height: auto;
-    scroll-snap-align: start;
-  }
-  .film-card .work-thumb { flex: none; aspect-ratio: 4 / 5; }
-  .work-arrow { display: none; }
-  .drag-hint { display: none; }
-
-  /* ── Hero mobile: centered stack: name → title → tags ── */
-  .hero {
-    min-height: 100svh;
-    justify-content: flex-start;
-    padding-top: 14vw;
-    padding-bottom: 12vw;
-  }
-  .hero-inner {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 16vw;
+    padding: 30vw 5vw 18vw;
   }
-  .hero-row-1 { display: contents; }
-  #h-first    { order: 1; position: static; }
-  #h-last     { order: 2; display: block; position: static; margin-bottom: 4vw; }
-  .hero-title-block {
-    order: 3;
-    position: static;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 0.25em;
-    font-size: clamp(24px, 7vw, 42px);
-    padding: 0;
-    margin: 0 0 8vw 2px;
+  .piece {
+    position: relative;
+    left: auto; top: auto;
+    width: calc(var(--mw) * 1%);
+    align-self: flex-start;
   }
-  .hero-bottom { order: 4; margin: 0; padding: 0; }
-  .hero-tags { padding-left: 3px; }
-  .hero-scroll { position: static; gap: 2.5vw; }
-  .h-display { font-size: clamp(76px, 22vw, 130px); }
-  .hero-title-line {
-    font-size: clamp(24px, 7vw, 42px);
-    text-align: left;
-  }
-  .hero-tag { font-size: clamp(10px, 2.8vw, 13px); }
+  .piece[data-side="right"] { align-self: flex-end; }
+  :root { --small: 11px; }
+  .piece-cap { width: 100%; margin-top: 10px; }
 
-  .about, .skills {
+  .index { padding: 120px clamp(16px, 5vw, 32px) 64px; }
+  .project { --pj-margin: clamp(16px, 5vw, 32px); }
+  .info-grid.pj-head { padding-bottom: 40px; }
+  .pj-foot { padding-block: 56px 64px; }
+  .row {
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 4px;
+    padding: 10px 0;
+  }
+  .index-list:hover .row { opacity: 1; }
+  .row-thumb { display: block; grid-row: 1 / span 2; width: 48px; }
+  .row-thumb img { width: 100%; height: auto; }   /* the cover's own proportions */
+  .row-name { grid-column: 2; align-self: end; }
+  .row-disc { grid-column: 2; grid-row: 2; align-self: start; }
+  .row-year { grid-column: 3; grid-row: 1 / span 2; }
+  .info-grid {
     grid-template-columns: 1fr;
-    gap: 8vw;
-    padding: 14vw 5vw;
+    grid-template-rows: none;      /* one column: the copyright simply follows the content */
+    gap: 40px;
+    padding: 120px clamp(16px, 5vw, 32px) 64px;
   }
-  .about-heading, .skills-heading { position: static; }
-  .about-copy { font-size: clamp(16px, 4.4vw, 18px); margin-bottom: 8vw; }
-  .about-highlights { gap: 6vw; }
-  .about-hl-item { gap: 6px; }
-  .hl-label { font-size: clamp(9px, 2.5vw, 11px); }
-  .hl-place { font-size: clamp(12px, 3.5vw, 15px); }
-  .hl-sub { font-size: clamp(10px, 2.8vw, 12px); }
-  .skill-row { grid-template-columns: 1fr; gap: 6px; padding: 16px 0; }
-  .skill-name { font-size: clamp(11px, 3vw, 13px); }
-  .skill-items { font-size: clamp(10px, 2.7vw, 12px); }
-
-  .contact { padding: 16vw 5vw 10vw; }
-  .contact-aside { display: none; }
-  .contact-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 2.5rem 0 1.5rem;
-  }
-  .contact-mobile a {
-    color: var(--light);
-    opacity: 0.8;
-    font-size: clamp(12px, 3.4vw, 15px);
-    letter-spacing: 0.04em;
-    border-bottom: 1px solid rgba(255,255,255,0.18);
-    padding-bottom: 4px;
-    width: fit-content;
-    transition: opacity 0.2s ease;
-  }
-  .contact-mobile a:hover, .contact-mobile a:focus-visible { opacity: 1; }
-  .contact-mobile .contact-cv { gap: 1.4rem; }
-  .contact-mobile .contact-cv-label { font-size: clamp(10px, 2.8vw, 13px); }
-  .contact-mobile .contact-socials {
-    display: flex;
-    gap: 1.8rem;
-    margin-top: 0.25rem;
-  }
-  .contact-mobile .contact-social {
-    font-size: clamp(10px, 2.8vw, 13px);
-    border-bottom: none;
-    padding-bottom: 0;
-    opacity: 0.6;
-    width: auto;
-  }
-  .contact-foot { flex-direction: column; align-items: flex-start; gap: 10px; padding-top: 6vw; }
 }
 /* ═══════════════════════════════════════════
-   INTRO
+   INTRO: logo grid (built by the script)
 ═══════════════════════════════════════════ */
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  background: var(--dark);
+  z-index: 9990;
+  background: var(--bg);           /* covers the page until the grid is built */
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 6), 1fr);
+  grid-template-rows: repeat(var(--rows, 4), 1fr);
+}
+.intro.is-grid { background: none; }
+.intro-cell {
+  position: relative;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.intro-cell img {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  opacity: 0;
+}
+.intro-cell img.on { opacity: 1; }
+.intro-rect {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5vw;
-  transition: transform 1.0s cubic-bezier(0.76, 0, 0.24, 1);
+  overflow: hidden;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
-.intro.split-out {
-  transform: translateY(-100%);
-  pointer-events: none;
+.intro-name {
+  white-space: nowrap;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--fg);
 }
+@media (prefers-reduced-motion: reduce) { .intro { display: none; } }
 
-.intro-text {
-  font-family: var(--font);
-  font-weight: 300;
-  font-size: clamp(13px, 1.6vw, 26px);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--light);
-  max-width: min(92vw, 980px);
-  text-align: center;
-  line-height: 1.9em;
-}
-.intro-accent { font-weight: 500; }
-
-.intro-cursor {
-  display: inline-block;
-  width: 1.5px;
-  height: 0.9em;
-  background: var(--light);
-  margin-left: 2px;
-  vertical-align: middle;
-  animation: blink 0.65s step-end infinite;
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
-/* ── CUSTOM CURSOR (fine pointers only) ── */
-@media (pointer: fine) {
-  html.has-cursor, html.has-cursor *, html.has-cursor *::before, html.has-cursor *::after { cursor: none !important; }
-}
-.site-cursor {
+/* ── "View project" label beside the arrow (fine pointers only, see script) ── */
+.view-label {
   position: fixed;
   top: 0; left: 0;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--fg);
+  z-index: 9995;
   pointer-events: none;
-  z-index: 9998;
-  transform: translate(calc(var(--cx, -200px) - 50%), calc(var(--cy, -200px) - 50%));
-  will-change: transform;
-  transition: width 0.45s var(--ease-out),
-              height 0.45s var(--ease-out),
-              background 0.3s ease,
-              opacity 0.3s ease;
-}
-.site-cursor.on-dark { background: var(--bg); }
-.site-cursor.view {
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.9);
-}
-.site-cursor-label {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: var(--font);
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.site-cursor.view .site-cursor-label { opacity: 1; }
-
-/* ═══════════════════════════════════════════
-   LIGHTBOX: project viewer
-═══════════════════════════════════════════ */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4vw;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.38s ease;
-}
-.lightbox:focus { outline: none; }
-.lightbox.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-.lightbox-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(8, 8, 8, 0.95);
-}
-.lightbox-panel {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.4vw;
-  max-width: 90vw;
-  max-height: 90vh;
-  margin: 0;
-  transform: scale(0.93) translateY(18px);
-  transition: transform 0.42s var(--ease-out);
-}
-.lightbox.open .lightbox-panel { transform: scale(1) translateY(0); }
-.lightbox-img {
-  display: block;
-  max-width: 100%;
-  max-height: 78vh;
-  object-fit: contain;
-  transition: opacity 0.25s ease;
-  box-shadow:
-    0 2px 6px rgba(0,0,0,0.3),
-    0 16px 40px rgba(0,0,0,0.5),
-    0 48px 96px rgba(0,0,0,0.4);
-}
-.lightbox-img.is-loading { opacity: 0; }
-.lightbox-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 2vw;
-  width: 100%;
-  min-width: min(560px, 80vw);
-  padding: 0 2px;
-}
-.lightbox-meta-left, .lightbox-meta-right {
-  display: flex;
-  align-items: baseline;
-  gap: 1.6vw;
-}
-.lightbox-meta-name {
-  font-family: var(--font);
-  font-size: clamp(10px, 0.8vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.92);
-}
-.lightbox-meta-type {
-  font-family: var(--font);
-  font-size: clamp(9px, 0.62vw, 11px);
+  font-size: 10px;
   font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--light-soft);
-  font-variant-numeric: tabular-nums;
-}
-.lightbox-next-project {
-  background: none;
-  border: 0;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding: 0 0 3px;
-  cursor: pointer;
-  font-size: clamp(9px, 0.62vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.75);
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-.lightbox-next-project:hover, .lightbox-next-project:focus-visible { color: #fff; border-color: #fff; }
-.lightbox-next-project:active { opacity: 0.6; }
-
-.lightbox-close,
-.lightbox-nav {
-  position: fixed;
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 50%;
-  cursor: pointer;
-  color: rgba(255,255,255,0.7);
-  z-index: 2;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.lightbox-close {
-  top: clamp(16px, 2.2vw, 36px);
-  right: clamp(16px, 2.2vw, 36px);
-  font-size: 15px;
   line-height: 1;
-  font-family: var(--font);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--light);
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.12s linear;
 }
-.lightbox-nav { top: 50%; transform: translateY(-50%); }
-.lightbox-close:hover, .lightbox-nav:hover,
-.lightbox-close:focus-visible, .lightbox-nav:focus-visible {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border-color: rgba(255,255,255,0.3);
-}
-.lightbox-close:active { background: rgba(255,255,255,0.22); }
-.lightbox-nav:active { background: rgba(255,255,255,0.22); }
-.lightbox-prev { left: clamp(12px, 1.8vw, 32px); }
-.lightbox-next { right: clamp(12px, 1.8vw, 32px); }
-.lightbox-nav svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-
-@media (max-width: 600px) {
-  .lightbox { padding: 12px; }
-  .lightbox-panel { max-width: 100%; gap: 14px; }
-  .lightbox-img { max-height: 68vh; }
-  .lightbox-meta { min-width: 0; flex-direction: column; align-items: flex-start; gap: 10px; }
-  .lightbox-meta-left, .lightbox-meta-right { gap: 14px; flex-wrap: wrap; }
-  .lightbox-nav { top: auto; bottom: 16px; transform: none; }
-  .lightbox-prev { left: 12px; }
-  .lightbox-next { right: 12px; }
-  .lightbox-close { top: 12px; right: 12px; }
-}
+.view-label.on { opacity: 1; }
+/* Over a project on the scattered home the label is the cursor: no arrow, no hand.
+   The List keeps the normal pointer. */
+.view-cursor .piece, .view-cursor .piece * { cursor: none; }
 
 /* ═══════════════════════════════════════════
    LANGUAGE SWITCHER
@@ -1150,7 +506,6 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 }
 .nav-lang-btn:hover, .nav-lang-btn:focus-visible { opacity: 1; }
 .nav-lang-btn:active { opacity: 0.5; }
-.nav.nav-light .nav-lang-btn { color: var(--light); }
 
 .lang-dropdown {
   position: absolute;
@@ -1201,30 +556,27 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
    REDUCED MOTION
 ═══════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .line-inner { transform: none; transition: none; }
-  #h-first, #h-last { letter-spacing: -0.03em; }
-  .scroll-line::after, .drag-hint-arrow { animation: none; }
-  .film-card .work-thumb img { transition: none; }
-  .lightbox, .lightbox-panel, .lightbox-img { transition: none; }
-  .lightbox-panel { transform: none; }
+  .piece-media, .view-label, .info, .row, .preview { transition: none; }
+  .project, .pj-boards img, .pj-next { transition: none; }
+  .pj-boards img { opacity: 1; transform: none; }
 }
 </style>
 </head>
 <body>
 
 <!-- ─────────────────────────────── INTRO ─── -->
-<div class="intro" id="intro" aria-hidden="true">
-  <p class="intro-text" id="intro-text"><span class="intro-cursor" id="intro-cursor"></span></p>
-</div>
+<div class="intro" id="intro" aria-hidden="true"></div>
 
 <!-- ─────────────────────────────── NAV ─── -->
 <nav class="nav" aria-label="Main">
-  <a href="#" class="nav-logo" id="nav-home">Home</a>
+  <a href="#" class="nav-name" id="nav-home">Miguel Martins</a>
+  <span class="nav-role" id="nav-role">Graphic Designer</span>
   <ul class="nav-links">
-    <li><a href="#works" id="nav-work">Work</a></li>
-    <li><a href="#about" id="nav-about">About</a></li>
-    <li><a href="#contact" id="nav-contact">Contact</a></li>
+    <li><a href="#work" id="nav-work" class="is-active" aria-current="true">Work</a></li>
+    <li class="nav-sep" aria-hidden="true">/</li>
+    <li><a href="#list" id="nav-list">List</a></li>
+    <li class="nav-sep" aria-hidden="true">/</li>
+    <li><a href="#info" id="nav-info" aria-controls="info" aria-expanded="false">Info</a></li>
     <li class="nav-lang-li" id="nav-lang-li">
       <button class="nav-lang-btn" id="nav-lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
         <span id="lang-label">EN</span>
@@ -1242,193 +594,83 @@ button { font: inherit; color: inherit; text-transform: inherit; letter-spacing:
 </nav>
 
 <main>
+<h1 class="sr-only" id="page-h1">Miguel Martins, Graphic Designer</h1>
 
-<!-- ─────────────────────────────── HERO ─── -->
-<section class="hero" aria-label="Introduction">
-  <div class="hero-inner">
-    <h1 class="hero-row-1">
-      <span class="h-display hero-first" id="h-first" aria-hidden="true">Miguel</span>
-      <span class="hero-title-block" aria-hidden="true">
-        <span class="hero-title-line" id="h-title1">Graphic</span>
-        <span class="hero-title-line" id="h-title2">Designer</span>
-      </span>
-      <span class="sr-only" id="h1-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Miguel Martins - Graphic Designer</span>
-    </h1>
-    <div class="h-display hero-last" id="h-last" aria-hidden="true">Martins</div>
+<!-- ─────────────────────────────── WORK ─── -->
+<!-- Rendered from data/work.js (script below): positions are set by hand there -->
+<section id="work" class="scatter" aria-labelledby="page-h1"></section>
 
-    <div class="hero-bottom">
-      <div class="hero-tags" data-reveal style="transition-delay:0.05s">
-        <a href="#contact" class="hero-tag hero-tag-link" id="hero-available">Available for Projects</a>
-      </div>
-      <div class="hero-scroll" data-reveal style="transition-delay:0.1s" aria-hidden="true">
-        <span class="hero-scroll-label" id="hero-scroll">Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────── WORKS ─── -->
-<section id="works" class="works works-filmstrip" aria-labelledby="works-title">
-  <div class="works-pin-wrap">
-    <div class="works-track">
-      <div class="film-heading">
-        <h2 id="works-title" data-reveal>
-          <span class="works-h" id="works-h1">Selected</span>
-          <span class="works-h" id="works-h2">Work</span>
-        </h2>
-        <div class="drag-hint" id="drag-hint" aria-hidden="true">
-          <span class="drag-hint-label" id="drag-hint-label">DRAG TO EXPLORE</span>
-          <span class="drag-hint-arrow drag-hint-arrow--right">→</span>
-        </div>
-        <div class="film-controls">
-          <button type="button" class="film-btn" id="film-prev" aria-label="Previous projects">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          </button>
-          <button type="button" class="film-btn" id="film-next" aria-label="Next projects">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <span class="film-count" id="film-count" aria-live="polite">01 / 12</span>
-          <span class="film-progress" aria-hidden="true"><span id="film-progress-bar"></span></span>
-        </div>
-      </div>
-      <!-- Cards are rendered from PROJECTS (script below): one source of truth -->
-      <div class="works-track-inner" id="film-track" role="list"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────── ABOUT ─── -->
-<section id="about" class="about" aria-labelledby="about-heading">
-  <h2 class="about-heading" data-reveal id="about-heading">About<br>Myself</h2>
-
-  <div>
-    <p class="about-copy" data-reveal style="transition-delay:0.08s" id="about-copy">Graphic Designer focused on visual identity, branding and digital and print design. Experienced in developing visual assets, editorial layouts and print-ready artwork, with a strong interest in creating clear, consistent and purposeful visual communication.</p>
-
-    <div class="about-highlights" data-reveal style="transition-delay:0.13s">
-      <div class="about-hl-item">
-        <span class="hl-label" id="hl-label-1">Currently working at</span>
-        <span class="hl-place">Grafpub - Grafismo e Publicidade<br><span class="hl-sub" id="hl-sub-1">Graphic Designer - Since 2025</span></span>
-      </div>
-      <div class="about-hl-item">
-        <span class="hl-label" id="hl-label-2">Studied at</span>
-        <span class="hl-place">Lisbon School of Design<br><span class="hl-sub" id="hl-sub-2">Graphic Design</span></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────── EXPERTISE ─── -->
-<section id="expertise" class="skills" aria-labelledby="expertise-heading">
-  <h2 class="skills-heading" data-reveal id="expertise-heading">Expertise</h2>
-
-  <div class="skills-list" data-reveal style="transition-delay:0.08s">
-    <div class="skill-row"><h3 class="skill-name" id="area-name-0">Branding &amp; Identity</h3><p class="skill-items" id="area-items-0">Visual identities / Logo systems / Brand applications</p></div>
-    <div class="skill-row"><h3 class="skill-name" id="area-name-1">Art Direction</h3><p class="skill-items" id="area-items-1">Concept development / Visual direction / Campaign direction</p></div>
-    <div class="skill-row"><h3 class="skill-name" id="area-name-2">Editorial &amp; Typography</h3><p class="skill-items" id="area-items-2">Editorial layouts / Posters / Typography / Publication design</p></div>
-    <div class="skill-row"><h3 class="skill-name" id="area-name-3">Print &amp; Production</h3><p class="skill-items" id="area-items-3">Print design / Print preparation / Large-format printing / Vinyl applications / Laser processes</p></div>
-    <div class="skill-row"><h3 class="skill-name" id="area-name-4">Digital Design</h3><p class="skill-items" id="area-items-4">Web / Digital campaigns / Social media / Digital assets</p></div>
-    <div class="skill-row"><h3 class="skill-name" id="area-name-5">Campaigns &amp; Advertising</h3><p class="skill-items" id="area-items-5">Campaign concepts / Advertising / Outdoor / Promotional design</p></div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────── FAVORITE STACK ─── -->
-<section class="skills" aria-labelledby="stack-heading">
-  <h2 class="skills-heading" data-reveal id="stack-heading">Favorite<br>Stack</h2>
-
-  <ul class="skills-list" data-reveal style="list-style:none">
-    <li class="skill-row skill-row--single"><span class="skill-name">Adobe Illustrator</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Adobe Photoshop</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Adobe InDesign</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Adobe Firefly / Adobe Express</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Figma</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Framer</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Claude Code</span></li>
-    <li class="skill-row skill-row--single"><span class="skill-name">Canva</span></li>
-  </ul>
-</section>
+<!-- ─────────────────────────────── LIST ─── -->
+<!-- Same projects and order, rendered from data/work.js -->
+<section id="list" class="index" aria-label="List" hidden><ol class="index-list" id="index-list"></ol></section>
 
 </main>
 
-<!-- ─────────────────────────────── CONTACT ─── -->
-<footer id="contact" class="contact">
-  <div class="contact-inner">
-    <div class="contact-top">
-      <h2 class="contact-heading" id="contact-heading">
-        Get in<br><span class="accent">Touch</span>
-      </h2>
-      <div class="contact-aside" data-reveal style="transition-delay:0.1s">
-        <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry" class="contact-email">
-          miguelmartins210@gmail.com
-        </a>
-        <a href="tel:+351934477683" class="contact-email">
-          +351 934 477 683
-        </a>
-        <div class="contact-cv">
-          <span class="contact-cv-label" id="cv-label">Download CV</span>
-          <a href="brand_assets/cv_10_2026.pdf" class="contact-email" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
-          <a href="brand_assets/cv_10_2026_pt.pdf" class="contact-email" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
-        </div>
-        <div class="contact-cv">
-          <span class="contact-cv-label" id="pf-label">Download Portfolio</span>
-          <a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" class="contact-email" download="Miguel-Martins-Portfolio-2026.pdf" aria-label="Download portfolio PDF">PDF ↓</a>
-        </div>
-        <div class="contact-socials">
-          <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
-          <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
-          <a href="https://www.behance.net/miguelangelomartins" target="_blank" rel="noopener" class="contact-social">Behance</a>
-        </div>
-      </div>
-    </div>
-    <div class="contact-mobile">
-      <a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry">miguelmartins210@gmail.com</a>
-      <a href="tel:+351934477683">+351 934 477 683</a>
-      <div class="contact-cv">
-        <span class="contact-cv-label" id="cv-label-m">Download CV</span>
-        <a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>
-        <a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a>
-      </div>
-      <div class="contact-cv">
-        <span class="contact-cv-label" id="pf-label-m">Download Portfolio</span>
-        <a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" download="Miguel-Martins-Portfolio-2026.pdf" aria-label="Download portfolio PDF">PDF ↓</a>
-      </div>
-      <div class="contact-socials">
-        <a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener" class="contact-social">Instagram</a>
-        <a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener" class="contact-social">LinkedIn</a>
-        <a href="https://www.behance.net/miguelangelomartins" target="_blank" rel="noopener" class="contact-social">Behance</a>
-      </div>
-    </div>
-    <div class="contact-foot">
-      <span class="contact-foot-txt" id="foot-1">© 2026 Miguel Martins. All rights reserved.</span>
-      <span class="contact-foot-txt" id="foot-2">Graphic Designer - Lisbon, Portugal</span>
-    </div>
+<!-- ─────────────────────────────── PROJECT ─── -->
+<!-- One page for every project, filled from data/work.js; the address shows #project/<name> -->
+<div class="project" id="project" role="dialog" aria-modal="true" aria-labelledby="pj-name" tabindex="-1" data-lenis-prevent hidden>
+  <div class="info-grid pj-head">
+    <section>
+      <h2 class="info-label" id="pj-l-project">Project</h2>
+      <p class="pj-name" id="pj-name"></p>
+      <p class="pj-meta pj-disc" id="pj-disc"></p>
+      <p class="pj-meta soft" id="pj-year"></p>
+      <p class="pj-meta soft" id="pj-context" hidden></p>
+    </section>
+    <section>
+      <h2 class="info-label" id="pj-l-about">About</h2>
+      <p class="info-text" id="pj-text"></p>
+    </section>
   </div>
-</footer>
+  <div class="pj-boards" id="pj-boards"></div>
+  <div class="pj-foot">
+    <h2 class="info-label" id="pj-l-next">Next project</h2>
+    <button type="button" class="pj-next" id="pj-next">
+      <span class="pj-next-thumb"><img id="pj-next-img" alt="" decoding="async"></span>
+      <span class="pj-next-text"><span class="pj-name" id="pj-next-name"></span><span class="pj-meta pj-disc" id="pj-next-disc"></span></span>
+    </button>
+  </div>
+</div>
 
-<!-- ─────────────────────────────── LIGHTBOX ─── -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-name" aria-hidden="true" tabindex="-1" inert>
-  <div class="lightbox-backdrop"></div>
-  <figure class="lightbox-panel" id="lb-panel">
-    <img class="lightbox-img" id="lb-img" alt="" />
-    <figcaption class="lightbox-meta">
-      <div class="lightbox-meta-left">
-        <span class="lightbox-meta-name" id="lb-name"></span>
-        <span class="lightbox-meta-type" id="lb-type"></span>
-        <span class="lightbox-meta-type" id="lb-context"></span>
-      </div>
-      <div class="lightbox-meta-right">
-        <span class="lightbox-meta-type" id="lb-counter"></span>
-        <button type="button" class="lightbox-next-project" id="lb-next-project"></button>
-      </div>
-    </figcaption>
-  </figure>
-  <button type="button" class="lightbox-close" id="lb-close" aria-label="Close">✕</button>
-  <button type="button" class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Previous image">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-  </button>
-  <button type="button" class="lightbox-nav lightbox-next" id="lb-next" aria-label="Next image">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button>
+<!-- ─────────────────────────────── INFO ─── -->
+<!-- Text is filled from the translations (T) by the language code below -->
+<div class="info" id="info" role="dialog" aria-modal="true" aria-labelledby="info-l-info" tabindex="-1" data-lenis-prevent hidden>
+  <div class="info-grid">
+    <section>
+      <h2 class="info-label" id="info-l-info">Info</h2>
+      <p class="info-text" id="info-bio"></p>
+      <p class="info-text"><span class="soft" id="hl-label-1"></span><br>Grafpub, Grafismo e Publicidade<br><span class="soft" id="hl-sub-1"></span></p>
+      <p class="info-text"><span class="soft" id="hl-label-2"></span><br>Lisbon School of Design<br><span class="soft" id="hl-sub-2"></span></p>
+    </section>
+    <section>
+      <h2 class="info-label" id="info-l-expertise"></h2>
+      <ul class="info-list" id="info-areas"></ul>
+    </section>
+    <section>
+      <h2 class="info-label" id="info-l-tools"></h2>
+      <ul class="info-list">
+        <li>Adobe Illustrator</li>
+        <li>Adobe Photoshop</li>
+        <li>Adobe InDesign</li>
+        <li>Adobe Firefly / Adobe Express</li>
+        <li>Figma</li>
+        <li>Framer</li>
+      </ul>
+    </section>
+    <section>
+      <h2 class="info-label" id="info-l-contact"></h2>
+      <ul class="info-list">
+        <li><a href="mailto:miguelmartins210@gmail.com?subject=Portfolio%20Enquiry">miguelmartins210@gmail.com</a></li>
+        <li><a href="tel:+351934477683">+351 934 477 683</a></li>
+        <li><a href="https://www.instagram.com/miguel25martins/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.behance.net/miguelangelomartins" target="_blank" rel="noopener">Behance</a></li>
+        <li><a href="https://www.linkedin.com/in/miguel25martins/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><span id="info-pdf">Download Portfolio</span>&ensp;<a href="brand_assets/Miguel-Martins-Portfolio-2026.pdf" download="Miguel-Martins-Portfolio-2026.pdf" hreflang="en" aria-label="Download portfolio in English">EN ↓</a></li>
+        <li><span id="info-cv">Download CV</span>&ensp;<a href="brand_assets/cv_10_2026.pdf" download="Miguel-Martins-CV-EN.pdf" hreflang="en" aria-label="Download CV in English">EN ↓</a>&ensp;<a href="brand_assets/cv_10_2026_pt.pdf" download="Miguel-Martins-CV-PT.pdf" hreflang="pt" aria-label="Descarregar CV em português">PT ↓</a></li>
+      </ul>
+    </section>
+    <p class="info-copy soft" id="info-copy"></p>
+  </div>
 </div>
 
 <script>
@@ -1446,30 +688,20 @@ function store(method, key, value) {
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 /* ═══════════════════════════════════════════
-   PROJECTS: single source of truth for cards + viewer.
-   Each folder in Selected Work holds five numbered images:
-   01 is the cover (also the card), 02 to 04 mockups,
-   05 the written explanation of the work.
-   `context: 'academic'` marks school work in the viewer.
+   PROJECTS: single source of truth for the home, list and project page,
+   loaded from data/work.js (names, years, home positions) and
+   data/pages.js (the presentation pages of each project).
+   `context: 'academic'` marks school work on the project page.
 ═══════════════════════════════════════════ */
-const IMAGES = ['01-card.webp', '02.webp', '03.webp', '04.webp', '05-about.webp'];
-const PROJECTS = [
-  { name: 'Kaya',              folder: 'Kaya',              type: 'Branding & Identity' },
-  { name: 'Terra Sã',          folder: 'Terra Sã',          type: 'Branding & Identity' },
-  { name: 'Swell',             folder: 'Swell',             type: 'Branding & Identity' },
-  { name: 'Distortion',        folder: 'Distortion',        type: 'Print & Editorial', context: 'academic' },
-  { name: 'Grafpub 2027',      folder: 'Grafpub 2027',      type: 'Print & Editorial' },
-  { name: 'Hotel Navegadores', folder: 'Hotel Navegadores', type: 'Digital & Campaign' },
-  { name: 'Stay Home',         folder: 'Stay Home',         type: 'Digital & Campaign' },
-  { name: 'Sol & Sombra',      folder: 'Sol e Sombra',      type: 'Branding & Identity' },
-  { name: 'SOS Renovações',    folder: 'SOS Renovações',    type: 'Branding & Identity' },
-  { name: 'Grafpub 2026',      folder: 'Grafpub 2026',      type: 'Print & Editorial' },
-  { name: 'Inova Contabilidade', folder: 'Inova',           type: 'Branding & Identity' },
-  { name: 'Posters',           folder: 'Posters',           type: 'Print Design' },
-].map(p => ({ ...p, images: IMAGES }));
-
-const webSrc = (p, file) =>
-  ['Selected Work', p.folder, file].map(encodeURIComponent).join('/');
+const PROJECTS = window.WORK;
+// Presentation pages, made by tools/build-images.mjs: assets/pages/<slug>/NN-1600.webp and NN-2400.webp
+const pagesOf = p => (window.PAGES || {})[p.slug] || [];
+const pageSrc = (p, i, w = 1600) => `assets/pages/${p.slug}/${String(i + 1).padStart(2, '0')}-${w}.webp`;
+// The cover on the home, the List and Next project: cover.jpg of each project, in its real proportions
+const coverOf = p => (window.COVERS || {})[p.slug] || { w: 4, h: 5 };
+const coverRatio = p => coverOf(p).w / coverOf(p).h;
+const coverSrc = (p, w = 800) => `assets/covers/${p.slug}-${w}.webp`;
+const coverSet = p => `${coverSrc(p, 800)} 800w, ${coverSrc(p, 1600)} 1600w`;
 
 /* ═══════════════════════════════════════════
    TRANSLATIONS
@@ -1477,20 +709,19 @@ const webSrc = (p, file) =>
 const T = {
   en: {
     pageTitle:    'Miguel Martins - Graphic Designer',
-    navHome:      'Home',
     navWork:      'Work',
-    navAbout:     'About',
-    navContact:   'Contact',
     navLang:      'EN',
-    heroTitle1:   'Graphic',
-    heroTitle2:   'Designer',
-    heroAvailable:'Available for Projects',
-    heroScroll:   'Scroll',
-    worksH1:      'Selected',
-    worksH2:      'Work',
-    dragHint:     'DRAG TO EXPLORE',
-    filmPrev:     'Previous projects',
-    filmNext:     'Next projects',
+    projectLabel: 'Project',
+    aboutLabel:   'About',
+    cvLink:       'Download CV',
+    copyright:    '© 2026 Miguel Martins. All rights reserved.',
+    navClose:     'Close',
+    toolsLabel:   'Tools',
+    contactLabel: 'Contact',
+    viewProject:  'View project',
+    navRole:      'Graphic Designer',
+    navList:      'List',
+    navInfo:      'Info',
     expertiseHeading: 'Expertise',
     areas: [
       { name: 'Branding & Identity',       items: ['Visual identities', 'Logo systems', 'Brand applications'] },
@@ -1501,47 +732,29 @@ const T = {
       { name: 'Campaigns & Advertising',   items: ['Campaign concepts', 'Advertising', 'Outdoor', 'Promotional design'] },
     ],
     hlLabel1:     'Currently working at',
-    hlSub1:       'Graphic Designer - Since 2025',
+    hlSub1:       'Graphic Designer, since 2025',
     hlLabel2:     'Studied at',
     hlSub2:       'Graphic Design',
-    aboutHeading: 'About<br>Myself',
     aboutCopy:    "Graphic Designer focused on visual identity, branding and digital and print design. Experienced in developing visual assets, editorial layouts and print-ready artwork, with a strong interest in creating clear, consistent and purposeful visual communication.",
-    skillsHeading:'Favorite<br>Stack',
-    contactHeading:'Get in<br><span class="accent">Touch</span>',
-    cvLink:       'Download CV',
     pfLink:       'Download Portfolio',
-    foot1:        '© 2026 Miguel Martins. All rights reserved.',
-    foot2:        'Graphic Designer - Lisbon, Portugal',
     nextProject:  'Next project',
     academic:     'Academic project',
-    lbClose:      'Close',
-    lbPrev:       'Previous image',
-    lbNext:       'Next image',
-    workTypes: {
-      'Print & Editorial':  'Print & Editorial',
-      'Branding & Identity':'Branding & Identity',
-      'Digital & Campaign': 'Digital & Campaign',
-      'Print & Campaign':   'Print & Campaign',
-      'Print & Identity':   'Print & Identity',
-      'Print Design':       'Print Design',
-    },
   },
   pt: {
     pageTitle:    'Miguel Martins - Designer Gráfico',
-    navHome:      'Início',
     navWork:      'Trabalho',
-    navAbout:     'Sobre',
-    navContact:   'Contacto',
     navLang:      'PT',
-    heroTitle1:   'Designer',
-    heroTitle2:   'Gráfico',
-    heroAvailable:'Disponível para Projetos',
-    heroScroll:   'Descer',
-    worksH1:      'Trabalhos',
-    worksH2:      'em Destaque',
-    dragHint:     'ARRASTAR PARA EXPLORAR',
-    filmPrev:     'Projetos anteriores',
-    filmNext:     'Projetos seguintes',
+    projectLabel: 'Projeto',
+    aboutLabel:   'Sobre',
+    cvLink:       'Descarregar CV',
+    copyright:    '© 2026 Miguel Martins. Todos os direitos reservados.',
+    navClose:     'Fechar',
+    toolsLabel:   'Ferramentas',
+    contactLabel: 'Contacto',
+    viewProject:  'Ver projeto',
+    navRole:      'Designer Gráfico',
+    navList:      'Lista',
+    navInfo:      'Info',
     expertiseHeading: 'Competências',
     areas: [
       { name: 'Branding & Identidade',     items: ['Identidades visuais', 'Sistemas de logótipo', 'Aplicações de marca'] },
@@ -1552,47 +765,29 @@ const T = {
       { name: 'Campanhas & Publicidade',   items: ['Conceitos de campanha', 'Publicidade', 'Outdoor', 'Design promocional'] },
     ],
     hlLabel1:     'Atualmente em',
-    hlSub1:       'Designer Gráfico - Desde 2025',
+    hlSub1:       'Designer Gráfico, desde 2025',
     hlLabel2:     'Estudou em',
     hlSub2:       'Design Gráfico',
-    aboutHeading: 'Sobre<br>Mim',
     aboutCopy:    "Designer gráfico com foco em identidade visual, branding e design digital e impresso. Experiência no desenvolvimento de elementos visuais, layouts editoriais e artes finais para impressão, com especial interesse na criação de uma comunicação visual clara, coerente e com propósito.",
-    skillsHeading:'Ferramentas<br>Favoritas',
-    contactHeading:'Entre em<br><span class="accent">Contacto</span>',
-    cvLink:       'Descarregar CV',
     pfLink:       'Descarregar Portfólio',
-    foot1:        '© 2026 Miguel Martins. Todos os direitos reservados.',
-    foot2:        'Designer Gráfico - Lisboa, Portugal',
     nextProject:  'Próximo projeto',
     academic:     'Projeto académico',
-    lbClose:      'Fechar',
-    lbPrev:       'Imagem anterior',
-    lbNext:       'Imagem seguinte',
-    workTypes: {
-      'Print & Editorial':  'Impressão & Editorial',
-      'Branding & Identity':'Marca & Identidade',
-      'Digital & Campaign': 'Digital & Campanha',
-      'Print & Campaign':   'Impressão & Campanha',
-      'Print & Identity':   'Impressão & Identidade',
-      'Print Design':       'Design de Impressão',
-    },
   },
   es: {
     pageTitle:    'Miguel Martins - Diseñador Gráfico',
-    navHome:      'Inicio',
     navWork:      'Trabajo',
-    navAbout:     'Sobre Mí',
-    navContact:   'Contacto',
     navLang:      'ES',
-    heroTitle1:   'Diseñador',
-    heroTitle2:   'Gráfico',
-    heroAvailable:'Disponible para Proyectos',
-    heroScroll:   'Deslizar',
-    worksH1:      'Trabajos',
-    worksH2:      'Destacados',
-    dragHint:     'ARRASTRA PARA EXPLORAR',
-    filmPrev:     'Proyectos anteriores',
-    filmNext:     'Proyectos siguientes',
+    projectLabel: 'Proyecto',
+    aboutLabel:   'Sobre',
+    cvLink:       'Descargar CV',
+    copyright:    '© 2026 Miguel Martins. Todos los derechos reservados.',
+    navClose:     'Cerrar',
+    toolsLabel:   'Herramientas',
+    contactLabel: 'Contacto',
+    viewProject:  'Ver proyecto',
+    navRole:      'Diseñador Gráfico',
+    navList:      'Lista',
+    navInfo:      'Info',
     expertiseHeading: 'Especialidades',
     areas: [
       { name: 'Branding & Identidad',      items: ['Identidades visuales', 'Sistemas de logotipo', 'Aplicaciones de marca'] },
@@ -1603,47 +798,29 @@ const T = {
       { name: 'Campañas & Publicidad',     items: ['Conceptos de campaña', 'Publicidad', 'Exterior', 'Diseño promocional'] },
     ],
     hlLabel1:     'Actualmente en',
-    hlSub1:       'Diseñador Gráfico - Desde 2025',
+    hlSub1:       'Diseñador Gráfico, desde 2025',
     hlLabel2:     'Estudió en',
     hlSub2:       'Diseño Gráfico',
-    aboutHeading: 'Sobre<br>Mí',
     aboutCopy:    "Diseñador gráfico centrado en identidad visual, branding y diseño digital e impreso. Con experiencia en el desarrollo de recursos visuales, maquetación editorial y artes finales para impresión, con especial interés en crear una comunicación visual clara, coherente y con propósito.",
-    skillsHeading:'Herramientas<br>Favoritas',
-    contactHeading:'Ponte en<br><span class="accent">Contacto</span>',
-    cvLink:       'Descargar CV',
     pfLink:       'Descargar Portafolio',
-    foot1:        '© 2026 Miguel Martins. Todos los derechos reservados.',
-    foot2:        'Diseñador Gráfico - Lisboa, Portugal',
     nextProject:  'Siguiente proyecto',
     academic:     'Proyecto académico',
-    lbClose:      'Cerrar',
-    lbPrev:       'Imagen anterior',
-    lbNext:       'Imagen siguiente',
-    workTypes: {
-      'Print & Editorial':  'Impresión & Editorial',
-      'Branding & Identity':'Marca & Identidad',
-      'Digital & Campaign': 'Digital & Campaña',
-      'Print & Campaign':   'Impresión & Campaña',
-      'Print & Identity':   'Impresión & Identidad',
-      'Print Design':       'Diseño de Impresión',
-    },
   },
   fr: {
     pageTitle:    'Miguel Martins - Designer Graphique',
-    navHome:      'Accueil',
     navWork:      'Travail',
-    navAbout:     'À Propos',
-    navContact:   'Contact',
     navLang:      'FR',
-    heroTitle1:   'Designer',
-    heroTitle2:   'Graphique',
-    heroAvailable:'Disponible pour Projets',
-    heroScroll:   'Défiler',
-    worksH1:      'Travaux',
-    worksH2:      'Choisis',
-    dragHint:     'GLISSER POUR EXPLORER',
-    filmPrev:     'Projets précédents',
-    filmNext:     'Projets suivants',
+    projectLabel: 'Projet',
+    aboutLabel:   'À propos',
+    cvLink:       'Télécharger le CV',
+    copyright:    '© 2026 Miguel Martins. Tous droits réservés.',
+    navClose:     'Fermer',
+    toolsLabel:   'Outils',
+    contactLabel: 'Contact',
+    viewProject:  'Voir le projet',
+    navRole:      'Designer Graphique',
+    navList:      'Liste',
+    navInfo:      'Info',
     expertiseHeading: 'Expertise',
     areas: [
       { name: 'Branding & Identité',       items: ['Identités visuelles', 'Systèmes de logo', 'Déclinaisons de marque'] },
@@ -1654,47 +831,29 @@ const T = {
       { name: 'Campagnes & Publicité',     items: ['Concepts de campagne', 'Publicité', 'Affichage extérieur', 'Design promotionnel'] },
     ],
     hlLabel1:     'Actuellement chez',
-    hlSub1:       'Designer Graphique - Depuis 2025',
+    hlSub1:       'Designer Graphique, depuis 2025',
     hlLabel2:     'A étudié à',
     hlSub2:       'Design Graphique',
-    aboutHeading: 'À<br>Propos',
     aboutCopy:    "Designer graphique spécialisé en identité visuelle, branding et design digital et print. Expérience dans la création de supports visuels, de mises en page éditoriales et de fichiers prêts à imprimer, avec un vif intérêt pour une communication visuelle claire, cohérente et porteuse de sens.",
-    skillsHeading:'Outils<br>Favoris',
-    contactHeading:'Prenez<br><span class="accent">Contact</span>',
-    cvLink:       'Télécharger le CV',
     pfLink:       'Télécharger le Portfolio',
-    foot1:        '© 2026 Miguel Martins. Tous droits réservés.',
-    foot2:        'Designer Graphique - Lisbonne, Portugal',
     nextProject:  'Projet suivant',
     academic:     'Projet académique',
-    lbClose:      'Fermer',
-    lbPrev:       'Image précédente',
-    lbNext:       'Image suivante',
-    workTypes: {
-      'Print & Editorial':  'Impression & Éditorial',
-      'Branding & Identity':'Marque & Identité',
-      'Digital & Campaign': 'Digital & Campagne',
-      'Print & Campaign':   'Impression & Campagne',
-      'Print & Identity':   'Impression & Identité',
-      'Print Design':       'Design Imprimé',
-    },
   },
   de: {
     pageTitle:    'Miguel Martins - Grafikdesigner',
-    navHome:      'Start',
     navWork:      'Arbeiten',
-    navAbout:     'Über mich',
-    navContact:   'Kontakt',
     navLang:      'DE',
-    heroTitle1:   'Grafik',
-    heroTitle2:   'Designer',
-    heroAvailable:'Verfügbar für Projekte',
-    heroScroll:   'Scrollen',
-    worksH1:      'Ausgewählte',
-    worksH2:      'Arbeiten',
-    dragHint:     'ZIEHEN ZUM ERKUNDEN',
-    filmPrev:     'Vorherige Projekte',
-    filmNext:     'Nächste Projekte',
+    projectLabel: 'Projekt',
+    aboutLabel:   'Über',
+    cvLink:       'Lebenslauf herunterladen',
+    copyright:    '© 2026 Miguel Martins. Alle Rechte vorbehalten.',
+    navClose:     'Schließen',
+    toolsLabel:   'Tools',
+    contactLabel: 'Kontakt',
+    viewProject:  'Projekt ansehen',
+    navRole:      'Grafikdesigner',
+    navList:      'Liste',
+    navInfo:      'Info',
     expertiseHeading: 'Expertise',
     areas: [
       { name: 'Branding & Identität',      items: ['Visuelle Identitäten', 'Logosysteme', 'Markenanwendungen'] },
@@ -1705,34 +864,21 @@ const T = {
       { name: 'Kampagnen & Werbung',       items: ['Kampagnenkonzepte', 'Werbung', 'Außenwerbung', 'Werbedesign'] },
     ],
     hlLabel1:     'Aktuell bei',
-    hlSub1:       'Grafikdesigner - Seit 2025',
+    hlSub1:       'Grafikdesigner, seit 2025',
     hlLabel2:     'Studierte an',
     hlSub2:       'Grafikdesign',
-    aboutHeading: 'Über<br>Mich',
     aboutCopy:    "Grafikdesigner mit Schwerpunkt auf visueller Identität, Branding sowie Digital- und Printdesign. Erfahrung in der Entwicklung visueller Elemente, editorialer Layouts und druckfertiger Reinzeichnungen, mit besonderem Interesse an klarer, konsistenter und zielgerichteter visueller Kommunikation.",
-    skillsHeading:'Lieblings<br>Tools',
-    contactHeading:'Nehmen Sie<br><span class="accent">Kontakt auf</span>',
-    cvLink:       'Lebenslauf herunterladen',
     pfLink:       'Portfolio herunterladen',
-    foot1:        '© 2026 Miguel Martins. Alle Rechte vorbehalten.',
-    foot2:        'Grafikdesigner - Lissabon, Portugal',
     nextProject:  'Nächstes Projekt',
     academic:     'Studienprojekt',
-    lbClose:      'Schließen',
-    lbPrev:       'Vorheriges Bild',
-    lbNext:       'Nächstes Bild',
-    workTypes: {
-      'Print & Editorial':  'Druck & Editorial',
-      'Branding & Identity':'Marke & Identität',
-      'Digital & Campaign': 'Digital & Kampagne',
-      'Print & Campaign':   'Druck & Kampagne',
-      'Print & Identity':   'Druck & Identität',
-      'Print Design':       'Druckdesign',
-    },
   },
 };
 let t = T.en;
-const typeLabel = key => t.workTypes[key] || key;
+// The discipline from data/work.js, in the current language (home, list, project page)
+const disciplineLabel = p => {
+  const lang = document.documentElement.lang || 'en';
+  return lang === 'en' ? p.discipline : (DISCIPLINES[p.discipline] || {})[lang] || p.discipline;
+};
 
 /* ═══════════════════════════════════════════
    SMOOTH SCROLL (Lenis: off for reduced motion)
@@ -1746,529 +892,380 @@ if (!reduceMotion) {
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 }
-const easeOutQuart = x => 1 - Math.pow(1 - x, 4);
-
-function scrollToTarget(target) {
-  if (lenis) return lenis.scrollTo(target, { duration: 1.4, easing: easeOutQuart });
-  if (target === 0) window.scrollTo(0, 0); else target.scrollIntoView();
-}
 function lockScroll(on) {
   document.body.style.overflow = on ? 'hidden' : '';
   if (lenis) on ? lenis.stop() : lenis.start();
 }
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', e => {
-    const href = anchor.getAttribute('href');
-    const target = href === '#' ? 0 : document.querySelector(href);
-    if (target === null) return;
-    e.preventDefault();
-    scrollToTarget(target);
-  });
-});
-
 /* ═══════════════════════════════════════════
-   TITLE SPLITTING (Get in Touch)
+   INTRO: project logos flash across a grid for about two seconds around
+   the name, then the cells clear one after another onto the home.
+   Every visit; click, scroll or a key skips it; never with reduced motion.
+   ?intro in the address forces it (for screenshots).
 ═══════════════════════════════════════════ */
-function splitLines(el, baseDelay) {
-  const parts = el.innerHTML.split(/<br\s*\/?>/i);
-  el.innerHTML = parts.map((line, i) =>
-    `<span class="line-reveal"><span class="line-inner" style="transition-delay:${baseDelay + i * 0.13}s">${line.trim()}</span></span>`
-  ).join('');
-}
-
-/* ═══════════════════════════════════════════
-   INTRO: typewriter, once per visit, click/key to skip
-═══════════════════════════════════════════ */
-function bloomName(animate) {
-  ['h-first', 'h-last'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!animate || reduceMotion || isAutomated) { el.classList.add('bloom-settled'); return; }
-    el.classList.add('bloom-go');
-    el.addEventListener('animationend', () => {
-      el.classList.remove('bloom-go');
-      el.classList.add('bloom-settled');
-    }, { once: true });
-  });
-}
-
-(function () {
-  const intro = document.getElementById('intro');
-  let seen = null;
-  try { seen = sessionStorage.getItem('introSeen'); sessionStorage.setItem('introSeen', '1'); } catch (e) {}
-
-  if (seen || reduceMotion || isAutomated) {
-    intro.remove();
-    bloomName(true); // same tightening as after the intro
-    return;
+const introDone = (function () {
+  const el = document.getElementById('intro');
+  const forced = /[?&]intro\b/.test(location.search);
+  if (reduceMotion || (isAutomated && !forced) || !(window.INTRO_LOGOS || []).length) {
+    el.remove();
+    return Promise.resolve();
   }
 
-  const segments = [
-    { text: 'Hi, my name is Miguel', accent: false },
-    { text: 'welcome to my ', accent: false, noBreak: true },
-    { text: 'portfolio',      accent: true  },
-  ];
-  const container = document.getElementById('intro-text');
-  const cursor    = document.getElementById('intro-cursor');
-  const totalChars = segments.reduce((n, s) => n + s.text.length, 0);
-  const charDelay  = 3800 / totalChars;
+  const logos = INTRO_LOGOS.map(src => { const im = new Image(); im.src = src; return im; });
+  const phone = innerWidth <= 900;
+  const cols = phone ? 3 : 6;
+  const cw = innerWidth / cols;
+  // Rows close to square cells. With an even count there is no middle row, so the grid
+  // gets one more row and moves up by half a row: the name row then sits in the exact middle.
+  let rows = Math.max(3, Math.round(innerHeight / cw));
+  const ch = innerHeight / rows;
+  let off = 0;
+  if (rows % 2 === 0) { rows += 1; off = ch / 2; }
+  el.style.setProperty('--cols', cols);
+  el.style.setProperty('--rows', rows);
+  el.style.top = -off + 'px';
+  el.style.bottom = 'auto';
+  el.style.height = rows * ch + 'px';
 
-  let si = 0, ci = 0, span = null, timer = null, done = false;
-  lockScroll(true);
+  // The name rectangle: middle row, columns 2 to 5 on desktop, the whole row on phone
+  const nameRow = (rows - 1) / 2;
+  const [c0, c1] = phone ? [0, 3] : [1, 5];
+  let html = '';
+  const pos = [];
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    if (r === nameRow && c >= c0 && c < c1) {
+      if (c === c0) html += `<div class="intro-rect" style="grid-area:${r + 1} / ${c0 + 1} / ${r + 2} / ${c1 + 1}"><span class="intro-name">Miguel Martins</span></div>`;
+      continue;
+    }
+    html += `<div class="intro-cell" style="grid-area:${r + 1} / ${c + 1}"><img alt="" decoding="async"></div>`;
+    pos.push(r);
+  }
+  el.innerHTML = html;
+  el.classList.add('is-grid');
+  const cells = [...el.querySelectorAll('.intro-cell')];
+  const rect = el.querySelector('.intro-rect'), name = rect.firstChild;
+  const s = Math.min(cw, ch);
 
-  function finish(delay) {
+  // One line, sized to the rectangle's width with clear space on both sides
+  name.style.fontSize = '100px';
+  const room = rect.clientWidth * (phone ? 0.84 : 0.82);
+  name.style.fontSize = Math.min(100 * room / name.offsetWidth, 0.55 * ch) + 'px';
+  // Logos go in every cell outside the rectangle that is fully on screen
+  const free = pos.map(r => r * ch - off >= -1 && (r + 1) * ch - off <= innerHeight + 1);
+
+  // Same visual weight: every logo covers the same area, within the cell
+  function place(ci, li) {
+    const im = logos[li], img = cells[ci].firstChild;
+    const ar = im.naturalWidth && im.naturalHeight ? im.naturalWidth / im.naturalHeight : 2;
+    let w = Math.sqrt(0.12 * s * s * ar);
+    w *= Math.min(1, (0.68 * cw) / w, (0.46 * ch) / (w / ar));
+    img.src = im.src;
+    img.style.width = w + 'px';
+    img.classList.add('on');
+    current[ci] = li;
+  }
+  function clear(ci) { cells[ci].firstChild.classList.remove('on'); current[ci] = -1; }
+
+  const current = new Array(cells.length).fill(-1);
+  const shown = [];
+  const MAX_ON = cols === 3 ? 3 : 4;   // logos on screen at once
+  const SWAP = 100;                     // ms between new logos: about 10 a second
+  let timer = null, endTimer = null, done = false, resolve;
+  const promise = new Promise(r => { resolve = r; });
+
+  function tick() {
+    // a logo appears in an empty cell; the oldest one on screen goes
+    let ci;
+    do { ci = Math.floor(Math.random() * cells.length); } while (current[ci] !== -1 || !free[ci]);
+    let li, tries = 0;
+    do { li = Math.floor(Math.random() * logos.length); } while (current.includes(li) && ++tries < 20);
+    place(ci, li);
+    shown.push(ci);
+    while (shown.length > MAX_ON) clear(shown.shift());
+    timer = setTimeout(tick, SWAP);
+  }
+
+  function finish(quick) {
     if (done) return;
     done = true;
     clearTimeout(timer);
-    cursor.style.display = 'none';
-    setTimeout(() => {
-      intro.classList.add('split-out');
-      lockScroll(false);
-      bloomName(true);
-      setTimeout(() => intro.remove(), 1000);
-    }, delay);
-    window.removeEventListener('keydown', skip);
+    clearTimeout(endTimer);
+    ['wheel', 'touchmove', 'keydown'].forEach(type => removeEventListener(type, skip));
+    lockScroll(false);
+    const tl = gsap.timeline({ onComplete: () => el.remove() });
+    tl.to(el.querySelectorAll('img.on'), { opacity: 0, duration: quick ? 0.12 : 0.22, stagger: { each: 0.035, from: 'random' } })
+      .to(el.children, {                 // the name rectangle clears with its row
+        opacity: 0,
+        duration: quick ? 0.3 : 0.45,
+        ease: 'power2.out',
+        stagger: { grid: 'auto', from: 'start', each: quick ? 0.015 : 0.035 },
+      }, quick ? 0 : '-=0.05')
+      .call(resolve, null, quick ? 0.05 : 0.3);   // the work starts rising as the grid opens
   }
-  function skip() { finish(0); }
-  intro.addEventListener('click', skip);
-  window.addEventListener('keydown', skip);
+  function skip() { finish(true); }
 
-  function type() {
-    if (si >= segments.length) { finish(800); return; }
-    if (ci === 0) {
-      span = document.createElement('span');
-      if (segments[si].accent) span.className = 'intro-accent';
-      container.insertBefore(span, cursor);
-    }
-    span.textContent += segments[si].text[ci];
-    ci++;
-    if (ci >= segments[si].text.length) {
-      if (si < segments.length - 1 && !segments[si].noBreak) {
-        container.insertBefore(document.createElement('br'), cursor);
-      }
-      si++; ci = 0;
-    }
-    timer = setTimeout(type, charDelay + (Math.random() * charDelay * 0.08 - charDelay * 0.04));
-  }
-  timer = setTimeout(type, 900);
+  lockScroll(true);
+  el.addEventListener('click', skip);
+  ['wheel', 'touchmove', 'keydown'].forEach(type => addEventListener(type, skip, { passive: true }));
+  timer = setTimeout(tick, 60);
+  endTimer = setTimeout(() => finish(false), 2000);
+  return promise;
 })();
 
 /* ═══════════════════════════════════════════
-   FILMSTRIP: render cards from PROJECTS
+   HOME: scattered work, rendered from data/work.js
 ═══════════════════════════════════════════ */
-const track = document.getElementById('film-track');
 const pad2 = n => String(n).padStart(2, '0');
+const scatter = document.getElementById('work');
 
-track.innerHTML = PROJECTS.map((p, i) => `
-  <button type="button" class="film-card" role="listitem" data-idx="${i}">
-    <span class="work-thumb"><img src="${webSrc(p, p.images[0])}" alt="" width="1200" height="1500" decoding="async"${i < 3 ? '' : ' loading="lazy"'}></span>
-    <span class="work-info">
-      <span class="work-num">${pad2(i + 1)}</span>
-      <span class="work-name">${esc(p.name)}</span>
-      <span class="work-type" data-type-key="${esc(p.type)}">${esc(p.type)}</span>
-    </span>
-    <span class="work-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-  </button>`).join('');
+scatter.innerHTML = PROJECTS.map((p, i) => {
+  const a = p.at, [mw, side] = p.m;
+  const cover = coverSrc(p), c = coverOf(p);
+  const media = p.video
+    ? `<video src="${encodeURI(p.video)}" poster="${cover}" muted loop playsinline preload="none" aria-hidden="true"></video>`
+    : `<img src="${cover}" srcset="${coverSet(p)}" sizes="(max-width: 900px) ${Math.round(mw * 0.9)}vw, ${a.w}vw" alt=""
+        width="${c.w}" height="${c.h}" decoding="async"${i < 5 ? '' : ' loading="lazy"'}>`;
+  return `
+  <button type="button" class="piece" data-idx="${i}" data-side="${side}" style="--x:${a.x};--y:${a.y};--w:${a.w};--mw:${mw};--ar:${c.w}/${c.h}">
+    <span class="piece-media">${media}</span>
+    <span class="piece-cap"><span class="cap-name">${esc(p.homeName || p.name)}</span>${window.SHOW_SENTENCES ? '<span class="cap-about"></span>' : ''}<span class="cap-disc"></span></span>
+  </button>`;
+}).join('');
 
-const cards = [...track.querySelectorAll('.film-card')];
+// The composition is as tall as its lowest piece, plus breathing room
+scatter.style.setProperty('--h', Math.max(...PROJECTS.map(p => p.at.y + p.at.w / coverRatio(p))) + 10);
 
-/* ═══════════════════════════════════════════
-   FILMSTRIP: drag, trackpad, arrows, keyboard, progress
-═══════════════════════════════════════════ */
+const pieces = [...scatter.querySelectorAll('.piece')];
+
+/* LIST: the same projects as rows (thumbnail shown on phones only) */
+const indexList = document.getElementById('index-list');
+indexList.innerHTML = PROJECTS.map((p, i) => `
+  <li><button type="button" class="row" data-idx="${i}">
+    <span class="row-thumb"><img src="${coverSrc(p)}" alt="" width="${coverOf(p).w}" height="${coverOf(p).h}" loading="lazy" decoding="async"></span>
+    <span class="row-name">${esc(p.homeName || p.name)}</span>
+    <span class="row-disc"></span>
+    <span class="row-year">${p.year}</span>
+  </button></li>`).join('');
+const rows = [...indexList.querySelectorAll('.row')];
+
+function renderCaptions() {
+  const lang = document.documentElement.lang || 'en';
+  pieces.forEach((el, i) => {
+    const p = PROJECTS[i];
+    const about = el.querySelector('.cap-about');
+    if (about) about.textContent = p.about[lang] || p.about.en;
+    el.querySelector('.cap-disc').textContent = disciplineLabel(p);
+  });
+  rows.forEach((el, i) => { el.querySelector('.row-disc').textContent = disciplineLabel(PROJECTS[i]); });
+  document.getElementById('list').setAttribute('aria-label', t.navList);
+}
+renderCaptions();
+
+/* Pieces fade and rise slightly as they enter the screen */
 (function () {
-  const hint     = document.getElementById('drag-hint');
-  const prevBtn  = document.getElementById('film-prev');
-  const nextBtn  = document.getElementById('film-next');
-  const countEl  = document.getElementById('film-count');
-  const barEl    = document.getElementById('film-progress-bar');
-  const total    = cards.length;
-
-  function dismissHint() { if (!hint.classList.contains('hidden')) hint.classList.add('hidden'); }
-  const step = () => cards[1].offsetLeft - cards[0].offsetLeft;
-  const maxScroll = () => track.scrollWidth - track.clientWidth;
-
-  /* Progress + counter */
-  let lastIdx = -1;
-  function updateProgress() {
-    const max = maxScroll();
-    const p = max > 0 ? track.scrollLeft / max : 0;
-    barEl.style.transform = `scaleX(${Math.max(0.02, p)})`;
-    // At the far end the last card counts as current
-    const idx = p > 0.995 ? total - 1 : Math.min(total - 1, Math.round(track.scrollLeft / step()));
-    if (idx !== lastIdx) {
-      countEl.textContent = `${pad2(idx + 1)} / ${pad2(total)}`;
-      lastIdx = idx;
-    }
-    prevBtn.disabled = track.scrollLeft <= 2;
-    nextBtn.disabled = track.scrollLeft >= max - 2;
-  }
-  let ticking = false;
-  track.addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(() => { updateProgress(); ticking = false; }); ticking = true; }
-  }, { passive: true });
-  window.addEventListener('resize', updateProgress, { passive: true });
-  updateProgress();
-
-  /* Arrow buttons */
-  function go(dir) {
-    dismissHint();
-    track.scrollBy({ left: dir * step(), behavior: reduceMotion ? 'auto' : 'smooth' });
-  }
-  prevBtn.addEventListener('click', () => go(-1));
-  nextBtn.addEventListener('click', () => go(1));
-
-  /* Keyboard: arrow keys move focus between cards */
-  track.addEventListener('keydown', e => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    const i = cards.indexOf(document.activeElement);
-    if (i < 0) return;
-    e.preventDefault();
-    const next = cards[Math.max(0, Math.min(total - 1, i + (e.key === 'ArrowRight' ? 1 : -1)))];
-    next.focus({ preventScroll: true });
-    next.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
-  });
-
-  /* Trackpad sideways swipes scroll the strip natively: keep them away from Lenis */
-  track.addEventListener('wheel', e => {
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.stopPropagation(); dismissHint(); }
-  }, { passive: true });
-
-  /* Mouse drag with momentum */
-  let isDragging = false, startX = 0, scrollStart = 0, velX = 0, lastX = 0, lastT = 0, rafId = null;
-  let dragMoved = false;
-  const DRAG_THRESHOLD = 6;
-
-  track.addEventListener('dragstart', e => e.preventDefault());
-
-  function momentumScroll() {
-    velX *= 0.93;
-    track.scrollLeft += velX;
-    if (Math.abs(velX) > 0.5) rafId = requestAnimationFrame(momentumScroll);
-  }
-
-  track.addEventListener('mousedown', e => {
-    if (e.button !== 0) return;
-    cancelAnimationFrame(rafId);
-    isDragging = true;
-    dragMoved = false;
-    startX = e.clientX;
-    scrollStart = track.scrollLeft;
-    velX = 0; lastX = e.clientX; lastT = performance.now();
-    track.classList.add('is-dragging');
-    e.preventDefault();
-  });
-
-  document.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    const now = performance.now();
-    const dx = e.clientX - startX;
-    if (Math.abs(dx) > DRAG_THRESHOLD) dragMoved = true;
-    track.scrollLeft = scrollStart - dx;
-    const dt = now - lastT;
-    if (dt > 0) velX = (lastX - e.clientX) / dt * 16;
-    lastX = e.clientX; lastT = now;
-  });
-
-  document.addEventListener('mouseup', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    track.classList.remove('is-dragging');
-    if (dragMoved) {
-      dismissHint();
-      if (!reduceMotion) rafId = requestAnimationFrame(momentumScroll);
-    }
-  });
-
-  // Suppress the click that ends a drag so it doesn't open the viewer
-  track.addEventListener('click', e => {
-    if (dragMoved) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      dragMoved = false;
-    }
-  }, true);
-
-  track.addEventListener('touchmove', dismissHint, { passive: true });
-})();
-
-/* ═══════════════════════════════════════════
-   3D TILT ON FILM CARDS (fine pointer, motion allowed)
-═══════════════════════════════════════════ */
-(function () {
-  if (!finePointer || reduceMotion) return;
-  cards.forEach(card => {
-    const xTo = gsap.quickTo(card, 'rotationY', { duration: 0.4, ease: 'power3.out' });
-    const yTo = gsap.quickTo(card, 'rotationX', { duration: 0.4, ease: 'power3.out' });
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
-      const y = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
-      xTo(x * 6);
-      yTo(-y * 6);
+  if (reduceMotion || isAutomated) return;
+  gsap.set(pieces, { opacity: 0, y: 36 });
+  const io = new IntersectionObserver(entries => {
+    entries.filter(e => e.isIntersecting).forEach((e, k) => {
+      io.unobserve(e.target);
+      gsap.to(e.target, { opacity: 1, y: 0, duration: 1.2, delay: k * 0.09, ease: 'power3.out' });
     });
-    card.addEventListener('mouseleave', () => {
-      xTo(0);
-      yTo(0);
-    });
-  });
+  }, { rootMargin: '0px 0px -6% 0px' });
+  introDone.then(() => pieces.forEach(el => io.observe(el)));
 })();
 
-/* ═══════════════════════════════════════════
-   CONTACT HEADING: line-by-line reveal
-═══════════════════════════════════════════ */
-let contactLinesTriggered = false;
-splitLines(document.getElementById('contact-heading'), 0.04);
+/* Cover videos: muted loops that only play while on screen (still poster with reduced motion) */
 (function () {
-  const lObs = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add('lines-revealed');
-    contactLinesTriggered = true;
-    lObs.disconnect();
-  }, { threshold: 0.15 });
-  lObs.observe(document.getElementById('contact-heading'));
+  const videos = scatter.querySelectorAll('video');
+  if (!videos.length || reduceMotion) return;
+  const vio = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause();
+  }), { threshold: 0.1 });
+  videos.forEach(v => vio.observe(v));
 })();
 
+/* Screenshots / automated runs: load every image straight away */
+if (isAutomated) document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+
 /* ═══════════════════════════════════════════
-   SCROLL REVEAL (generic)
+   PAGES: the Info panel and the project page cover the work while
+   the header stays. The address shows #info or #project/<name> so
+   either can be shared; Close, Esc and the back button return to
+   the same place on the home or the list.
 ═══════════════════════════════════════════ */
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('in-view');
-      ro.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
-document.querySelectorAll('[data-reveal]').forEach(el => ro.observe(el));
-
-setTimeout(() => {
-  document.querySelectorAll('.hero-bottom [data-reveal]').forEach(el => el.classList.add('in-view'));
-}, 900);
-
-/* Instant reveal for screenshots / automated runs */
-if (isAutomated) {
-  document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
-  document.querySelectorAll('[data-reveal]').forEach(el => {
-    el.style.transition = 'none';
-    el.classList.add('in-view');
-  });
-  document.querySelectorAll('.line-inner').forEach(el => { el.style.transition = 'none'; el.style.transform = 'none'; });
+let baseHash = () => '';            // set by the Work / List switch below
+function jumpTo(y) {                // scroll instantly, after the page height may have changed
+  if (lenis) { lenis.resize(); lenis.scrollTo(y, { immediate: true, force: true }); } else window.scrollTo(0, y);
 }
 
-/* ═══════════════════════════════════════════
-   LIGHTBOX: project viewer
-═══════════════════════════════════════════ */
-const viewer = (function () {
-  const lb        = document.getElementById('lightbox');
-  const panel     = document.getElementById('lb-panel');
-  const img       = document.getElementById('lb-img');
-  const nameEl    = document.getElementById('lb-name');
-  const typeEl    = document.getElementById('lb-type');
-  const ctxEl     = document.getElementById('lb-context');
-  const counterEl = document.getElementById('lb-counter');
-  const nextProj  = document.getElementById('lb-next-project');
-  const closeBtn  = document.getElementById('lb-close');
-  const prevBtn   = document.getElementById('lb-prev');
-  const nextBtn   = document.getElementById('lb-next');
+const pages = (function () {
+  const $ = id => document.getElementById(id);
+  const panels = { info: $('info'), project: $('project') };
+  const link = $('nav-info');
+  const nav = document.querySelector('.nav');
+  const path = () => location.pathname + location.search;
+  let openName = null, pushed = false, savedY = 0, lastFocus = null, pIdx = 0;
+  const hideTimers = {};
 
-  let pIdx = 0, iIdx = 0, lastFocus = null, loadToken = 0;
-  const isOpen = () => lb.classList.contains('open');
-  const srcFor = (pi, ii) => webSrc(PROJECTS[pi], PROJECTS[pi].images[ii]);
-
-  function preloadAround(pi, ii) {
-    const n = PROJECTS[pi].images.length;
-    if (n < 2) return;
-    [ii + 1, ii - 1].forEach(k => { const im = new Image(); im.src = srcFor(pi, (k + n) % n); });
+  const hashFor = name => name === 'info' ? '#info' : '#project/' + PROJECTS[pIdx].slug;
+  function parse(hash) {
+    if (hash === '#info') return { name: 'info' };
+    const m = /^#project\/(.+)$/.exec(hash);
+    const idx = m ? PROJECTS.findIndex(p => p.slug === decodeURIComponent(m[1])) : -1;
+    return idx >= 0 ? { name: 'project', idx } : null;
   }
 
-  function renderMeta() {
-    const p = PROJECTS[pIdx], n = p.images.length;
-    nameEl.textContent    = p.name;
-    typeEl.textContent    = typeLabel(p.type);
-    ctxEl.textContent     = p.context === 'academic' ? t.academic : '';
-    ctxEl.hidden          = p.context !== 'academic';
-    counterEl.textContent = n > 1 ? `${pad2(iIdx + 1)} / ${pad2(n)}` : '';
-    prevBtn.hidden = nextBtn.hidden = n < 2;
-    const np = PROJECTS[(pIdx + 1) % PROJECTS.length];
-    nextProj.textContent = `${t.nextProject} - ${np.name} →`;
-    closeBtn.setAttribute('aria-label', t.lbClose);
-    prevBtn.setAttribute('aria-label', t.lbPrev);
-    nextBtn.setAttribute('aria-label', t.lbNext);
+  /* project page */
+  const boards = $('pj-boards');
+  const boardIO = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const img = e.target;
+    boardIO.unobserve(img);
+    if (!img.src) { img.srcset = img.dataset.srcset; img.src = img.dataset.src; }   // lazy: load as it comes near
+    const show = () => img.classList.add('in');       // then fade in once it has loaded
+    img.complete && img.naturalWidth ? show() : img.addEventListener('load', show, { once: true });
+  }), { root: panels.project, rootMargin: '600px 0px' });
+
+  function renderProject(i, rebuild) {
+    pIdx = i;
+    const p = PROJECTS[i], lang = document.documentElement.lang || 'en';
+    $('pj-l-project').textContent = t.projectLabel;
+    $('pj-l-about').textContent = t.aboutLabel;
+    $('pj-l-next').textContent = t.nextProject;
+    $('pj-name').textContent = p.name;
+    $('pj-disc').textContent = disciplineLabel(p);
+    $('pj-year').textContent = p.year;
+    $('pj-context').textContent = t.academic;
+    $('pj-context').hidden = p.context !== 'academic';
+    $('pj-text').textContent = (p.text && (p.text[lang] || p.text.en)) || '';
+    const n = PROJECTS[(i + 1) % PROJECTS.length];   // after the last comes the first
+    $('pj-next-img').src = coverSrc(n);
+    $('pj-next-img').width = coverOf(n).w; $('pj-next-img').height = coverOf(n).h;
+    $('pj-next-name').textContent = n.name;
+    $('pj-next-disc').textContent = disciplineLabel(n);
+    if (!rebuild && boards.dataset.idx === String(i)) return;
+    boards.dataset.idx = i;
+    boardIO.disconnect();
+    const pages = pagesOf(p);
+    boards.innerHTML = pages.map((pg, k) =>
+      `<img data-src="${pageSrc(p, k, 1600)}" data-srcset="${pageSrc(p, k, 1600)} 1600w, ${pageSrc(p, k, 2400)} 2400w"
+        sizes="(max-width: 900px) 92vw, min(1200px, 88vw)" alt="${esc(p.name)}, ${k + 1} / ${pages.length}"
+        width="${pg.w}" height="${pg.h}" decoding="async">`).join('');
+    boards.querySelectorAll('img').forEach(img => boardIO.observe(img));
   }
 
-  function show(pi, ii) {
-    const n = PROJECTS[pi].images.length;
-    pIdx = pi;
-    iIdx = (ii + n) % n;
-    renderMeta();
-
-    const token = ++loadToken;
-    const src = srcFor(pIdx, iIdx);
-    img.classList.add('is-loading');
-    const pre = new Image();
-    pre.src = src;
-    (pre.decode ? pre.decode() : Promise.resolve()).catch(() => {}).then(() => {
-      if (token !== loadToken) return;
-      img.src = src;
-      img.alt = `${PROJECTS[pIdx].name} - ${iIdx + 1} / ${n}`;
-      img.classList.remove('is-loading');
-    });
-    preloadAround(pIdx, iIdx);
+  function label() {
+    link.textContent = openName ? t.navClose : t.navInfo;
+    link.setAttribute('aria-expanded', String(openName === 'info'));
+  }
+  function hidePanel(name, instant) {
+    const el = panels[name];
+    el.classList.remove('open');
+    clearTimeout(hideTimers[name]);
+    hideTimers[name] = setTimeout(() => { el.hidden = true; }, instant || reduceMotion ? 0 : 230);
   }
 
-  function open(pi) {
-    lastFocus = document.activeElement;
-    show(pi, 0);
-    lb.inert = false;
-    lb.setAttribute('aria-hidden', 'false');
-    lb.classList.add('open');
-    lockScroll(true);
-    lb.focus({ preventScroll: true });
-    document.dispatchEvent(new CustomEvent('viewer:toggle', { detail: true }));
+  function open(name, { idx = 0, fromHistory = false } = {}) {
+    if (name === 'project') renderProject(idx);
+    const el = panels[name];
+    if (openName === name) {                         // e.g. Next project: stay on the page, back to its top
+      el.scrollTop = 0;
+      if (!fromHistory) history.replaceState(null, '', path() + hashFor(name));
+      return;
+    }
+    if (openName) hidePanel(openName, true);
+    else { savedY = window.scrollY; lastFocus = document.activeElement; lockScroll(true); }
+    openName = name;
+    if (!fromHistory && location.hash !== hashFor(name)) { history.pushState(null, '', path() + hashFor(name)); pushed = true; }
+    clearTimeout(hideTimers[name]);
+    el.hidden = false;
+    el.scrollTop = 0;
+    requestAnimationFrame(() => el.classList.add('open'));
+    nav.classList.remove('nav-hidden');
+    label();
+    el.focus({ preventScroll: true });
+    document.dispatchEvent(new Event('pages:toggle'));
   }
 
-  function close() {
-    lb.classList.remove('open');
-    lb.setAttribute('aria-hidden', 'true');
-    lb.inert = true;
+  // mode: undefined (Close, Esc), 'history' (back button), 'nav' (Work, List or the name)
+  function close(mode) {
+    if (!openName) return;
+    if (!mode && pushed) { pushed = false; history.back(); return; }   // popstate closes it
+    if (mode !== 'history' && parse(location.hash)) history.replaceState(null, '', path() + baseHash());
+    hidePanel(openName);
+    openName = null;
+    pushed = false;
     lockScroll(false);
-    if (lastFocus) lastFocus.focus({ preventScroll: true });
-    document.dispatchEvent(new CustomEvent('viewer:toggle', { detail: false }));
-    setTimeout(() => { if (!isOpen()) img.removeAttribute('src'); }, 380);
+    jumpTo(savedY);
+    label();
+    if (lastFocus && lastFocus !== document.body) lastFocus.focus({ preventScroll: true });
+    document.dispatchEvent(new Event('pages:toggle'));
   }
 
-  cards.forEach(card => card.addEventListener('click', () => open(+card.dataset.idx)));
-  closeBtn.addEventListener('click', close);
-  lb.querySelector('.lightbox-backdrop').addEventListener('click', close);
-  prevBtn.addEventListener('click', () => show(pIdx, iIdx - 1));
-  nextBtn.addEventListener('click', () => show(pIdx, iIdx + 1));
-  nextProj.addEventListener('click', () => show((pIdx + 1) % PROJECTS.length, 0));
-
-  document.addEventListener('keydown', e => {
-    if (!isOpen()) return;
-    if (e.key === 'Escape')     close();
-    if (e.key === 'ArrowLeft')  show(pIdx, iIdx - 1);
-    if (e.key === 'ArrowRight') show(pIdx, iIdx + 1);
-    if (e.key === 'Tab') {
-      // Keep focus inside the viewer
-      const f = [...lb.querySelectorAll('button')].filter(b => !b.hidden);
-      const first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && (document.activeElement === first || document.activeElement === lb)) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+  [...pieces, ...rows].forEach(el => el.addEventListener('click', () => open('project', { idx: +el.dataset.idx })));
+  $('pj-next').addEventListener('click', () => open('project', { idx: (pIdx + 1) % PROJECTS.length }));
+  link.addEventListener('click', e => { e.preventDefault(); openName ? close() : open('info'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && openName) close(); });
+  addEventListener('popstate', () => {
+    const r = parse(location.hash);
+    r ? open(r.name, { idx: r.idx, fromHistory: true }) : close('history');
   });
+  const start = parse(location.hash);
+  if (start) open(start.name, { idx: start.idx, fromHistory: true });
 
-  // Touch swipe between images
-  let sx = 0, sy = 0;
-  panel.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-  panel.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - sx;
-    const dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) && PROJECTS[pIdx].images.length > 1) {
-      show(pIdx, iIdx + (dx < 0 ? 1 : -1));
-    }
-  }, { passive: true });
-
-  return { isOpen, refresh: () => { if (isOpen()) renderMeta(); } };
+  return {
+    isOpen: () => !!openName,
+    close,
+    refresh() { label(); if (openName === 'project') renderProject(pIdx); },
+  };
 })();
 
 /* ═══════════════════════════════════════════
-   CUSTOM CURSOR (fine pointers only)
+   "VIEW PROJECT": over a project on the scattered home this small text
+   replaces the cursor, centred on the mouse. Everywhere else the
+   normal system cursor stays.
+   Mouse and trackpad only; nothing on touch screens.
 ═══════════════════════════════════════════ */
-(function () {
-  if (!finePointer) return;
-  document.documentElement.classList.add('has-cursor');
-
+const viewLabel = (function () {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return null;
   const el = document.createElement('div');
-  el.className = 'site-cursor';
+  el.className = 'view-label';
   el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<span class="site-cursor-label">View</span>';
+  el.textContent = t.viewProject;
   document.body.appendChild(el);
+  document.documentElement.classList.add('view-cursor');   // hides the system cursor over projects only
 
-  // Light lag keeps the personality; reduced motion follows the pointer exactly
-  const LERP = reduceMotion ? 1 : 0.3;
-  let tx = -200, ty = -200, cx = -200, cy = -200, running = false;
-  const darkSections = document.querySelectorAll('.works, .contact');
-
-  function onDark() {
-    if (viewer.isOpen()) return true;
-    return [...darkSections].some(s => {
-      const r = s.getBoundingClientRect();
-      return tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom;
-    });
+  let x = -100, y = -100;
+  const overProject = target => !pages.isOpen() && target instanceof Element && target.closest('.piece');
+  function update(target) {
+    el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;   // centred on the mouse
+    el.classList.toggle('on', !!overProject(target));
   }
-
-  function tick() {
-    cx += (tx - cx) * LERP;
-    cy += (ty - cy) * LERP;
-    el.style.setProperty('--cx', cx + 'px');
-    el.style.setProperty('--cy', cy + 'px');
-    if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) requestAnimationFrame(tick);
-    else running = false;
-  }
-  function kick() { if (!running) { running = true; requestAnimationFrame(tick); } }
-
-  window.addEventListener('mousemove', e => {
-    tx = e.clientX; ty = e.clientY;
-    el.classList.toggle('on-dark', onDark());
-    kick();
-  }, { passive: true });
-  window.addEventListener('scroll', () => el.classList.toggle('on-dark', onDark()), { passive: true });
-  document.addEventListener('mouseleave', () => { el.style.opacity = '0'; });
-  document.addEventListener('mouseenter', () => { el.style.opacity = ''; });
-
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => el.classList.add('view'));
-    card.addEventListener('mouseleave', () => el.classList.remove('view'));
-  });
-  document.addEventListener('viewer:toggle', e => {
-    el.classList.remove('view');
-    el.classList.toggle('on-dark', e.detail || onDark());
-  });
+  addEventListener('mousemove', e => { x = e.clientX; y = e.clientY; update(e.target); }, { passive: true });
+  addEventListener('scroll', () => update(document.elementFromPoint(x, y)), { passive: true });
+  document.addEventListener('mouseleave', () => el.classList.remove('on'));
+  document.addEventListener('pages:toggle', () => update(document.elementFromPoint(x, y)));
+  return el;
 })();
 
 /* ═══════════════════════════════════════════
-   MAGNETIC CONTACT LINKS
-═══════════════════════════════════════════ */
-(function () {
-  if (!finePointer || reduceMotion) return;
-  document.querySelectorAll('.contact-email').forEach(el => {
-    el.addEventListener('mousemove', e => {
-      const r = el.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${dx * 0.28}px, ${dy * 0.5}px)`;
-    });
-    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
-  });
-})();
-
-/* ═══════════════════════════════════════════
-   NAV: colour adapts over dark sections;
-   on mobile it gains a backdrop and hides while scrolling down
+   NAV: gains a backdrop once the work scrolls under it;
+   on mobile it hides while scrolling down
 ═══════════════════════════════════════════ */
 (function () {
   const nav = document.querySelector('.nav');
   const langLi = document.getElementById('nav-lang-li');
-  const darkSections = document.querySelectorAll('.works, .contact');
   const mobile = matchMedia('(max-width: 900px)');
   let ticking = false, lastY = window.scrollY;
 
   function update() {
-    const navBottom = nav.getBoundingClientRect().bottom;
-    const overDark = [...darkSections].some(sec => {
-      const r = sec.getBoundingClientRect();
-      return r.top < navBottom && r.bottom > 0;
-    });
-    nav.classList.toggle('nav-light', overDark);
-
     const y = window.scrollY;
+    nav.classList.toggle('nav-solid', y > 8);   // backdrop once the work scrolls under it
     if (mobile.matches) {
-      nav.classList.toggle('nav-solid', y > 8);
       const hide = y > lastY && y > 160 && !langLi.classList.contains('open');
       nav.classList.toggle('nav-hidden', hide);
     } else {
-      nav.classList.remove('nav-solid', 'nav-hidden');
+      nav.classList.remove('nav-hidden');
     }
     lastY = y;
     ticking = false;
@@ -2279,6 +1276,129 @@ const viewer = (function () {
   }, { passive: true });
   nav.addEventListener('focusin', () => nav.classList.remove('nav-hidden'));
   update();
+})();
+
+/* ═══════════════════════════════════════════
+   WORK / LIST: the header switches between the scattered work and
+   the list with a quick fade; #list in the address can be shared.
+   Each view keeps its own scroll position.
+═══════════════════════════════════════════ */
+const views = (function () {
+  const el = { work: document.getElementById('work'), list: document.getElementById('list') };
+  const link = { work: document.getElementById('nav-work'), list: document.getElementById('nav-list') };
+  const scrollOf = { work: 0, list: 0 };
+  let current = 'work', busy = null;
+
+  function mark() {
+    ['work', 'list'].forEach(v => {
+      link[v].classList.toggle('is-active', v === current);
+      if (v === current) link[v].setAttribute('aria-current', 'true'); else link[v].removeAttribute('aria-current');
+    });
+  }
+  const jump = jumpTo;
+  baseHash = () => current === 'list' ? '#list' : '';
+
+  function show(view, { push = true, instant = false } = {}) {
+    if (push) {
+      const hash = view === 'list' ? '#list' : '';
+      if (location.hash !== hash) history.pushState(null, '', location.pathname + location.search + hash);
+    }
+    if (view === current) { if (view === 'work') jump(0); return; }
+    scrollOf[current] = window.scrollY;
+    const from = el[current], to = el[view];
+    current = view;
+    mark();
+    if (busy) busy.kill();
+    const swap = () => {
+      from.hidden = true;
+      to.hidden = false;
+      jump(scrollOf[view]);
+      document.dispatchEvent(new Event('views:change'));
+    };
+    if (instant || reduceMotion) { swap(); gsap.set([from, to], { opacity: 1 }); return; }
+    busy = gsap.timeline()
+      .to(from, { opacity: 0, duration: 0.16, ease: 'power1.out' })
+      .call(swap)
+      .fromTo(to, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'power1.out' })
+      .set(from, { opacity: 1 });
+  }
+
+  const go = view => e => { e.preventDefault(); pages.close('nav'); show(view); };
+  link.work.addEventListener('click', go('work'));
+  link.list.addEventListener('click', go('list'));
+  document.getElementById('nav-home').addEventListener('click', go('work'));
+  addEventListener('popstate', () => {
+    if (/^#(info|project\/)/.test(location.hash)) return;   // handled by the pages
+    show(location.hash === '#list' ? 'list' : 'work', { push: false });
+  });
+  if (location.hash === '#list') show('list', { push: false, instant: true });
+
+  return { current: () => current };
+})();
+
+/* ═══════════════════════════════════════════
+   LIST PREVIEW: the cover follows the mouse over a row, beside
+   and above the cursor so it never covers the row's text.
+   Mouse and trackpad only.
+═══════════════════════════════════════════ */
+(function () {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const box = document.createElement('div');
+  box.className = 'preview';
+  box.setAttribute('aria-hidden', 'true');
+  box.innerHTML = '<img alt="" decoding="async"><video muted loop playsinline preload="none" hidden></video>';
+  document.body.appendChild(box);
+  const img = box.querySelector('img'), video = box.querySelector('video');
+  // preload the covers so the preview never shows empty
+  PROJECTS.forEach(p => { const im = new Image(); im.src = coverSrc(p); });
+
+  const xTo = reduceMotion ? null : gsap.quickTo(box, 'x', { duration: 0.35, ease: 'power3.out' });
+  const yTo = reduceMotion ? null : gsap.quickTo(box, 'y', { duration: 0.35, ease: 'power3.out' });
+  let shownIdx = -1, mx = -999, my = -999, placed = false;
+
+  function target() {
+    const w = box.offsetWidth, h = box.offsetHeight, gap = 28;
+    let x = mx + gap, y = my - gap - h;              // above and to the right of the pointer
+    if (x + w > innerWidth - 8) x = mx - gap - w;    // flip left near the right edge
+    if (y < 72) y = my + gap;                         // flip below near the header
+    return [x, y];
+  }
+  function move() {
+    const [x, y] = target();
+    if (!placed || !xTo) { gsap.set(box, { x, y }); placed = true; }
+    else { xTo(x); yTo(y); }
+  }
+  function setProject(i) {
+    if (i === shownIdx) return;
+    shownIdx = i;
+    const p = PROJECTS[i];
+    if (p.video) {
+      img.hidden = true; video.hidden = false;
+      video.src = encodeURI(p.video); video.poster = coverSrc(p);
+      if (!reduceMotion) video.play().catch(() => {});
+    } else {
+      video.pause(); video.hidden = true; img.hidden = false;
+      img.src = coverSrc(p);
+    }
+    box.style.aspectRatio = `${coverOf(p).w} / ${coverOf(p).h}`;   // the cover's own proportions
+  }
+  function update(t) {
+    const row = !pages.isOpen() && t instanceof Element && t.closest('.row');
+    if (row) {
+      if (!box.classList.contains('on')) placed = false;   // appear right at the pointer, then follow
+      setProject(+row.dataset.idx);
+      move();
+      box.classList.add('on');
+    } else if (box.classList.contains('on')) {
+      box.classList.remove('on');
+      video.pause();
+    }
+  }
+  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; update(e.target); }, { passive: true });
+  addEventListener('scroll', () => update(document.elementFromPoint(mx, my)), { passive: true });
+  document.addEventListener('mouseleave', () => box.classList.remove('on'));
+  document.addEventListener('pages:toggle', () => update(document.elementFromPoint(mx, my)));
+  document.addEventListener('views:change', () => update(document.elementFromPoint(mx, my)));
 })();
 
 /* ═══════════════════════════════════════════
@@ -2294,59 +1414,32 @@ const viewer = (function () {
     document.documentElement.lang = lang;
     document.title = t.pageTitle;
 
-    $('nav-home').textContent      = t.navHome;
+    $('nav-role').textContent      = t.navRole;
     $('nav-work').textContent      = t.navWork;
-    $('nav-about').textContent     = t.navAbout;
-    $('nav-contact').textContent   = t.navContact;
+    $('nav-list').textContent      = t.navList;
+    $('nav-info').textContent      = t.navInfo;
     $('lang-label').textContent    = t.navLang;
+    $('page-h1').textContent       = `Miguel Martins, ${t.navRole}`;
+    renderCaptions();
+    if (viewLabel) viewLabel.textContent = t.viewProject;
 
-    // Hero
-    $('h-title1').textContent = t.heroTitle1;
-    $('h-title2').textContent = t.heroTitle2;
-    $('h1-label').textContent = `Miguel Martins - ${t.heroTitle1} ${t.heroTitle2}`;
-    $('hero-available').textContent = t.heroAvailable;
-    $('hero-scroll').textContent    = t.heroScroll;
+    // Info panel
+    $('info-l-info').textContent      = t.navInfo;
+    $('info-bio').textContent         = t.aboutCopy;
+    $('hl-label-1').textContent       = t.hlLabel1;
+    $('hl-sub-1').textContent         = t.hlSub1;
+    $('hl-label-2').textContent       = t.hlLabel2;
+    $('hl-sub-2').textContent         = t.hlSub2;
+    $('info-l-expertise').textContent = t.expertiseHeading;
+    $('info-areas').innerHTML = t.areas.map(a =>
+      `<li>${esc(a.name)} <span class="soft">${esc(a.items.join(', '))}</span></li>`).join('');
+    $('info-l-tools').textContent     = t.toolsLabel;
+    $('info-l-contact').textContent   = t.contactLabel;
+    $('info-pdf').textContent         = t.pfLink;
+    $('info-cv').textContent          = t.cvLink;
+    $('info-copy').textContent        = t.copyright;
 
-    // Works
-    $('works-h1').textContent        = t.worksH1;
-    $('works-h2').textContent        = t.worksH2;
-    $('drag-hint-label').textContent = t.dragHint;
-    $('film-prev').setAttribute('aria-label', t.filmPrev);
-    $('film-next').setAttribute('aria-label', t.filmNext);
-    document.querySelectorAll('.work-type[data-type-key]').forEach(el => {
-      el.textContent = typeLabel(el.dataset.typeKey);
-    });
-
-    // About
-    $('about-heading').innerHTML = t.aboutHeading;
-    $('about-copy').textContent  = t.aboutCopy;
-    $('hl-label-1').textContent  = t.hlLabel1;
-    $('hl-sub-1').textContent    = t.hlSub1;
-    $('hl-label-2').textContent  = t.hlLabel2;
-    $('hl-sub-2').textContent    = t.hlSub2;
-
-    // Expertise
-    $('expertise-heading').textContent = t.expertiseHeading;
-    t.areas.forEach((a, i) => {
-      $('area-name-' + i).textContent  = a.name;
-      $('area-items-' + i).textContent = a.items.join(' / ');
-    });
-
-    // Favorite Stack
-    $('stack-heading').innerHTML = t.skillsHeading;
-
-    // Contact
-    $('contact-heading').innerHTML = t.contactHeading;
-    splitLines($('contact-heading'), 0.04);
-    if (contactLinesTriggered) $('contact-heading').classList.add('lines-revealed');
-    $('cv-label').textContent   = t.cvLink;
-    $('cv-label-m').textContent = t.cvLink;
-    $('pf-label').textContent   = t.pfLink;
-    $('pf-label-m').textContent = t.pfLink;
-    $('foot-1').textContent    = t.foot1;
-    $('foot-2').textContent    = t.foot2;
-
-    viewer.refresh();
+    pages.refresh();
 
     document.querySelectorAll('.lang-opt').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -2383,8 +1476,7 @@ const viewer = (function () {
     });
   });
 
-  const saved = store('get', 'lang') || 'en';
-  if (saved !== 'en') setLanguage(saved);
+  setLanguage(store('get', 'lang') || 'en');   // also fills the Info panel
 })();
 </script>
 
